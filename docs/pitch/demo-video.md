@@ -2,17 +2,27 @@
 
 Record this. Paste the **written description** into HackHub with the video. Total runtime: **5:00**. Spoken pace: calm, ~145 words per minute, with real pauses on every bloom.
 
+**Tags to land (say them, show them, leave with them):**
+- **Magic paper**
+- **Autocomplete your ideas**
+
 **baio** (毛笔) means “brush pen.” Keep the lore to one line on screen. The story stays in plain English.
 
 ---
 
 ## Written description (paste with the video)
 
-**baio is autocomplete for drawing.** Sketch a page with a pen — a box for a navbar, a letter *b* for a button — and real, editable components bloom in like wet ink, exactly where you drew them. Seal a page. Frame the space. Leave with a working website.
+**baio is magic paper — autocomplete for your ideas.** Sketch a page with a pen — a box for a navbar, a letter *b* for a button — and real, editable components bloom in like wet ink, exactly where you drew them. Seal a page. Frame the space. Leave with a working website.
 
-Getting an idea out of your head is a trade today. Pen and paper is fast, but the ink is dead: not structured, not editable, not a product. Figma is structured, but menus and precision dragging interrupt thinking. Text-to-image generators produce a pretty picture detached from what you drew — uneditable, unusable. Everyone who builds things lives in that trade: engineers sketching systems, students sketching diagrams, designers wireframing pages, founders whiteboarding products. They all think faster than they can draw. baio ends the trade. The sketch *is* the spec.
+In the figments of your imagination, picturesque scenes run wild — they flow like a river. And those threads of ideas slowly fade. The artists, the engineers, the thinkers rush to engrave that flowing thought on paper. But paper is slow. The grind of the hand eats the idea, and what you keep is a fragment of a once-mighty palace.
 
-You draw on digital paper. Every enclosed shape becomes a crisp shape, filled with the color you shaded it. Function is opt-in: a single letter alone in a box adds behavior (`b` button, `n` navbar, `f` form, `i` image, `v` video, `p` a new page). Plain shapes stay plain — no surprise components. Words become labels. Colors become fills. Theme words become gradients. A dark rectangle with scattered dots becomes a procedural night sky. Sketch the skeleton of a diagram and it becomes a crisp composite: bar, pie, Venn, timeline, atomic structure, or the full 118-element periodic table. Pages sit on an infinite plane. Overlaps spawn layers. Photos drop into any drawn enclosure — even a freeform silhouette. Arrows between objects become logic wires.
+A picture is worth a thousand words. So why type those thousand words to describe the picture already in your head? Why not just put the picture down?
+
+Why restrict ourselves? Our essays have autocomplete. Shouldn’t our thoughts too?
+
+That is the trade today. Pen and paper is fast, but the ink is dead: not structured, not editable, not a product. Figma is structured, but menus and precision dragging interrupt thinking, and it takes so much time to learn and get good at. Text-to-image generators make you *describe* the picture — then hand you a pretty image detached from what you meant, uneditable, unusable. Everyone who builds things lives in that trade: engineers sketching systems, students sketching diagrams, designers wireframing pages, founders whiteboarding products. baio was made for all of them.
+
+You draw on magic paper. Every enclosed shape becomes a crisp shape, filled with the color you shaded it. Function is opt-in: a single letter alone in a box adds behavior (`b` button, `n` navbar, `f` form, `i` image, `v` video, `p` a new page). Plain shapes stay plain — no surprise components. Words become labels. Colors become fills. Theme words become gradients. A dark rectangle with scattered dots becomes a procedural night sky. Sketch the skeleton of a diagram and it becomes a crisp composite: bar, pie, Venn, timeline, atomic structure, or the full 118-element periodic table. Pages sit on an infinite plane. Overlaps spawn layers. Photos drop into any drawn enclosure — even a freeform silhouette. Arrows between objects become logic wires.
 
 When a page is done, **Seal** sends the wireframe to Claude and returns a complete, responsive, interactive website — a single HTML file, or a Vite + React + TypeScript project. **Frame** stitches every sealed page on the plane into a linked multi-page site. Recognition is per-shape and local: one misread never ruins the page. When the model isn’t confident, it abstains. Your ink stays ink.
 
@@ -20,7 +30,7 @@ Under the hood, no single model sees, decides, places, and renders. Gemini descr
 
 The engine is bigger than websites. A button and a periodic table are the same problem: vocabulary, templates, validators, training data. Next is flowcharts, circuits, chemistry, org charts; tablet and whiteboard surfaces; a data flywheel already logging every accept and reject as a gold label.
 
-Start the drawing. baio finishes the thought.
+Magic paper. Autocomplete your ideas. Start the drawing. baio finishes the thought.
 
 ---
 
@@ -28,13 +38,13 @@ Start the drawing. baio finishes the thought.
 
 | Time | Beat | What the viewer should feel |
 |---|---|---|
-| 0:00–0:08 | Title | This is a drawing tool with a thesis |
-| 0:08–0:48 | Problem | Ideas fade faster than pens move |
-| 0:48–1:18 | Solution | Autocomplete, for a canvas |
-| 1:18–2:35 | Core demo | Ten strokes → a real page |
+| 0:00–0:10 | Title | Magic paper. Autocomplete your ideas. |
+| 0:10–0:55 | Problem | The palace fades. A picture is already in your head. |
+| 0:55–1:22 | Solution | Why restrict ourselves? Shouldn’t our thoughts autocomplete too? |
+| 1:22–2:35 | Core demo | Ten strokes → a real page |
 | 2:35–3:35 | Impressive | Night sky, periodic table, photo, plane |
 | 3:35–4:20 | Technical | We trained the brain; it can’t break the page |
-| 4:20–5:00 | Value + close | Sketch → working site. This scales. |
+| 4:20–5:00 | Value + close | Sketch → working site. Leave on the tags. |
 
 Trigger **Seal at ~3:25**. The veil buys the technical section. **Frame at ~4:25** as the closer. If Gemini rate-limits, keep the ink on screen, talk layers or photos for twenty seconds, press Enter again. Forced-component mode is the safety net: pick the op, then draw — geometry still comes from the stroke.
 
@@ -44,52 +54,50 @@ Trigger **Seal at ~3:25**. The veil buys the technical section. **Frame at ~4:25
 
 On-screen text in **small caps**. Voiceover is what you say. Do not rush the blooms.
 
-### 0:00–0:08 · Title
+### 0:00–0:10 · Title
 
-**Visual.** Black. One line fades in, then the name.
+**Visual.** Black. Two lines, then the name.
 
 **On screen.**
-`OUR ESSAYS HAVE AUTOCOMPLETE.`
-`SHOULDN’T OUR IMAGINATION?`
-then: `baio` · `autocomplete for drawing`
+`MAGIC PAPER`
+`AUTOCOMPLETE YOUR IDEAS`
+then: `baio`
 
-**VO.** *(silence, or a single breath)*
+**VO.** *(silence)*
 
 ---
 
-### 0:08–0:48 · The problem · 40s
+### 0:10–0:55 · The problem · 45s
 
 **Visual.** Cut to a real notebook or a blank studio canvas. Slow pan. No UI chrome yet if you can hide it.
 
 **VO.**
 
-In your head, a world appears — a page, a product, a diagram — picturesque, whole. And every second, it fades.
+In the figments of your imagination, scenes run wild — picturesque, flowing like a river. And those threads of ideas slowly fade.
 
-We race to pin that thought to paper because drawing is the least restrictive way to think: no menus, no syntax, no blank-page paralysis. But the pen is slow. By the time the hand catches up, the palace in your mind is a fragment of what it was.
+The artists, the engineers, the thinkers rush to engrave that flowing thought on paper. But paper is slow. The grind of the hand eats the idea, and what you keep is a fragment of a once-mighty palace.
 
-So we make a trade. Sketch fast, and the ink is dead — not structured, not editable, not a website. Open Figma, and thinking stops for menus and precision dragging. Ask an image model, and you get a picture of an interface, not an interface. Fast or faithful. Never both.
+A picture is worth a thousand words. So why do we sit there typing those thousand words, trying to describe the picture already in our head? Why not just put the picture down?
 
 ---
 
-### 0:48–1:18 · The solution · 30s
+### 0:55–1:22 · The solution · 27s
 
 **Visual.** Smash cut to `/studio`, full-bleed paper. Cursor rests. Hold `d` so ink is obviously a pen, not a click.
 
-**On screen.** `baio` · `the sketch is the spec`
+**On screen.** `MAGIC PAPER` · `AUTOCOMPLETE YOUR IDEAS`
 
 **VO.**
 
-For text, we stopped accepting that trade years ago. Our essays have autocomplete. Our code has autocomplete.
+Why restrict ourselves? Our essays have autocomplete. Shouldn’t our thoughts too?
 
-Shouldn’t our imagination?
+This is baio. Magic paper. You begin the picture — and the rest blooms in like wet ink, exactly where you drew it, and dries into something real: editable structure, then a working website.
 
-This is baio — digital paper with magic in it. You sketch. It sees where you’re going. The finished version blooms in like wet ink, exactly where you drew it, and dries into something real: editable structure, then a working website.
-
-Watch.
+Autocomplete your ideas. Watch.
 
 ---
 
-### 1:18–2:35 · Core features · 77s
+### 1:22–2:35 · Core features · 73s
 
 This is the product. Ten strokes. Do not narrate every key.
 
@@ -125,15 +133,15 @@ A circle, shaded purple. Color is fill. The silhouette is yours — we crisp it,
 
 **VO.** *(after the wash lands)*
 
-That’s autocomplete. Suggestions bloom in like watercolor — soft, ignorable. Accept, and they dry into real components, exactly where the ink was. The model never places anything. Geometry comes from my strokes.
+That’s the paper remembering what you meant. Suggestions bloom in like watercolor — soft, ignorable. Accept, and they dry into real components, exactly where the ink was. The model never places anything. Geometry comes from my strokes.
 
-**Beat 5 — the language, fast · ~23s**
+**Beat 5 — the language, fast · ~19s**
 
 **Visual.** One more box: `b` + `Get started` + the word `rainbow` (or shade a sunset gradient). Enter. Bloom.
 
 **VO.**
 
-That’s the whole vocabulary. Shapes get crisp. One letter adds function — *b* button, *n* navbar, *f* form, *i* image, *v* video, *p* a new page. Words and colors add style. Theme words like rainbow become gradients. You stay in the drawing. You never left to pick a template.
+That’s the whole vocabulary. Shapes get crisp. One letter adds function — *b* button, *n* navbar, *f* form, *i* image, *v* video, *p* a new page. Words and colors add style. You never left the drawing to describe it in a prompt.
 
 ---
 
@@ -196,18 +204,18 @@ On a held-out test: **96.7%** versus Gemini’s **75%**. When it’s unsure, it 
 **Visual.** Seal result lands: working HTML. Click Login or the nav. Zoom out. **Frame** the plane. Multi-page site. Download affordance if it’s visible. End on the live page, then cut to black.
 
 **On screen (last two seconds).**
-`START THE DRAWING.`
-`BAIO FINISHES THE THOUGHT.`
+`MAGIC PAPER.`
+`AUTOCOMPLETE YOUR IDEAS.`
 
 **VO.**
 
 When the page is done, Seal freezes it into a real website — responsive, interactive, yours to download as HTML or a React project. Frame the plane, and every sealed page becomes one linked product.
 
-That’s the scope. Not a picture of a website. A website. The people who need this already sketch: founders, designers, engineers, students. Today it’s wireframes. The engine doesn’t care — a button and a periodic table are the same problem. Flowcharts, circuits, chemistry, whiteboards, a tablet SDK. Every accept in the app is already a training label. The product teaches itself.
+That’s the scope. Not a thousand words about a website. The website. The people who need this already sketch: founders, designers, engineers, students — anyone whose thoughts run faster than their hands. Today it’s wireframes. The engine doesn’t care — a button and a periodic table are the same problem. Flowcharts, circuits, chemistry, whiteboards, a tablet SDK. Every accept in the app is already a training label. The product teaches itself.
 
-Paper is fast but dead. Design tools are structured but slow. baio is both: paper with magic in it.
+We stopped restricting our essays. We shouldn’t restrict our thoughts.
 
-Start the drawing. baio finishes the thought.
+Magic paper. Autocomplete your ideas. Start the drawing. baio finishes the thought.
 
 ---
 
@@ -215,7 +223,7 @@ Start the drawing. baio finishes the thought.
 
 Do one clean take of the canvas if you can. Cut titles in post.
 
-1. Title cards (0:08)
+1. Title cards (0:10) — *Magic paper / Autocomplete your ideas / baio*
 2. Blank studio, pen visible
 3. `n` navbar → `b` Login → purple circle → **Enter, bloom, accept**
 4. Rainbow / gradient button → bloom
@@ -226,7 +234,7 @@ Do one clean take of the canvas if you can. Cut titles in post.
 9. Seal (start early; keep recording through the wait)
 10. Click the generated site
 11. Frame the space → click between pages
-12. End card
+12. End card — same two tags
 
 **B-roll if a take breaks:** forced-component mode, keep-as-drawn chip, element dock, glyph book (📖), layers rail. Use only as coverage, not as the story.
 
@@ -238,7 +246,7 @@ Use three, max. The bloom should not compete with type.
 
 | Time | Caption |
 |---|---|
-| 1:18 | Hold D to draw · Enter to autocomplete |
+| 1:22 | Hold D to draw · Enter to autocomplete |
 | 2:00 | Accept → ink dries into structure |
 | 4:40 | Seal a page · Frame the space · download a site |
 
@@ -246,9 +254,9 @@ Use three, max. The bloom should not compete with type.
 
 ## What this video must prove (judges)
 
-1. **New interaction** — autocomplete for drawing, not a prompt box, not a template picker.
+1. **New interaction** — magic paper: autocomplete your ideas, not a prompt box, not a template picker. You put the picture down. You do not describe it.
 2. **We trained the model** — 2B FreeSolo fine-tune beats Gemini on the task, under $0.25.
 3. **It can’t break** — zero coordinates from the model; fail closed; ink stays ink.
 4. **It’s finished** — sketch becomes a downloadable website, not a mock.
 
-If you only have four minutes in the edit, cut Beat 5 (rainbow) and the photo, keep problem → bloom → night sky → table → Seal/Frame → close.
+If you only have four minutes in the edit, cut Beat 5 (rainbow) and the photo, keep palace → why restrict ourselves → bloom → night sky → table → Seal/Frame → magic paper / autocomplete your ideas.

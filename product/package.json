@@ -7,7 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "vercel:deploy": "vercel",
+    "vercel:prod": "vercel --prod"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",
@@ -22,6 +27,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^59.4.0"
   }
 }

@@ -16,7 +16,15 @@ const hanken = Hanken_Grotesk({
   display: "swap",
 });
 
+const appUrl =
+  process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(appUrl),
   title: "baio",
   description: "Autocomplete for drawing — sketch it, baio prints it.",
 };
