@@ -220,7 +220,7 @@ export function ImportSiteControl({ visible, baseSite, onChange, onExtract, page
       <button
         type="button"
         className="frame-toggle"
-        style={{ right: 230, maxWidth: 220 }}
+        style={{ right: 300, maxWidth: 220 }}
         onClick={() => setOpen((o) => !o)}
         title={baseSite ? `Working from ${label}` : 'Start from an existing website'}
         aria-label="Import site"

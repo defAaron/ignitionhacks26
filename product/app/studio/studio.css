@@ -1133,12 +1133,12 @@ html[data-studio] body {
   border-radius: 999px;
 }
 
-/* New canvas: an outlined ink pill in the free bottom-right corner (the top
-   row is full: Edit / Seal / Start from a site). Offered in both views. */
+/* New canvas: an outlined ink pill in the top-right row, left of Seal/Frame
+   (Edit 22 / Seal 106 / Canvas 196 / Start from a site 300). Both views. */
 .new-canvas-toggle {
   position: fixed;
-  bottom: 84px;
-  right: 22px;
+  top: 20px;
+  right: 196px;
   z-index: 60;
   display: flex;
   align-items: center;
