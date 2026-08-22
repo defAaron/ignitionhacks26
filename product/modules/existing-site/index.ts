@@ -5,7 +5,7 @@
  * README.md for the hook lines and the removal checklist.
  */
 import { existingSiteEnabled } from './flag'
-import type { PageElement } from '@/lib/page'
+import { mintNames, type PageElement } from '@/lib/page'
 import type { BaseSite, FrameBaseSite } from './types'
 
 export { existingSiteEnabled } from './flag'
@@ -26,10 +26,12 @@ export type { BaseSite, FrameBaseSite, ImportSiteRequest, ImportSiteResponse } f
 export function applyExtraction<P extends { elements: PageElement[]; baseSite?: BaseSite }>(page: P, els: PageElement[]): P {
   const prev = new Set(page.baseSite?.extractedIds ?? [])
   const kept = page.elements.filter((e) => !prev.has(e.id))
+  const names = mintNames(els.map((e) => e.kind), kept.map((e) => e.name))
+  const named = els.map((e, i) => (e.name ? e : { ...e, name: names[i] }))
   const base = page.baseSite
-    ? { ...page.baseSite, mode: els.length ? ('elements' as const) : page.baseSite.mode, hidden: els.length ? true : page.baseSite.hidden, extractedIds: els.map((e) => e.id) }
+    ? { ...page.baseSite, mode: els.length ? ('elements' as const) : page.baseSite.mode, hidden: els.length ? true : page.baseSite.hidden, extractedIds: named.map((e) => e.id) }
     : page.baseSite
-  return { ...page, elements: [...kept, ...els], baseSite: base }
+  return { ...page, elements: [...kept, ...named], baseSite: base }
 }
 
 /**

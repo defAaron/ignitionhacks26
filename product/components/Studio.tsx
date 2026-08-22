@@ -31,7 +31,7 @@ import type { SealedFrame, FramePage } from '@/lib/frame/space-types'
 import { stitchHtmlSite } from '@/lib/frame/stitch'
 import { isMeaningful, loadSaved, saveSnapshot } from '@/lib/persist'
 import { BaseSiteLayer, BaseSiteRow, ImportSiteControl, applyExtraction, extractionTags, frameBaseSiteField, isHtmlFile, makeBaseSite, readHtmlFile } from '@/modules/existing-site' // [existing-site]
-import { newElementId, pageToScreen, syncPageElements, randomName } from '@/lib/page'
+import { mintNames, newElementId, pageToScreen, syncPageElements } from '@/lib/page'
 import {
   emptySpace,
   addPage,
@@ -369,10 +369,10 @@ export function Studio(): React.JSX.Element {
   }, [])
   /** Commit a batch of world-space elements as loose elements on the plane. */
   const commitLoose = useCallback((batch: CommittedElement[]) => {
-    setSpace((prev) => ({
-      ...prev,
-      loose: [...prev.loose, ...batch.map((el) => screenElementToLoose(el, randomName()))]
-    }))
+    setSpace((prev) => {
+      const names = mintNames(batch.map((el) => el.kind), prev.loose.map((l) => l.name))
+      return { ...prev, loose: [...prev.loose, ...batch.map((el, i) => screenElementToLoose(el, names[i]))] }
+    })
   }, [])
 
   /**

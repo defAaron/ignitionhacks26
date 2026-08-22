@@ -1,4 +1,4 @@
-import { emptyPage, type Page, type PageShape } from './page'
+import { emptyPage, nextPageName, type Page, type PageShape } from './page'
 import type { Vec2 } from './camera'
 import type { CommittedElement, ElementKind, ShapeResult } from './types'
 import type { WireBlock } from './wire/types'
@@ -98,7 +98,8 @@ export function primaryPage(space: LiminalSpace): PlacedPage {
  * pages are deferred, so a page drawn while focused still lands on the plane.
  */
 export function addPage(space: LiminalSpace, location: Vec2): LiminalSpace {
-  return { ...space, items: [...space.items, { kind: 'page', location, page: emptyPage() }] }
+  const name = nextPageName(space.items.map((it) => it.page.name))
+  return { ...space, items: [...space.items, { kind: 'page', location, page: emptyPage(name) }] }
 }
 
 /* ---------- loose-element path normalization ---------- */
