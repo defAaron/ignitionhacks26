@@ -65,6 +65,24 @@ export function worldToScreen(wx: number, wy: number, cam: Camera, vp: Viewport)
   }
 }
 
+/** Zoom bounds on the plane: far enough out to see a whole site map, close
+ * enough in to read a button label. */
+export const MIN_ZOOM = 0.1
+export const MAX_ZOOM = 4
+
+/** Scale the camera by `factor` about a screen point, keeping the world point
+ * under that pixel fixed (so zooming at the cursor feels anchored). */
+export function zoomAt(cam: Camera, vp: Viewport, sx: number, sy: number, factor: number): Camera {
+  const zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, cam.zoom * factor))
+  if (zoom === cam.zoom) return cam
+  const anchor = screenToWorld(sx, sy, cam, vp)
+  return {
+    x: anchor.x - (sx - vp.w / 2) / zoom,
+    y: anchor.y - (sy - vp.h / 2) / zoom,
+    zoom
+  }
+}
+
 /* ---------- world <-> page-local ---------- */
 
 /** local -> world, given the page's top-centre location on the plane. */

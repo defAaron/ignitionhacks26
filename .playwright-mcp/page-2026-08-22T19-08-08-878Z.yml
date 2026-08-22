@@ -1,0 +1,28 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary "Elements" [ref=e3]:
+      - button "Hide elements" [expanded] [ref=e5] [cursor=pointer]
+      - generic [ref=e7]:
+        - generic [ref=e8]:
+          - generic [ref=e9]: Elements
+          - generic [ref=e10]: "0"
+        - generic [ref=e11]: Nothing on the page yet. Sketch something or start from a site.
+    - generic [ref=e13]:
+      - generic [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - button "Close page - back to the liminal space" [ref=e20] [cursor=pointer]
+            - button "Exit full screen - windowed view" [ref=e22] [cursor=pointer]
+          - generic [ref=e23]: canvas 1
+        - tablist [ref=e24]:
+          - tab "Design" [selected] [ref=e25] [cursor=pointer]
+          - tab "Links" [ref=e26] [cursor=pointer]
+          - tab "Data" [ref=e27] [cursor=pointer]
+          - tab "Logic" [ref=e28] [cursor=pointer]
+      - button "Edit the page" [ref=e29] [cursor=pointer]:
+        - generic [ref=e32]: Edit
+      - generic:
+        - generic:
+          - generic:
+            - generic "baio": baio baio
+  - button "Open Next.js Dev Tools" [ref=e38] [cursor=pointer]

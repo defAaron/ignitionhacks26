@@ -53,6 +53,7 @@ import {
   screenToWorld as screenToWorldPt,
   worldTransform,
   focusedZoom,
+  zoomAt,
   PAGE_CENTER_X,
   PAGE_WIDTH,
   type Camera,
@@ -95,6 +96,9 @@ const BRUSH_FLASH_MS = 1000
 const HISTORY_CAP = 50
 /** The page grows another step once the camera nears its floor (local px). */
 const GROW_NEAR = 240
+/** Wheel zoom sensitivity on the plane: zoom *= e^(-deltaY * rate). ~100px of
+ * wheel is one notch of about 14%. */
+const WHEEL_ZOOM_RATE = 0.0015
 /** How much height each auto-extend adds, in px. */
 const GROW_STEP = 400
 /** Starting page body height, in local px. Grows on demand from here. */
@@ -898,6 +902,8 @@ export function Studio(): React.JSX.Element {
     let raf = 0
     let ax = 0
     let ay = 0
+    let sx = 0
+    let sy = 0
     const flush = (): void => {
       raf = 0
       const cam = cameraRef.current
@@ -914,21 +920,87 @@ export function Studio(): React.JSX.Element {
           setPageHeight((p) => Math.min(p + GROW_STEP, pageHeightCap()))
         }
       } else {
-        setCamera({ ...cam, x: cam.x + ax / cam.zoom, y: cam.y + ay / cam.zoom })
+        // Plane: the wheel zooms about the cursor (so the point under it stays
+        // put); horizontal wheel / shift-wheel still slides sideways.
+        const zoomed = ay ? zoomAt(cam, vp, sx, sy, Math.exp(-ay * WHEEL_ZOOM_RATE)) : cam
+        setCamera(ax ? { ...zoomed, x: zoomed.x + ax / zoomed.zoom } : zoomed)
       }
       ax = 0
       ay = 0
     }
     const onWheel = (e: WheelEvent): void => {
       if (flyingRef.current || framedRef.current) return
-      ax += e.deltaX
-      ay += e.deltaY
+      // Ctrl+wheel is the browser's own page zoom (and trackpad pinch); keep it
+      // for the studio. Other wheel events were already passive-safe.
+      if (e.ctrlKey) e.preventDefault()
+      sx = e.clientX - stageLeft.current
+      sy = e.clientY
+      if (viewRef.current === 'focused' || !e.shiftKey) {
+        ax += e.deltaX
+        ay += e.deltaY
+      } else {
+        ax += e.deltaY
+      }
       if (!raf) raf = requestAnimationFrame(flush)
     }
-    window.addEventListener('wheel', onWheel, { passive: true })
+    window.addEventListener('wheel', onWheel, { passive: false })
     return () => {
       window.removeEventListener('wheel', onWheel)
       if (raf) cancelAnimationFrame(raf)
+    }
+  }, [])
+
+  // Middle-mouse drag pans in both views. Captured on the window before any
+  // React handler so neither the sketch layer nor an element sees the press;
+  // preventDefault also stops the browser's autoscroll cursor. Focused stays
+  // vertical-only and clamped to the page, exactly like the wheel.
+  useEffect(() => {
+    let last: { x: number; y: number } | null = null
+    const down = (e: PointerEvent): void => {
+      if (e.button !== 1 || flyingRef.current || framedRef.current) return
+      e.preventDefault()
+      e.stopPropagation()
+      last = { x: e.clientX, y: e.clientY }
+      document.body.style.cursor = 'grabbing'
+    }
+    const move = (e: PointerEvent): void => {
+      if (!last) return
+      const dx = e.clientX - last.x
+      const dy = e.clientY - last.y
+      last = { x: e.clientX, y: e.clientY }
+      const cam = cameraRef.current
+      if (viewRef.current === 'focused') {
+        const vp = viewportRef.current
+        const loc = pageLocRef.current
+        const y = clampFocusedY(cam.y - dy / cam.zoom, vp, loc, pageHeightRef.current)
+        setCamera({ ...cam, y })
+      } else {
+        setCamera({ ...cam, x: cam.x - dx / cam.zoom, y: cam.y - dy / cam.zoom })
+      }
+    }
+    const up = (e: PointerEvent): void => {
+      if (!last || e.button !== 1) return
+      last = null
+      document.body.style.cursor = ''
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    // Middle-click also fires auxclick (and would paste on Linux); swallow it.
+    const aux = (e: MouseEvent): void => {
+      if (e.button === 1) e.preventDefault()
+    }
+    window.addEventListener('pointerdown', down, true)
+    window.addEventListener('pointermove', move, true)
+    window.addEventListener('pointerup', up, true)
+    window.addEventListener('pointercancel', up, true)
+    window.addEventListener('auxclick', aux, true)
+    return () => {
+      window.removeEventListener('pointerdown', down, true)
+      window.removeEventListener('pointermove', move, true)
+      window.removeEventListener('pointerup', up, true)
+      window.removeEventListener('pointercancel', up, true)
+      window.removeEventListener('auxclick', aux, true)
+      document.body.style.cursor = ''
     }
   }, [])
 
