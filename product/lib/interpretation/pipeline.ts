@@ -13,6 +13,7 @@
  */
 
 import { randomUUID } from "node:crypto";
+import { applyStyleHints } from "./styleHints";
 import { z } from "zod";
 
 import {
@@ -452,6 +453,18 @@ export async function runAutocomplete(
     builderComponents = validation.output.components.map((c) =>
       c.op === "placeholder" ? { ...c, op: "rect" as const } : c
     );
+    // STYLE WORDS — "rainbow" written on a button paints it instead of
+    // labelling it. Deterministic and builder-agnostic, so the FreeSolo
+    // adapter (whose grammar predates style words) matches the Gemini
+    // baseline, which is prompted to do the same routing itself.
+    const detById = new Map(normalized.map((n) => [n.id, n]));
+    builderComponents = builderComponents.map((c) => {
+      if (c.op === "wait") return c;
+      const det = detById.get(c.from);
+      if (!det?.text) return c;
+      const params = applyStyleHints(c.op, c.params, det.text);
+      return params === c.params ? c : { ...c, params: params ?? {} };
+    });
   }
 
   // (f) Snap math + tiering per command.

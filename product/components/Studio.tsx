@@ -32,6 +32,7 @@ import { stitchHtmlSite } from '@/lib/frame/stitch'
 import { isMeaningful, loadSaved, saveSnapshot } from '@/lib/persist'
 import { BaseSiteLayer, BaseSiteRow, ImportSiteControl, applyExtraction, extractionTags, frameBaseSiteField, isHtmlFile, makeBaseSite, readHtmlFile } from '@/modules/existing-site' // [existing-site]
 import { mintNames, newElementId, pageToScreen, syncPageElements } from '@/lib/page'
+import { applyStyleHints } from '@/lib/interpretation/styleHints'
 import {
   emptySpace,
   addPage,
@@ -99,6 +100,18 @@ const GROW_NEAR = 240
 /** Wheel zoom sensitivity on the plane: zoom *= e^(-deltaY * rate). ~100px of
  * wheel is one notch of about 14%. */
 const WHEEL_ZOOM_RATE = 0.0015
+
+/** Fold typed text items that sit inside a shape's box into its params as
+ * style hints (label words for glyph components, paint for everything). */
+function styleFromTypedText(shape: ShapeResult, texts: TextItem[]): ShapeResult {
+  const b = shape.bbox
+  const inside = texts.filter(
+    (t) => t.text.trim() && t.x >= b.x && t.x <= b.x + b.width && t.y >= b.y && t.y <= b.y + b.height
+  )
+  if (inside.length === 0) return shape
+  const params = applyStyleHints(shape.op, shape.params, inside.map((t) => t.text.trim()).join(' '))
+  return params === shape.params ? shape : { ...shape, params: params ?? {} }
+}
 /** How much height each auto-extend adds, in px. */
 const GROW_STEP = 400
 /** Starting page body height, in local px. Grows on demand from here. */
@@ -1156,7 +1169,10 @@ export function Studio(): React.JSX.Element {
           rect: { x: shape.bbox.x, y: shape.bbox.y, w: shape.bbox.width, h: shape.bbox.height },
           text,
           color,
-          shape
+          // Typed text (the text tool) never reaches the vision model, so
+          // style words typed onto a shape ("rainbow" on a button) are
+          // folded in here, the same way handwritten ones are in the pipeline.
+          shape: styleFromTypedText(shape, cur.sketch.texts)
         }))
         const splotchesOf = (prev: Splotch[]): Splotch[] => [
           ...prev,
