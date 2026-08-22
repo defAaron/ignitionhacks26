@@ -1,0 +1,6 @@
+# Sweep variant — DATASET SIZE axis: 150 examples (base = 300).
+# One-knob overlay; everything else (model, schema, seed) comes from the base
+# so the inlined components-v1.json stays single-source. Run:
+#   flash train freesolo/configs/sft.toml --config freesolo/configs/sweep/sft-150.toml
+[train]
+max_examples = 150

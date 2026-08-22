@@ -1,0 +1,4 @@
+# two known-good knobs together: bigger base + the epoch lever
+model = "Qwen/Qwen3.5-2B"
+[train]
+epochs = 2

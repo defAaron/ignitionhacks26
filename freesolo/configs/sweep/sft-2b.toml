@@ -1,0 +1,6 @@
+# Sweep variant — MODEL CAPACITY axis: Qwen3.5-2B (base = 0.8B).
+# Catalog id "Qwen/Qwen3.5-2B" verified via `flash models` on 2026-07-18 —
+# re-verify with `flash models` before launching in case the catalog changed.
+# One-knob overlay on top of the base config. Run:
+#   flash train freesolo/configs/sft.toml --config freesolo/configs/sweep/sft-2b.toml
+model = "Qwen/Qwen3.5-2B"

@@ -1,0 +1,6 @@
+# Sweep variant — DATASET SIZE axis: 500 examples (base = 300).
+# One-knob overlay on top of the base config. Run:
+#   flash train freesolo/configs/sft.toml --config freesolo/configs/sweep/sft-500.toml
+# Requires dataset/train.jsonl to actually contain >= 500 rows.
+[train]
+max_examples = 500

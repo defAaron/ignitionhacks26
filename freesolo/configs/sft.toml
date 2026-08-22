@@ -1,0 +1,35 @@
+# baio wave-1 SFT — BASE config (docs/freesolo/08-baio-playbook.md, Phase 3).
+#
+# Always validate before spending:
+#   flash train freesolo/configs/sft.toml --dry-run   # server-side validation, free
+#   flash train freesolo/configs/sft.toml --cost      # exact quote = billing baseline, free
+#
+# Sweep variants live in configs/sweep/ as one-knob overlays:
+#   flash train freesolo/configs/sft.toml --config freesolo/configs/sweep/sft-150.toml
+
+model = "Qwen/Qwen3.5-0.8B"   # verified in `flash models` catalog (2026-07-18)
+algorithm = "sft"
+seed = 42
+thinking = false
+
+[environment]
+# PLACEHOLDER — replace with the exact id printed by:
+#   cd freesolo/ && flash env push --name baio-shapes .
+# (Local paths are not valid here; publish first.)
+id = "ray/baio-shapes"
+
+[environment.params]
+split = "train"               # never point this at eval/test — held-out stays held out
+
+[train]
+epochs = 1
+max_examples = 300
+lora_rank = 32
+
+# The FULL contents of shared/schemas/shapes-v2.json, inlined verbatim as a
+# TOML literal string (enforcement point #2 of 3; see shared/schemas/README.md).
+# RULE ZERO: if shared/schemas/shapes-v2.json changes, RE-COPY IT HERE
+# byte-for-byte in the same commit — a drifted copy silently poisons training.
+# Note: 03-config-reference.md lists structured_outputs only under GRPO/OPD;
+# the baio playbook (08) includes it for SFT so the deployed adapter defaults
+# to this grammar at serving time. --dry-run is the arbiter if the server rejects it.

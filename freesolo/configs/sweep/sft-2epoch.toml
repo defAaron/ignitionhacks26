@@ -1,0 +1,5 @@
+# Sweep variant — EPOCHS axis: 2 epochs (base = 1).
+# One-knob overlay on top of the base config. Run:
+#   flash train freesolo/configs/sft.toml --config freesolo/configs/sweep/sft-2epoch.toml
+[train]
+epochs = 2
