@@ -1,0 +1,104 @@
+# GRPO — RL from the SFT champion with the validator-composite reward.
+# Rollouts are grammar-constrained (structured_outputs IS legal for rollout algorithms).
+model = "Qwen/Qwen3.5-0.8B"
+algorithm = "grpo"
+seed = 42
+thinking = false
+
+[environment]
+id = "ray/baio-shapes"
+
+[environment.params]
+split = "train"
+
+[train]
+epochs = 1
+max_examples = 300
+group_size = 8
+temperature = 0.8
+max_completion_tokens = 700
+init_from_adapter = "flash-1784442114-343653f1"
+structured_outputs = '''
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://baio.app/schemas/shapes-v2.json",
+  "title": "baio builder output — shapes wave 1.5 (22-op vocabulary)",
+  "description": "The shapes contract extended with the six diagram ops (bar_chart, pie_chart, venn_diagram, timeline, periodic_table, atomic_structure). Byte-identical in shape to shapes-v1.json — the ONLY difference is the op enum (16 -> 22), so every valid v1 document is also a valid v2 document. schema_version stays the literal \"shapes-1.0\": it is the contract revision, not the wave — the wave is which file (op whitelist) was enforced, exactly the components-v1/v2 precedent. The model still emits NO coordinates: geometry always derives deterministically from the source strokes. See shared/schemas/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "components"],
+  "properties": {
+    "schema_version": {
+      "const": "shapes-1.0"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "$ref": "#/definitions/shape_command" },
+          { "$ref": "#/definitions/wait_command" }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "shape_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "from"],
+      "properties": {
+        "op": {
+          "enum": [
+            "rect",
+            "ellipse",
+            "line",
+            "arrow",
+            "text",
+            "smooth_path",
+            "image",
+            "form",
+            "button",
+            "navbar",
+            "video",
+            "placeholder",
+            "wave_divider",
+            "night_sky",
+            "sparkles",
+            "aurora_gradient",
+            "bar_chart",
+            "pie_chart",
+            "venn_diagram",
+            "timeline",
+            "periodic_table",
+            "atomic_structure"
+          ]
+        },
+        "from": { "type": "string" },
+        "params": { "type": "object" },
+        "snap": {
+          "enum": [
+            "none",
+            "full_width_top",
+            "full_width_bottom",
+            "full_width",
+            "straighten_h",
+            "straighten_v",
+            "square",
+            "center_in_region"
+          ]
+        }
+      }
+    },
+    "wait_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "from", "reason"],
+      "properties": {
+        "op": { "const": "wait" },
+        "from": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}
+'''

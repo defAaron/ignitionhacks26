@@ -1,0 +1,6438 @@
+[
+  {
+    "train_index": 31,
+    "metadata": {
+      "example_index": 40,
+      "seed": 2654860286,
+      "archetype": "landing",
+      "wait_planned": true,
+      "wait_count": 1,
+      "color_param_commands": 3,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": "v",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.79,
+          "bbox": {
+            "x": 90,
+            "y": 193,
+            "width": 395,
+            "height": 228
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#10b981",
+            "#f59e0b",
+            "#ec4899"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.94,
+          "bbox": {
+            "x": 591,
+            "y": 244,
+            "width": 689,
+            "height": 194
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.25,
+          "bbox": {
+            "x": 865,
+            "y": 382,
+            "width": 288,
+            "height": 295
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 2,
+            "y": 484,
+            "width": 1248,
+            "height": 117
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "rect",
+          "glyph": "n",
+          "text": null,
+          "colors": [
+            "#249c8a"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.78,
+          "bbox": {
+            "x": 163,
+            "y": 4,
+            "width": 1253,
+            "height": 76
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.82,
+          "bbox": {
+            "x": 643,
+            "y": 245,
+            "width": 134,
+            "height": 53
+          }
+        },
+        {
+          "id": "det_7",
+          "kind": "rect",
+          "glyph": "b",
+          "text": null,
+          "colors": [
+            "#2563eb"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.97,
+          "bbox": {
+            "x": 220,
+            "y": 385,
+            "width": 242,
+            "height": 61
+          }
+        },
+        {
+          "id": "det_8",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Wecome",
+          "colors": [
+            "#2563eb"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.71,
+          "bbox": {
+            "x": 517,
+            "y": 265,
+            "width": 93,
+            "height": 28
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "video",
+          "from": "det_1"
+        },
+        {
+          "op": "aurora_gradient",
+          "from": "det_2",
+          "params": {
+            "palette": [
+              "#10b981",
+              "#f59e0b",
+              "#ec4899"
+            ],
+            "blob_count": 6,
+            "blur_radius": 101,
+            "seed": 180377674
+          }
+        },
+        {
+          "op": "wait",
+          "from": "det_3",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wave_divider",
+          "from": "det_4",
+          "params": {
+            "amplitude": 42,
+            "layers": 2,
+            "flip": true,
+            "seed": 46666865
+          },
+          "snap": "full_width"
+        },
+        {
+          "op": "navbar",
+          "from": "det_5",
+          "params": {
+            "fill": "#249c8a"
+          },
+          "snap": "full_width_top"
+        },
+        {
+          "op": "sparkles",
+          "from": "det_6",
+          "params": {
+            "count": 6,
+            "size_range": [
+              4,
+              11
+            ],
+            "seed": 1176826404
+          }
+        },
+        {
+          "op": "button",
+          "from": "det_7",
+          "params": {
+            "fill": "#2563eb"
+          }
+        },
+        {
+          "op": "text",
+          "from": "det_8",
+          "params": {
+            "fill": "#2563eb",
+            "text": "Wecome"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 19,
+    "metadata": {
+      "example_index": 26,
+      "seed": 1163530387,
+      "archetype": "wireframe",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": "f",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.91,
+          "bbox": {
+            "x": 306,
+            "y": 395,
+            "width": 413,
+            "height": 301
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.76,
+          "bbox": {
+            "x": 601,
+            "y": 184,
+            "width": 17,
+            "height": 413
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": "i",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.83,
+          "bbox": {
+            "x": 349,
+            "y": 300,
+            "width": 294,
+            "height": 203
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": "?",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.53,
+          "bbox": {
+            "x": 1029,
+            "y": 570,
+            "width": 258,
+            "height": 157
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#e63946",
+            "#2a9d8f",
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.9,
+          "bbox": {
+            "x": 589,
+            "y": 318,
+            "width": 685,
+            "height": 255
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#ec4899"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.77,
+          "bbox": {
+            "x": 162,
+            "y": 668,
+            "width": 1281,
+            "height": 136
+          }
+        },
+        {
+          "id": "det_7",
+          "kind": "rect",
+          "glyph": "i",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.84,
+          "bbox": {
+            "x": 122,
+            "y": 279,
+            "width": 363,
+            "height": 247
+          }
+        },
+        {
+          "id": "det_8",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.75,
+          "bbox": {
+            "x": 766,
+            "y": 391,
+            "width": 434,
+            "height": 434
+          }
+        },
+        {
+          "id": "det_9",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.57,
+          "bbox": {
+            "x": 396,
+            "y": 525,
+            "width": 301,
+            "height": 115
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "form",
+          "from": "det_1"
+        },
+        {
+          "op": "line",
+          "from": "det_2",
+          "snap": "straighten_v"
+        },
+        {
+          "op": "image",
+          "from": "det_3"
+        },
+        {
+          "op": "placeholder",
+          "from": "det_4"
+        },
+        {
+          "op": "aurora_gradient",
+          "from": "det_5",
+          "params": {
+            "palette": [
+              "#e63946",
+              "#2a9d8f",
+              "#f59e0b"
+            ],
+            "blob_count": 5,
+            "blur_radius": 85,
+            "seed": 324218583
+          }
+        },
+        {
+          "op": "wave_divider",
+          "from": "det_6",
+          "params": {
+            "amplitude": 16,
+            "layers": 3,
+            "flip": false,
+            "seed": 526222026
+          },
+          "snap": "full_width"
+        },
+        {
+          "op": "image",
+          "from": "det_7"
+        },
+        {
+          "op": "rect",
+          "from": "det_8",
+          "snap": "square"
+        },
+        {
+          "op": "rect",
+          "from": "det_9"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 185,
+    "metadata": {
+      "example_index": 228,
+      "seed": 1650625716,
+      "archetype": "freeform",
+      "wait_planned": true,
+      "wait_count": 3,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.85,
+          "bbox": {
+            "x": 640,
+            "y": 345,
+            "width": 386,
+            "height": 247
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 176,
+            "y": 427,
+            "width": 344,
+            "height": 300
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#111111"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.38,
+          "bbox": {
+            "x": 491,
+            "y": 228,
+            "width": 342,
+            "height": 273
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.09,
+          "bbox": {
+            "x": 349,
+            "y": 270,
+            "width": 407,
+            "height": 172
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.27,
+          "bbox": {
+            "x": 941,
+            "y": 208,
+            "width": 373,
+            "height": 325
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "smooth_path",
+          "from": "det_1"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2"
+        },
+        {
+          "op": "wait",
+          "from": "det_3",
+          "reason": "ambiguous"
+        },
+        {
+          "op": "wait",
+          "from": "det_4",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_5",
+          "reason": "low_confidence"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 5,
+    "metadata": {
+      "example_index": 8,
+      "seed": 2341881073,
+      "archetype": "freeform",
+      "wait_planned": true,
+      "wait_count": 3,
+      "color_param_commands": 2,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.17,
+          "bbox": {
+            "x": 667,
+            "y": 356,
+            "width": 419,
+            "height": 233
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.77,
+          "bbox": {
+            "x": 1263,
+            "y": 121,
+            "width": 15,
+            "height": 336
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "About us",
+          "colors": [
+            "#10b981"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.71,
+          "bbox": {
+            "x": 974,
+            "y": 684,
+            "width": 125,
+            "height": 58
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.61,
+          "bbox": {
+            "x": 324,
+            "y": 399,
+            "width": 249,
+            "height": 297
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#1a1a2e"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.85,
+          "bbox": {
+            "x": 25,
+            "y": 15,
+            "width": 1007,
+            "height": 348
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.16,
+          "bbox": {
+            "x": 685,
+            "y": 443,
+            "width": 316,
+            "height": 297
+          }
+        },
+        {
+          "id": "det_7",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.41,
+          "bbox": {
+            "x": 131,
+            "y": 428,
+            "width": 327,
+            "height": 338
+          }
+        },
+        {
+          "id": "det_8",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#e63946",
+            "#f59e0b"
+          ],
+          "gradient_direction": "right",
+          "confidence": 0.72,
+          "bbox": {
+            "x": 122,
+            "y": 829,
+            "width": 1229,
+            "height": 75
+          }
+        },
+        {
+          "id": "det_9",
+          "kind": "rect",
+          "glyph": "?",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 965,
+            "y": 581,
+            "width": 329,
+            "height": 147
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "wait",
+          "from": "det_1",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "arrow",
+          "from": "det_2",
+          "snap": "straighten_v"
+        },
+        {
+          "op": "text",
+          "from": "det_3",
+          "params": {
+            "fill": "#10b981",
+            "text": "About us"
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_4"
+        },
+        {
+          "op": "night_sky",
+          "from": "det_5",
+          "params": {
+            "density": 0.7,
+            "size_range": [
+              1,
+              5
+            ],
+            "cluster_bias": 0.61,
+            "seed": 25641967
+          }
+        },
+        {
+          "op": "wait",
+          "from": "det_6",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_7",
+          "reason": "ambiguous"
+        },
+        {
+          "op": "rect",
+          "from": "det_8",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#e63946",
+                "#f59e0b"
+              ],
+              "direction": "right"
+            }
+          },
+          "snap": "full_width_bottom"
+        },
+        {
+          "op": "placeholder",
+          "from": "det_9"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 205,
+    "metadata": {
+      "example_index": 253,
+      "seed": 698465999,
+      "archetype": "freeform",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 3,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.75,
+          "bbox": {
+            "x": 721,
+            "y": 207,
+            "width": 214,
+            "height": 340
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.81,
+          "bbox": {
+            "x": 631,
+            "y": 248,
+            "width": 273,
+            "height": 181
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#7c3aed",
+            "#2a9d8f"
+          ],
+          "gradient_direction": "down",
+          "confidence": 0.9,
+          "bbox": {
+            "x": 646,
+            "y": 624,
+            "width": 244,
+            "height": 140
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2563eb",
+            "#2a9d8f"
+          ],
+          "gradient_direction": "down",
+          "confidence": 0.64,
+          "bbox": {
+            "x": 243,
+            "y": 321,
+            "width": 379,
+            "height": 314
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "smooth_path",
+          "from": "det_1"
+        },
+        {
+          "op": "line",
+          "from": "det_2",
+          "params": {
+            "fill": "#f59e0b"
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_3",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#7c3aed",
+                "#2a9d8f"
+              ],
+              "direction": "down"
+            }
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_4",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#2563eb",
+                "#2a9d8f"
+              ],
+              "direction": "down"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 43,
+    "metadata": {
+      "example_index": 55,
+      "seed": 453025613,
+      "archetype": "landing",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 1,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Buy now",
+          "colors": [
+            "#f59e0b",
+            "#7c3aed",
+            "#e63946"
+          ],
+          "gradient_direction": "right",
+          "confidence": 0.69,
+          "bbox": {
+            "x": 603,
+            "y": 333,
+            "width": 227,
+            "height": 73
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "rect",
+          "glyph": "n",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.79,
+          "bbox": {
+            "x": 66,
+            "y": 14,
+            "width": 1297,
+            "height": 71
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": "v",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.6,
+          "bbox": {
+            "x": 720,
+            "y": 636,
+            "width": 480,
+            "height": 298
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Hello world",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.56,
+          "bbox": {
+            "x": 549,
+            "y": 228,
+            "width": 176,
+            "height": 40
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.77,
+          "bbox": {
+            "x": 157,
+            "y": 575,
+            "width": 1136,
+            "height": 119
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "button",
+          "from": "det_1",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#f59e0b",
+                "#7c3aed",
+                "#e63946"
+              ],
+              "direction": "right"
+            },
+            "label": "Buy now"
+          },
+          "snap": "center_in_region"
+        },
+        {
+          "op": "navbar",
+          "from": "det_2",
+          "snap": "full_width_top"
+        },
+        {
+          "op": "video",
+          "from": "det_3"
+        },
+        {
+          "op": "text",
+          "from": "det_4",
+          "params": {
+            "text": "Hello world"
+          }
+        },
+        {
+          "op": "wave_divider",
+          "from": "det_5",
+          "params": {
+            "amplitude": 19,
+            "layers": 2,
+            "flip": false,
+            "seed": 2088963979
+          },
+          "snap": "full_width"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 214,
+    "metadata": {
+      "example_index": 266,
+      "seed": 1576307644,
+      "archetype": "wireframe",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 1,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": null,
+          "text": "Feedback",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.94,
+          "bbox": {
+            "x": 505,
+            "y": 309,
+            "width": 404,
+            "height": 430
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.96,
+          "bbox": {
+            "x": 737,
+            "y": 447,
+            "width": 399,
+            "height": 410
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": "v",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.76,
+          "bbox": {
+            "x": 277,
+            "y": 163,
+            "width": 318,
+            "height": 184
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": "i",
+          "text": null,
+          "colors": [
+            "#7437f4"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.67,
+          "bbox": {
+            "x": 46,
+            "y": 258,
+            "width": 377,
+            "height": 270
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "rect",
+          "from": "det_1",
+          "params": {
+            "label": "Feedback"
+          },
+          "snap": "square"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2"
+        },
+        {
+          "op": "video",
+          "from": "det_3"
+        },
+        {
+          "op": "image",
+          "from": "det_4",
+          "params": {
+            "fill": "#7437f4"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 307,
+    "metadata": {
+      "example_index": 384,
+      "seed": 324275126,
+      "archetype": "decorated",
+      "wait_planned": true,
+      "wait_count": 1,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "I love baio",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.82,
+          "bbox": {
+            "x": 517,
+            "y": 216,
+            "width": 217,
+            "height": 45
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 903,
+            "y": 199,
+            "width": 280,
+            "height": 215
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.71,
+          "bbox": {
+            "x": 225,
+            "y": 367,
+            "width": 1103,
+            "height": 100
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#111111"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.48,
+          "bbox": {
+            "x": 250,
+            "y": 419,
+            "width": 345,
+            "height": 335
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.52,
+          "bbox": {
+            "x": 814,
+            "y": 211,
+            "width": 141,
+            "height": 104
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "text",
+          "from": "det_1",
+          "params": {
+            "text": "I love baio"
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2"
+        },
+        {
+          "op": "wave_divider",
+          "from": "det_3",
+          "params": {
+            "amplitude": 26,
+            "layers": 2,
+            "flip": true,
+            "seed": 253162436
+          },
+          "snap": "full_width"
+        },
+        {
+          "op": "wait",
+          "from": "det_4",
+          "reason": "ambiguous"
+        },
+        {
+          "op": "sparkles",
+          "from": "det_5",
+          "params": {
+            "count": 13,
+            "size_range": [
+              4,
+              8
+            ],
+            "seed": 896195391
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 69,
+    "metadata": {
+      "example_index": 90,
+      "seed": 395725532,
+      "archetype": "landing",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Pricing",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.63,
+          "bbox": {
+            "x": 502,
+            "y": 224,
+            "width": 157,
+            "height": 69
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "rect",
+          "glyph": "v",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.58,
+          "bbox": {
+            "x": 941,
+            "y": 647,
+            "width": 386,
+            "height": 202
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#1a1a2e"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 151,
+            "y": 0,
+            "width": 937,
+            "height": 348
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.82,
+          "bbox": {
+            "x": 180,
+            "y": 825,
+            "width": 1207,
+            "height": 64
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Send",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 790,
+            "y": 393,
+            "width": 226,
+            "height": 69
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "rect",
+          "glyph": "n",
+          "text": "Studio",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.64,
+          "bbox": {
+            "x": 18,
+            "y": 9,
+            "width": 1378,
+            "height": 90
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "text",
+          "from": "det_1",
+          "params": {
+            "text": "Pricing"
+          }
+        },
+        {
+          "op": "video",
+          "from": "det_2"
+        },
+        {
+          "op": "night_sky",
+          "from": "det_3",
+          "params": {
+            "density": 0.35,
+            "size_range": [
+              1,
+              3
+            ],
+            "cluster_bias": 0.45,
+            "seed": 2089732169
+          }
+        },
+        {
+          "op": "rect",
+          "from": "det_4",
+          "snap": "full_width_bottom"
+        },
+        {
+          "op": "button",
+          "from": "det_5",
+          "params": {
+            "label": "Send"
+          }
+        },
+        {
+          "op": "navbar",
+          "from": "det_6",
+          "params": {
+            "label": "Studio"
+          },
+          "snap": "full_width_top"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 182,
+    "metadata": {
+      "example_index": 224,
+      "seed": 3379699495,
+      "archetype": "decorated",
+      "wait_planned": true,
+      "wait_count": 2,
+      "color_param_commands": 1,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Pricing",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.48,
+          "bbox": {
+            "x": 463,
+            "y": 158,
+            "width": 102,
+            "height": 64
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#7c3aed"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.83,
+          "bbox": {
+            "x": 705,
+            "y": 457,
+            "width": 307,
+            "height": 267
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#111827",
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.11,
+          "bbox": {
+            "x": 99,
+            "y": 15,
+            "width": 1157,
+            "height": 222
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.21,
+          "bbox": {
+            "x": 642,
+            "y": 376,
+            "width": 368,
+            "height": 271
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.72,
+          "bbox": {
+            "x": 595,
+            "y": 149,
+            "width": 126,
+            "height": 81
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "text",
+          "from": "det_1",
+          "params": {
+            "text": "Pricing"
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2",
+          "params": {
+            "fill": "#7c3aed"
+          }
+        },
+        {
+          "op": "wait",
+          "from": "det_3",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_4",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "sparkles",
+          "from": "det_5",
+          "params": {
+            "count": 6,
+            "size_range": [
+              4,
+              12
+            ],
+            "seed": 878357405
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 235,
+    "metadata": {
+      "example_index": 292,
+      "seed": 2443282071,
+      "archetype": "diagram",
+      "wait_planned": true,
+      "wait_count": 1,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.87,
+          "bbox": {
+            "x": 510,
+            "y": 480,
+            "width": 404,
+            "height": 417
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.92,
+          "bbox": {
+            "x": 1246,
+            "y": 379,
+            "width": 14,
+            "height": 318
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.77,
+          "bbox": {
+            "x": 551,
+            "y": 248,
+            "width": 297,
+            "height": 127
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.13,
+          "bbox": {
+            "x": 944,
+            "y": 398,
+            "width": 275,
+            "height": 333
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.55,
+          "bbox": {
+            "x": 357,
+            "y": 229,
+            "width": 315,
+            "height": 243
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "ellipse",
+          "from": "det_1",
+          "snap": "square"
+        },
+        {
+          "op": "line",
+          "from": "det_2",
+          "snap": "straighten_v"
+        },
+        {
+          "op": "rect",
+          "from": "det_3"
+        },
+        {
+          "op": "wait",
+          "from": "det_4",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "line",
+          "from": "det_5"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 272,
+    "metadata": {
+      "example_index": 336,
+      "seed": 1753883494,
+      "archetype": "wireframe",
+      "wait_planned": true,
+      "wait_count": 2,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": "i",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 410,
+            "y": 344,
+            "width": 290,
+            "height": 230
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "rect",
+          "glyph": "?",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.81,
+          "bbox": {
+            "x": 272,
+            "y": 153,
+            "width": 353,
+            "height": 217
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.26,
+          "bbox": {
+            "x": 164,
+            "y": 377,
+            "width": 330,
+            "height": 340
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.27,
+          "bbox": {
+            "x": 341,
+            "y": 542,
+            "width": 342,
+            "height": 324
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Buy now",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.83,
+          "bbox": {
+            "x": 897,
+            "y": 370,
+            "width": 212,
+            "height": 69
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.84,
+          "bbox": {
+            "x": 745,
+            "y": 436,
+            "width": 422,
+            "height": 444
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "image",
+          "from": "det_1"
+        },
+        {
+          "op": "placeholder",
+          "from": "det_2"
+        },
+        {
+          "op": "wait",
+          "from": "det_3",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_4",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "button",
+          "from": "det_5",
+          "params": {
+            "label": "Buy now"
+          }
+        },
+        {
+          "op": "rect",
+          "from": "det_6",
+          "snap": "square"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 317,
+    "metadata": {
+      "example_index": 396,
+      "seed": 1225378960,
+      "archetype": "wireframe",
+      "wait_planned": true,
+      "wait_count": 1,
+      "color_param_commands": 1,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.89,
+          "bbox": {
+            "x": 423,
+            "y": 175,
+            "width": 363,
+            "height": 131
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "rect",
+          "glyph": "i",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 521,
+            "y": 151,
+            "width": 402,
+            "height": 273
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": "f",
+          "text": "Feedback",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.82,
+          "bbox": {
+            "x": 565,
+            "y": 157,
+            "width": 323,
+            "height": 377
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.71,
+          "bbox": {
+            "x": 788,
+            "y": 399,
+            "width": 325,
+            "height": 207
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#111111"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.12,
+          "bbox": {
+            "x": 306,
+            "y": 560,
+            "width": 374,
+            "height": 356
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Learn more",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.69,
+          "bbox": {
+            "x": 592,
+            "y": 147,
+            "width": 258,
+            "height": 62
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "rect",
+          "from": "det_1"
+        },
+        {
+          "op": "image",
+          "from": "det_2",
+          "snap": "center_in_region"
+        },
+        {
+          "op": "form",
+          "from": "det_3",
+          "params": {
+            "label": "Feedback"
+          },
+          "snap": "center_in_region"
+        },
+        {
+          "op": "rect",
+          "from": "det_4",
+          "params": {
+            "fill": "#f59e0b"
+          }
+        },
+        {
+          "op": "wait",
+          "from": "det_5",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "button",
+          "from": "det_6",
+          "params": {
+            "label": "Learn more"
+          },
+          "snap": "center_in_region"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 212,
+    "metadata": {
+      "example_index": 263,
+      "seed": 99730062,
+      "archetype": "freeform",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 317,
+            "y": 200,
+            "width": 197,
+            "height": 288
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.79,
+          "bbox": {
+            "x": 820,
+            "y": 144,
+            "width": 221,
+            "height": 278
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 1013,
+            "y": 361,
+            "width": 178,
+            "height": 288
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Draw it, get it",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 723,
+            "y": 669,
+            "width": 182,
+            "height": 45
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "smooth_path",
+          "from": "det_1"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_3"
+        },
+        {
+          "op": "text",
+          "from": "det_4",
+          "params": {
+            "text": "Draw it, get it"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 68,
+    "metadata": {
+      "example_index": 89,
+      "seed": 4214777726,
+      "archetype": "decorated",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#0f172a"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.81,
+          "bbox": {
+            "x": 31,
+            "y": 20,
+            "width": 1337,
+            "height": 293
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.97,
+          "bbox": {
+            "x": 169,
+            "y": 169,
+            "width": 359,
+            "height": 327
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Hello world",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.82,
+          "bbox": {
+            "x": 310,
+            "y": 238,
+            "width": 167,
+            "height": 40
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "night_sky",
+          "from": "det_1",
+          "params": {
+            "density": 0.43,
+            "size_range": [
+              1,
+              5
+            ],
+            "cluster_bias": 0.31,
+            "seed": 1665624484
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2"
+        },
+        {
+          "op": "text",
+          "from": "det_3",
+          "params": {
+            "text": "Hello world"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 13,
+    "metadata": {
+      "example_index": 17,
+      "seed": 4226699167,
+      "archetype": "diagram",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 3,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#10b981",
+            "#f59e0b",
+            "#e63946"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.86,
+          "bbox": {
+            "x": 353,
+            "y": 177,
+            "width": 808,
+            "height": 306
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#10b981"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 677,
+            "y": 177,
+            "width": 467,
+            "height": 8
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.91,
+          "bbox": {
+            "x": 775,
+            "y": 442,
+            "width": 413,
+            "height": 412
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Our faatures",
+          "colors": [
+            "#ec4899"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.89,
+          "bbox": {
+            "x": 827,
+            "y": 228,
+            "width": 155,
+            "height": 28
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.89,
+          "bbox": {
+            "x": 544,
+            "y": 466,
+            "width": 395,
+            "height": 145
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.68,
+          "bbox": {
+            "x": 461,
+            "y": 669,
+            "width": 614,
+            "height": 17
+          }
+        },
+        {
+          "id": "det_7",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2563eb",
+            "#10b981"
+          ],
+          "gradient_direction": "diagonal",
+          "confidence": 0.6,
+          "bbox": {
+            "x": 866,
+            "y": 602,
+            "width": 403,
+            "height": 217
+          }
+        },
+        {
+          "id": "det_8",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.77,
+          "bbox": {
+            "x": 831,
+            "y": 522,
+            "width": 348,
+            "height": 22
+          }
+        },
+        {
+          "id": "det_9",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.79,
+          "bbox": {
+            "x": 521,
+            "y": 434,
+            "width": 535,
+            "height": 13
+          }
+        },
+        {
+          "id": "det_10",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#e63946"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.85,
+          "bbox": {
+            "x": 1080,
+            "y": 163,
+            "width": 76,
+            "height": 106
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "aurora_gradient",
+          "from": "det_1",
+          "params": {
+            "palette": [
+              "#10b981",
+              "#f59e0b",
+              "#e63946"
+            ],
+            "blob_count": 6,
+            "blur_radius": 54,
+            "seed": 1333228154
+          }
+        },
+        {
+          "op": "arrow",
+          "from": "det_2",
+          "params": {
+            "fill": "#10b981"
+          },
+          "snap": "straighten_h"
+        },
+        {
+          "op": "ellipse",
+          "from": "det_3",
+          "snap": "square"
+        },
+        {
+          "op": "text",
+          "from": "det_4",
+          "params": {
+            "fill": "#ec4899",
+            "text": "Our faatures"
+          }
+        },
+        {
+          "op": "ellipse",
+          "from": "det_5"
+        },
+        {
+          "op": "line",
+          "from": "det_6",
+          "snap": "straighten_h"
+        },
+        {
+          "op": "rect",
+          "from": "det_7",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#2563eb",
+                "#10b981"
+              ],
+              "direction": "diagonal"
+            }
+          }
+        },
+        {
+          "op": "arrow",
+          "from": "det_8",
+          "snap": "straighten_h"
+        },
+        {
+          "op": "arrow",
+          "from": "det_9",
+          "snap": "straighten_h"
+        },
+        {
+          "op": "sparkles",
+          "from": "det_10",
+          "params": {
+            "count": 13,
+            "size_range": [
+              4,
+              13
+            ],
+            "seed": 958430826
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 188,
+    "metadata": {
+      "example_index": 232,
+      "seed": 834115133,
+      "archetype": "diagram",
+      "wait_planned": true,
+      "wait_count": 2,
+      "color_param_commands": 3,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#843ff6"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.93,
+          "bbox": {
+            "x": 582,
+            "y": 450,
+            "width": 343,
+            "height": 184
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Ship faster",
+          "colors": [
+            "#2563eb"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 581,
+            "y": 233,
+            "width": 210,
+            "height": 45
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.44,
+          "bbox": {
+            "x": 900,
+            "y": 198,
+            "width": 294,
+            "height": 294
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.13,
+          "bbox": {
+            "x": 356,
+            "y": 250,
+            "width": 540,
+            "height": 36
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 143,
+            "y": 515,
+            "width": 422,
+            "height": 234
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.84,
+          "bbox": {
+            "x": 118,
+            "y": 465,
+            "width": 457,
+            "height": 279
+          }
+        },
+        {
+          "id": "det_7",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#10b981"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 943,
+            "y": 316,
+            "width": 12,
+            "height": 481
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "rect",
+          "from": "det_1",
+          "params": {
+            "fill": "#843ff6"
+          }
+        },
+        {
+          "op": "text",
+          "from": "det_2",
+          "params": {
+            "fill": "#2563eb",
+            "text": "Ship faster"
+          }
+        },
+        {
+          "op": "wait",
+          "from": "det_3",
+          "reason": "ambiguous"
+        },
+        {
+          "op": "wait",
+          "from": "det_4",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "rect",
+          "from": "det_5"
+        },
+        {
+          "op": "line",
+          "from": "det_6"
+        },
+        {
+          "op": "arrow",
+          "from": "det_7",
+          "params": {
+            "fill": "#10b981"
+          },
+          "snap": "straighten_v"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 300,
+    "metadata": {
+      "example_index": 374,
+      "seed": 3087322718,
+      "archetype": "decorated",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 1,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#7c3aed",
+            "#10b981"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 1006,
+            "y": 297,
+            "width": 367,
+            "height": 353
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#7c3aed"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.85,
+          "bbox": {
+            "x": 686,
+            "y": 233,
+            "width": 86,
+            "height": 104
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Wh MoBi",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.81,
+          "bbox": {
+            "x": 530,
+            "y": 257,
+            "width": 161,
+            "height": 37
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "smooth_path",
+          "from": "det_1",
+          "params": {
+            "fill": "#7c3aed"
+          }
+        },
+        {
+          "op": "sparkles",
+          "from": "det_2",
+          "params": {
+            "count": 11,
+            "size_range": [
+              4,
+              8
+            ],
+            "seed": 1747861676
+          }
+        },
+        {
+          "op": "text",
+          "from": "det_3",
+          "params": {
+            "text": "Wh MoBi"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 184,
+    "metadata": {
+      "example_index": 227,
+      "seed": 987983467,
+      "archetype": "diagram",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.71,
+          "bbox": {
+            "x": 554,
+            "y": 444,
+            "width": 354,
+            "height": 348
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.68,
+          "bbox": {
+            "x": 321,
+            "y": 460,
+            "width": 352,
+            "height": 357
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.81,
+          "bbox": {
+            "x": 219,
+            "y": 170,
+            "width": 318,
+            "height": 119
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Draw it, get it",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.83,
+          "bbox": {
+            "x": 911,
+            "y": 147,
+            "width": 288,
+            "height": 27
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.87,
+          "bbox": {
+            "x": 270,
+            "y": 233,
+            "width": 620,
+            "height": 25
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.95,
+          "bbox": {
+            "x": 142,
+            "y": 479,
+            "width": 482,
+            "height": 8
+          }
+        },
+        {
+          "id": "det_7",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.53,
+          "bbox": {
+            "x": 602,
+            "y": 483,
+            "width": 395,
+            "height": 187
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "ellipse",
+          "from": "det_1",
+          "snap": "square"
+        },
+        {
+          "op": "ellipse",
+          "from": "det_2",
+          "snap": "square"
+        },
+        {
+          "op": "rect",
+          "from": "det_3"
+        },
+        {
+          "op": "text",
+          "from": "det_4",
+          "params": {
+            "text": "Draw it, get it"
+          }
+        },
+        {
+          "op": "line",
+          "from": "det_5",
+          "snap": "straighten_h"
+        },
+        {
+          "op": "line",
+          "from": "det_6",
+          "snap": "straighten_h"
+        },
+        {
+          "op": "line",
+          "from": "det_7"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 95,
+    "metadata": {
+      "example_index": 120,
+      "seed": 1174611357,
+      "archetype": "landing",
+      "wait_planned": true,
+      "wait_count": 3,
+      "color_param_commands": 1,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.09,
+          "bbox": {
+            "x": 135,
+            "y": 496,
+            "width": 1088,
+            "height": 78
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.19,
+          "bbox": {
+            "x": 809,
+            "y": 372,
+            "width": 369,
+            "height": 355
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Hello world",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.54,
+          "bbox": {
+            "x": 474,
+            "y": 239,
+            "width": 191,
+            "height": 32
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Learn more",
+          "colors": [
+            "#10b981"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 590,
+            "y": 397,
+            "width": 264,
+            "height": 66
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2563eb",
+            "#7c3aed",
+            "#ec4899"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.96,
+          "bbox": {
+            "x": 615,
+            "y": 186,
+            "width": 715,
+            "height": 300
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.48,
+          "bbox": {
+            "x": 773,
+            "y": 424,
+            "width": 364,
+            "height": 353
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "wait",
+          "from": "det_1",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_2",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "text",
+          "from": "det_3",
+          "params": {
+            "text": "Hello world"
+          }
+        },
+        {
+          "op": "button",
+          "from": "det_4",
+          "params": {
+            "fill": "#10b981",
+            "label": "Learn more"
+          },
+          "snap": "center_in_region"
+        },
+        {
+          "op": "aurora_gradient",
+          "from": "det_5",
+          "params": {
+            "palette": [
+              "#2563eb",
+              "#7c3aed",
+              "#ec4899"
+            ],
+            "blob_count": 4,
+            "blur_radius": 44,
+            "seed": 471735353
+          }
+        },
+        {
+          "op": "wait",
+          "from": "det_6",
+          "reason": "ambiguous"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 194,
+    "metadata": {
+      "example_index": 241,
+      "seed": 111801241,
+      "archetype": "wireframe",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": "f",
+          "text": "Contact",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.65,
+          "bbox": {
+            "x": 313,
+            "y": 255,
+            "width": 411,
+            "height": 400
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "rect",
+          "glyph": "?",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.75,
+          "bbox": {
+            "x": 1106,
+            "y": 520,
+            "width": 299,
+            "height": 163
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.95,
+          "bbox": {
+            "x": 446,
+            "y": 256,
+            "width": 264,
+            "height": 154
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.85,
+          "bbox": {
+            "x": 32,
+            "y": 839,
+            "width": 1327,
+            "height": 61
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 520,
+            "y": 148,
+            "width": 357,
+            "height": 148
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "rect",
+          "glyph": "i",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.64,
+          "bbox": {
+            "x": 904,
+            "y": 405,
+            "width": 345,
+            "height": 207
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "form",
+          "from": "det_1",
+          "params": {
+            "label": "Contact"
+          }
+        },
+        {
+          "op": "placeholder",
+          "from": "det_2"
+        },
+        {
+          "op": "rect",
+          "from": "det_3"
+        },
+        {
+          "op": "rect",
+          "from": "det_4",
+          "snap": "full_width_bottom"
+        },
+        {
+          "op": "rect",
+          "from": "det_5"
+        },
+        {
+          "op": "image",
+          "from": "det_6"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 152,
+    "metadata": {
+      "example_index": 188,
+      "seed": 1282293699,
+      "archetype": "freeform",
+      "wait_planned": true,
+      "wait_count": 2,
+      "color_param_commands": 2,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#13bd7b",
+            "#2a9d8f"
+          ],
+          "gradient_direction": "diagonal",
+          "confidence": 0.22,
+          "bbox": {
+            "x": 425,
+            "y": 167,
+            "width": 234,
+            "height": 187
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.5,
+          "bbox": {
+            "x": 166,
+            "y": 345,
+            "width": 329,
+            "height": 339
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2a9d8f",
+            "#f59e0b"
+          ],
+          "gradient_direction": "diagonal",
+          "confidence": 0.37,
+          "bbox": {
+            "x": 228,
+            "y": 441,
+            "width": 239,
+            "height": 299
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2563eb",
+            "#10b981"
+          ],
+          "gradient_direction": "diagonal",
+          "confidence": 0.66,
+          "bbox": {
+            "x": 552,
+            "y": 144,
+            "width": 217,
+            "height": 336
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "wait",
+          "from": "det_1",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_2",
+          "reason": "ambiguous"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_3",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#2a9d8f",
+                "#f59e0b"
+              ],
+              "direction": "diagonal"
+            }
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_4",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#2563eb",
+                "#10b981"
+              ],
+              "direction": "diagonal"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 299,
+    "metadata": {
+      "example_index": 373,
+      "seed": 1605908482,
+      "archetype": "freeform",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 2,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Our features",
+          "colors": [
+            "#8541ec"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 693,
+            "y": 684,
+            "width": 203,
+            "height": 56
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 158,
+            "y": 412,
+            "width": 348,
+            "height": 232
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2563eb"
+          ],
+          "gradient_direction": "down",
+          "confidence": 0.95,
+          "bbox": {
+            "x": 392,
+            "y": 280,
+            "width": 165,
+            "height": 309
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.52,
+          "bbox": {
+            "x": 923,
+            "y": 133,
+            "width": 229,
+            "height": 356
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.42,
+          "bbox": {
+            "x": 852,
+            "y": 143,
+            "width": 291,
+            "height": 175
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "text",
+          "from": "det_1",
+          "params": {
+            "fill": "#8541ec",
+            "text": "Our features"
+          }
+        },
+        {
+          "op": "ellipse",
+          "from": "det_2"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_3",
+          "params": {
+            "fill": "#2563eb"
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_4"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_5"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 40,
+    "metadata": {
+      "example_index": 50,
+      "seed": 928726904,
+      "archetype": "landing",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 2,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.38,
+          "bbox": {
+            "x": 69,
+            "y": 820,
+            "width": 1295,
+            "height": 68
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "How it works",
+          "colors": [
+            "#2a9d8f"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.57,
+          "bbox": {
+            "x": 605,
+            "y": 222,
+            "width": 159,
+            "height": 40
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2a9d8f"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.82,
+          "bbox": {
+            "x": 807,
+            "y": 208,
+            "width": 110,
+            "height": 76
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": "n",
+          "text": "baio",
+          "colors": [
+            "#ec4899"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.7,
+          "bbox": {
+            "x": 136,
+            "y": 18,
+            "width": 1225,
+            "height": 75
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.53,
+          "bbox": {
+            "x": 225,
+            "y": 505,
+            "width": 1193,
+            "height": 147
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Try it free",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 242,
+            "y": 391,
+            "width": 204,
+            "height": 72
+          }
+        },
+        {
+          "id": "det_7",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#f59e0b",
+            "#2563eb",
+            "#ec4899"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 207,
+            "y": 206,
+            "width": 708,
+            "height": 234
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "rect",
+          "from": "det_1",
+          "snap": "full_width_bottom"
+        },
+        {
+          "op": "text",
+          "from": "det_2",
+          "params": {
+            "fill": "#2a9d8f",
+            "text": "How it works"
+          }
+        },
+        {
+          "op": "sparkles",
+          "from": "det_3",
+          "params": {
+            "count": 5,
+            "size_range": [
+              4,
+              15
+            ],
+            "seed": 1318981030
+          }
+        },
+        {
+          "op": "navbar",
+          "from": "det_4",
+          "params": {
+            "fill": "#ec4899",
+            "label": "baio"
+          },
+          "snap": "full_width_top"
+        },
+        {
+          "op": "wave_divider",
+          "from": "det_5",
+          "params": {
+            "amplitude": 32,
+            "layers": 1,
+            "flip": true,
+            "seed": 160377123
+          },
+          "snap": "full_width"
+        },
+        {
+          "op": "button",
+          "from": "det_6",
+          "params": {
+            "label": "Try it free"
+          }
+        },
+        {
+          "op": "aurora_gradient",
+          "from": "det_7",
+          "params": {
+            "palette": [
+              "#f59e0b",
+              "#2563eb",
+              "#ec4899"
+            ],
+            "blob_count": 3,
+            "blur_radius": 119,
+            "seed": 2004034748
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 166,
+    "metadata": {
+      "example_index": 206,
+      "seed": 2957288485,
+      "archetype": "wireframe",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 2,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.53,
+          "bbox": {
+            "x": 880,
+            "y": 393,
+            "width": 268,
+            "height": 141
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 149,
+            "y": 573,
+            "width": 236,
+            "height": 110
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": "i",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.92,
+          "bbox": {
+            "x": 755,
+            "y": 147,
+            "width": 379,
+            "height": 220
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": "?",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.56,
+          "bbox": {
+            "x": 1067,
+            "y": 258,
+            "width": 238,
+            "height": 243
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Send",
+          "colors": [
+            "#ec4899"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.72,
+          "bbox": {
+            "x": 256,
+            "y": 479,
+            "width": 197,
+            "height": 37
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "rect",
+          "glyph": "v",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.95,
+          "bbox": {
+            "x": 534,
+            "y": 514,
+            "width": 362,
+            "height": 200
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "rect",
+          "from": "det_1",
+          "params": {
+            "fill": "#f59e0b"
+          }
+        },
+        {
+          "op": "rect",
+          "from": "det_2"
+        },
+        {
+          "op": "image",
+          "from": "det_3"
+        },
+        {
+          "op": "placeholder",
+          "from": "det_4"
+        },
+        {
+          "op": "button",
+          "from": "det_5",
+          "params": {
+            "fill": "#ec4899",
+            "label": "Send"
+          }
+        },
+        {
+          "op": "video",
+          "from": "det_6",
+          "snap": "center_in_region"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 245,
+    "metadata": {
+      "example_index": 304,
+      "seed": 1595122668,
+      "archetype": "decorated",
+      "wait_planned": true,
+      "wait_count": 2,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#e63946"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.27,
+          "bbox": {
+            "x": 789,
+            "y": 232,
+            "width": 147,
+            "height": 88
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#10b981",
+            "#2a9d8f",
+            "#e63946"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.94,
+          "bbox": {
+            "x": 356,
+            "y": 320,
+            "width": 849,
+            "height": 210
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.84,
+          "bbox": {
+            "x": 177,
+            "y": 360,
+            "width": 1165,
+            "height": 87
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.68,
+          "bbox": {
+            "x": 849,
+            "y": 255,
+            "width": 374,
+            "height": 164
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Welcome",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.92,
+          "bbox": {
+            "x": 566,
+            "y": 252,
+            "width": 138,
+            "height": 63
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.46,
+          "bbox": {
+            "x": 171,
+            "y": 556,
+            "width": 346,
+            "height": 262
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "wait",
+          "from": "det_1",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "aurora_gradient",
+          "from": "det_2",
+          "params": {
+            "palette": [
+              "#10b981",
+              "#2a9d8f",
+              "#e63946"
+            ],
+            "blob_count": 4,
+            "blur_radius": 70,
+            "seed": 1375304286
+          }
+        },
+        {
+          "op": "wave_divider",
+          "from": "det_3",
+          "params": {
+            "amplitude": 48,
+            "layers": 1,
+            "flip": true,
+            "seed": 2140225951
+          },
+          "snap": "full_width"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_4"
+        },
+        {
+          "op": "text",
+          "from": "det_5",
+          "params": {
+            "text": "Welcome"
+          }
+        },
+        {
+          "op": "wait",
+          "from": "det_6",
+          "reason": "ambiguous"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 142,
+    "metadata": {
+      "example_index": 175,
+      "seed": 54859637,
+      "archetype": "landing",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.94,
+          "bbox": {
+            "x": 79,
+            "y": 478,
+            "width": 1270,
+            "height": 74
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Get started",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.89,
+          "bbox": {
+            "x": 639,
+            "y": 363,
+            "width": 179,
+            "height": 65
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Our features",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.7,
+          "bbox": {
+            "x": 488,
+            "y": 255,
+            "width": 177,
+            "height": 58
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": "n",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.84,
+          "bbox": {
+            "x": 123,
+            "y": 8,
+            "width": 1309,
+            "height": 65
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 700,
+            "y": 224,
+            "width": 116,
+            "height": 68
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "wave_divider",
+          "from": "det_1",
+          "params": {
+            "amplitude": 28,
+            "layers": 2,
+            "flip": true,
+            "seed": 408568565
+          },
+          "snap": "full_width"
+        },
+        {
+          "op": "button",
+          "from": "det_2",
+          "params": {
+            "label": "Get started"
+          },
+          "snap": "center_in_region"
+        },
+        {
+          "op": "text",
+          "from": "det_3",
+          "params": {
+            "text": "Our features"
+          }
+        },
+        {
+          "op": "navbar",
+          "from": "det_4",
+          "snap": "full_width_top"
+        },
+        {
+          "op": "sparkles",
+          "from": "det_5",
+          "params": {
+            "count": 10,
+            "size_range": [
+              4,
+              12
+            ],
+            "seed": 1136811712
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 229,
+    "metadata": {
+      "example_index": 284,
+      "seed": 3149157158,
+      "archetype": "decorated",
+      "wait_planned": true,
+      "wait_count": 1,
+      "color_param_commands": 3,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.45,
+          "bbox": {
+            "x": 840,
+            "y": 185,
+            "width": 85,
+            "height": 63
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2a9d8f"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.68,
+          "bbox": {
+            "x": 984,
+            "y": 554,
+            "width": 185,
+            "height": 188
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.97,
+          "bbox": {
+            "x": 34,
+            "y": 499,
+            "width": 1242,
+            "height": 136
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "I love baio",
+          "colors": [
+            "#faa503"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 558,
+            "y": 256,
+            "width": 208,
+            "height": 41
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.27,
+          "bbox": {
+            "x": 240,
+            "y": 211,
+            "width": 312,
+            "height": 336
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Try it free",
+          "colors": [
+            "#10b981"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.76,
+          "bbox": {
+            "x": 819,
+            "y": 142,
+            "width": 239,
+            "height": 70
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "sparkles",
+          "from": "det_1",
+          "params": {
+            "count": 8,
+            "size_range": [
+              4,
+              15
+            ],
+            "seed": 1000063501
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2",
+          "params": {
+            "fill": "#2a9d8f"
+          }
+        },
+        {
+          "op": "wave_divider",
+          "from": "det_3",
+          "params": {
+            "amplitude": 45,
+            "layers": 1,
+            "flip": false,
+            "seed": 1485784666
+          },
+          "snap": "full_width"
+        },
+        {
+          "op": "text",
+          "from": "det_4",
+          "params": {
+            "fill": "#faa503",
+            "text": "I love baio"
+          }
+        },
+        {
+          "op": "wait",
+          "from": "det_5",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "button",
+          "from": "det_6",
+          "params": {
+            "fill": "#10b981",
+            "label": "Try it free"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 71,
+    "metadata": {
+      "example_index": 92,
+      "seed": 3204979130,
+      "archetype": "diagram",
+      "wait_planned": true,
+      "wait_count": 2,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.94,
+          "bbox": {
+            "x": 860,
+            "y": 466,
+            "width": 289,
+            "height": 139
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 555,
+            "y": 502,
+            "width": 340,
+            "height": 177
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.7,
+          "bbox": {
+            "x": 372,
+            "y": 616,
+            "width": 216,
+            "height": 99
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#111111"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.14,
+          "bbox": {
+            "x": 251,
+            "y": 399,
+            "width": 338,
+            "height": 343
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#111111"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.1,
+          "bbox": {
+            "x": 405,
+            "y": 187,
+            "width": 327,
+            "height": 280
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.68,
+          "bbox": {
+            "x": 676,
+            "y": 607,
+            "width": 511,
+            "height": 25
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "rect",
+          "from": "det_1"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2"
+        },
+        {
+          "op": "ellipse",
+          "from": "det_3"
+        },
+        {
+          "op": "wait",
+          "from": "det_4",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_5",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "arrow",
+          "from": "det_6",
+          "snap": "straighten_h"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 222,
+    "metadata": {
+      "example_index": 276,
+      "seed": 4239915648,
+      "archetype": "wireframe",
+      "wait_planned": true,
+      "wait_count": 2,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": "n",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.83,
+          "bbox": {
+            "x": 171,
+            "y": 159,
+            "width": 312,
+            "height": 137
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.14,
+          "bbox": {
+            "x": 382,
+            "y": 336,
+            "width": 363,
+            "height": 331
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.95,
+          "bbox": {
+            "x": 70,
+            "y": 829,
+            "width": 1209,
+            "height": 64
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": "1",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.97,
+          "bbox": {
+            "x": 596,
+            "y": 206,
+            "width": 262,
+            "height": 155
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.91,
+          "bbox": {
+            "x": 629,
+            "y": 462,
+            "width": 317,
+            "height": 132
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#111111"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.24,
+          "bbox": {
+            "x": 576,
+            "y": 533,
+            "width": 353,
+            "height": 314
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "navbar",
+          "from": "det_1",
+          "snap": "full_width_top"
+        },
+        {
+          "op": "wait",
+          "from": "det_2",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "rect",
+          "from": "det_3",
+          "snap": "full_width_bottom"
+        },
+        {
+          "op": "placeholder",
+          "from": "det_4",
+          "snap": "center_in_region"
+        },
+        {
+          "op": "rect",
+          "from": "det_5"
+        },
+        {
+          "op": "wait",
+          "from": "det_6",
+          "reason": "low_confidence"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 159,
+    "metadata": {
+      "example_index": 196,
+      "seed": 1393953554,
+      "archetype": "wireframe",
+      "wait_planned": true,
+      "wait_count": 3,
+      "color_param_commands": 3,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": "?",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.94,
+          "bbox": {
+            "x": 594,
+            "y": 308,
+            "width": 275,
+            "height": 192
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "How it works",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.1,
+          "bbox": {
+            "x": 439,
+            "y": 591,
+            "width": 191,
+            "height": 47
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.08,
+          "bbox": {
+            "x": 760,
+            "y": 283,
+            "width": 352,
+            "height": 362
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.12,
+          "bbox": {
+            "x": 806,
+            "y": 438,
+            "width": 349,
+            "height": 349
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "rect",
+          "glyph": "i",
+          "text": null,
+          "colors": [
+            "#e63946",
+            "#10b981"
+          ],
+          "gradient_direction": "down",
+          "confidence": 0.89,
+          "bbox": {
+            "x": 251,
+            "y": 296,
+            "width": 280,
+            "height": 172
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "rect",
+          "glyph": "v",
+          "text": null,
+          "colors": [
+            "#7c3aed"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 237,
+            "y": 272,
+            "width": 404,
+            "height": 225
+          }
+        },
+        {
+          "id": "det_7",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#e63946"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.62,
+          "bbox": {
+            "x": 454,
+            "y": 313,
+            "width": 375,
+            "height": 218
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "placeholder",
+          "from": "det_1",
+          "snap": "center_in_region"
+        },
+        {
+          "op": "wait",
+          "from": "det_2",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_3",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_4",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "image",
+          "from": "det_5",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#e63946",
+                "#10b981"
+              ],
+              "direction": "down"
+            }
+          }
+        },
+        {
+          "op": "video",
+          "from": "det_6",
+          "params": {
+            "fill": "#7c3aed"
+          }
+        },
+        {
+          "op": "rect",
+          "from": "det_7",
+          "params": {
+            "fill": "#e63946"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 85,
+    "metadata": {
+      "example_index": 109,
+      "seed": 258905632,
+      "archetype": "decorated",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#7c3aed"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.61,
+          "bbox": {
+            "x": 594,
+            "y": 105,
+            "width": 112,
+            "height": 92
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.75,
+          "bbox": {
+            "x": 791,
+            "y": 203,
+            "width": 357,
+            "height": 282
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "hsip faster",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.57,
+          "bbox": {
+            "x": 306,
+            "y": 148,
+            "width": 224,
+            "height": 41
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#10b981"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.63,
+          "bbox": {
+            "x": 266,
+            "y": 638,
+            "width": 1120,
+            "height": 118
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "sparkles",
+          "from": "det_1",
+          "params": {
+            "count": 5,
+            "size_range": [
+              4,
+              12
+            ],
+            "seed": 898316046
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2"
+        },
+        {
+          "op": "text",
+          "from": "det_3",
+          "params": {
+            "text": "hsip faster"
+          }
+        },
+        {
+          "op": "wave_divider",
+          "from": "det_4",
+          "params": {
+            "amplitude": 39,
+            "layers": 3,
+            "flip": true,
+            "seed": 548212114
+          },
+          "snap": "full_width"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 52,
+    "metadata": {
+      "example_index": 67,
+      "seed": 3988909119,
+      "archetype": "diagram",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 2,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.75,
+          "bbox": {
+            "x": 170,
+            "y": 368,
+            "width": 395,
+            "height": 369
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.94,
+          "bbox": {
+            "x": 270,
+            "y": 512,
+            "width": 466,
+            "height": 284
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#ec4899"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.89,
+          "bbox": {
+            "x": 765,
+            "y": 454,
+            "width": 410,
+            "height": 8
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2563eb",
+            "#7c3aed"
+          ],
+          "gradient_direction": "diagonal",
+          "confidence": 0.72,
+          "bbox": {
+            "x": 678,
+            "y": 371,
+            "width": 385,
+            "height": 232
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.9,
+          "bbox": {
+            "x": 404,
+            "y": 596,
+            "width": 613,
+            "height": 8
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "ellipse",
+          "from": "det_1",
+          "snap": "square"
+        },
+        {
+          "op": "arrow",
+          "from": "det_2"
+        },
+        {
+          "op": "arrow",
+          "from": "det_3",
+          "params": {
+            "fill": "#ec4899"
+          },
+          "snap": "straighten_h"
+        },
+        {
+          "op": "ellipse",
+          "from": "det_4",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#2563eb",
+                "#7c3aed"
+              ],
+              "direction": "diagonal"
+            }
+          }
+        },
+        {
+          "op": "line",
+          "from": "det_5",
+          "snap": "straighten_h"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 284,
+    "metadata": {
+      "example_index": 352,
+      "seed": 4182813355,
+      "archetype": "diagram",
+      "wait_planned": true,
+      "wait_count": 2,
+      "color_param_commands": 1,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.71,
+          "bbox": {
+            "x": 525,
+            "y": 573,
+            "width": 396,
+            "height": 168
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.29,
+          "bbox": {
+            "x": 532,
+            "y": 191,
+            "width": 281,
+            "height": 294
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.37,
+          "bbox": {
+            "x": 517,
+            "y": 486,
+            "width": 351,
+            "height": 261
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.96,
+          "bbox": {
+            "x": 231,
+            "y": 412,
+            "width": 499,
+            "height": 20
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.75,
+          "bbox": {
+            "x": 121,
+            "y": 554,
+            "width": 453,
+            "height": 227
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "ellipse",
+          "from": "det_1"
+        },
+        {
+          "op": "wait",
+          "from": "det_2",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "wait",
+          "from": "det_3",
+          "reason": "ambiguous"
+        },
+        {
+          "op": "arrow",
+          "from": "det_4",
+          "params": {
+            "fill": "#f59e0b"
+          },
+          "snap": "straighten_h"
+        },
+        {
+          "op": "rect",
+          "from": "det_5"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 173,
+    "metadata": {
+      "example_index": 214,
+      "seed": 2856474896,
+      "archetype": "decorated",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 2,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#ec4899",
+            "#10b981"
+          ],
+          "gradient_direction": "right",
+          "confidence": 0.91,
+          "bbox": {
+            "x": 559,
+            "y": 335,
+            "width": 381,
+            "height": 332
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "How it works",
+          "colors": [
+            "#2563eb"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.76,
+          "bbox": {
+            "x": 562,
+            "y": 261,
+            "width": 180,
+            "height": 52
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "smooth_path",
+          "from": "det_1",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#ec4899",
+                "#10b981"
+              ],
+              "direction": "right"
+            }
+          }
+        },
+        {
+          "op": "text",
+          "from": "det_2",
+          "params": {
+            "fill": "#2563eb",
+            "text": "How it works"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 228,
+    "metadata": {
+      "example_index": 282,
+      "seed": 614966824,
+      "archetype": "diagram",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 0,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 483,
+            "y": 158,
+            "width": 308,
+            "height": 140
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "line",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.7,
+          "bbox": {
+            "x": 800,
+            "y": 269,
+            "width": 31,
+            "height": 301
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.71,
+          "bbox": {
+            "x": 641,
+            "y": 304,
+            "width": 394,
+            "height": 386
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "rect",
+          "from": "det_1"
+        },
+        {
+          "op": "line",
+          "from": "det_2",
+          "snap": "straighten_v"
+        },
+        {
+          "op": "ellipse",
+          "from": "det_3",
+          "snap": "square"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 16,
+    "metadata": {
+      "example_index": 20,
+      "seed": 177302275,
+      "archetype": "landing",
+      "wait_planned": true,
+      "wait_count": 3,
+      "color_param_commands": 1,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.59,
+          "bbox": {
+            "x": 252,
+            "y": 476,
+            "width": 1138,
+            "height": 156
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Learn more",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.85,
+          "bbox": {
+            "x": 616,
+            "y": 334,
+            "width": 205,
+            "height": 67
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.91,
+          "bbox": {
+            "x": 80,
+            "y": 814,
+            "width": 1288,
+            "height": 69
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.75,
+          "bbox": {
+            "x": 358,
+            "y": 496,
+            "width": 1077,
+            "height": 107
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.42,
+          "bbox": {
+            "x": 720,
+            "y": 305,
+            "width": 363,
+            "height": 263
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "arrow",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.94,
+          "bbox": {
+            "x": 749,
+            "y": 219,
+            "width": 12,
+            "height": 465
+          }
+        },
+        {
+          "id": "det_7",
+          "kind": "rect",
+          "glyph": "i",
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.73,
+          "bbox": {
+            "x": 115,
+            "y": 312,
+            "width": 413,
+            "height": 226
+          }
+        },
+        {
+          "id": "det_8",
+          "kind": "rect",
+          "glyph": "n",
+          "text": null,
+          "colors": [
+            "#f03b4d"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 30,
+            "y": 10,
+            "width": 1324,
+            "height": 69
+          }
+        },
+        {
+          "id": "det_9",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Ship faster",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.2,
+          "bbox": {
+            "x": 562,
+            "y": 212,
+            "width": 168,
+            "height": 41
+          }
+        },
+        {
+          "id": "det_10",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.56,
+          "bbox": {
+            "x": 797,
+            "y": 198,
+            "width": 109,
+            "height": 92
+          }
+        },
+        {
+          "id": "det_11",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#1a1a2e"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.8,
+          "bbox": {
+            "x": 120,
+            "y": 0,
+            "width": 1187,
+            "height": 329
+          }
+        },
+        {
+          "id": "det_12",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#111111"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.46,
+          "bbox": {
+            "x": 697,
+            "y": 460,
+            "width": 309,
+            "height": 327
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "wave_divider",
+          "from": "det_1",
+          "params": {
+            "amplitude": 12,
+            "layers": 2,
+            "flip": false,
+            "seed": 546534727
+          },
+          "snap": "full_width"
+        },
+        {
+          "op": "button",
+          "from": "det_2",
+          "params": {
+            "label": "Learn more"
+          },
+          "snap": "center_in_region"
+        },
+        {
+          "op": "rect",
+          "from": "det_3",
+          "snap": "full_width_bottom"
+        },
+        {
+          "op": "wave_divider",
+          "from": "det_4",
+          "params": {
+            "amplitude": 27,
+            "layers": 2,
+            "flip": true,
+            "seed": 1111822166
+          },
+          "snap": "full_width"
+        },
+        {
+          "op": "wait",
+          "from": "det_5",
+          "reason": "ambiguous"
+        },
+        {
+          "op": "arrow",
+          "from": "det_6",
+          "snap": "straighten_v"
+        },
+        {
+          "op": "image",
+          "from": "det_7"
+        },
+        {
+          "op": "navbar",
+          "from": "det_8",
+          "params": {
+            "fill": "#f03b4d"
+          },
+          "snap": "full_width_top"
+        },
+        {
+          "op": "wait",
+          "from": "det_9",
+          "reason": "low_confidence"
+        },
+        {
+          "op": "sparkles",
+          "from": "det_10",
+          "params": {
+            "count": 13,
+            "size_range": [
+              4,
+              9
+            ],
+            "seed": 1806538512
+          }
+        },
+        {
+          "op": "night_sky",
+          "from": "det_11",
+          "params": {
+            "density": 0.58,
+            "size_range": [
+              1,
+              3
+            ],
+            "cluster_bias": 0.36,
+            "seed": 817911041
+          }
+        },
+        {
+          "op": "wait",
+          "from": "det_12",
+          "reason": "ambiguous"
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 103,
+    "metadata": {
+      "example_index": 128,
+      "seed": 2560210255,
+      "archetype": "freeform",
+      "wait_planned": true,
+      "wait_count": 1,
+      "color_param_commands": 3,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.46,
+          "bbox": {
+            "x": 740,
+            "y": 607,
+            "width": 315,
+            "height": 380
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.71,
+          "bbox": {
+            "x": 155,
+            "y": 301,
+            "width": 226,
+            "height": 396
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.92,
+          "bbox": {
+            "x": 320,
+            "y": 469,
+            "width": 312,
+            "height": 228
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "ellipse",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#f59e0b"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.93,
+          "bbox": {
+            "x": 452,
+            "y": 467,
+            "width": 377,
+            "height": 225
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "I love baio",
+          "colors": [
+            "#10b981"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.74,
+          "bbox": {
+            "x": 140,
+            "y": 681,
+            "width": 203,
+            "height": 48
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "wait",
+          "from": "det_1",
+          "reason": "ambiguous"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2"
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_3",
+          "params": {
+            "fill": "#f59e0b"
+          }
+        },
+        {
+          "op": "ellipse",
+          "from": "det_4",
+          "params": {
+            "fill": "#f59e0b"
+          }
+        },
+        {
+          "op": "text",
+          "from": "det_5",
+          "params": {
+            "fill": "#10b981",
+            "text": "I love baio"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 93,
+    "metadata": {
+      "example_index": 118,
+      "seed": 2370008596,
+      "archetype": "freeform",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 2,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#10b981",
+            "#e63946"
+          ],
+          "gradient_direction": "down",
+          "confidence": 0.76,
+          "bbox": {
+            "x": 375,
+            "y": 135,
+            "width": 392,
+            "height": 185
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "smooth_path",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#2a9d8f"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.9,
+          "bbox": {
+            "x": 897,
+            "y": 295,
+            "width": 395,
+            "height": 271
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "smooth_path",
+          "from": "det_1",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#10b981",
+                "#e63946"
+              ],
+              "direction": "down"
+            }
+          }
+        },
+        {
+          "op": "smooth_path",
+          "from": "det_2",
+          "params": {
+            "fill": "#2a9d8f"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "train_index": 187,
+    "metadata": {
+      "example_index": 230,
+      "seed": 1548304149,
+      "archetype": "landing",
+      "wait_planned": false,
+      "wait_count": 0,
+      "color_param_commands": 3,
+      "noise": {
+        "bbox_jitter_px": [
+          3,
+          25
+        ],
+        "kind_confusion_rate": 0.07,
+        "glyph_misread_rate": 0.06,
+        "text_garble_rate": 0.08
+      }
+    },
+    "input": {
+      "artboard": {
+        "width": 1440,
+        "height": 900
+      },
+      "detections": [
+        {
+          "id": "det_1",
+          "kind": "rect",
+          "glyph": "b",
+          "text": "Subscribe",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.67,
+          "bbox": {
+            "x": 79,
+            "y": 417,
+            "width": 185,
+            "height": 66
+          }
+        },
+        {
+          "id": "det_2",
+          "kind": "rect",
+          "glyph": "n",
+          "text": null,
+          "colors": [
+            "#2a9d8f",
+            "#2563eb"
+          ],
+          "gradient_direction": "right",
+          "confidence": 0.94,
+          "bbox": {
+            "x": 25,
+            "y": 0,
+            "width": 1221,
+            "height": 92
+          }
+        },
+        {
+          "id": "det_3",
+          "kind": "rect",
+          "glyph": "v",
+          "text": null,
+          "colors": [
+            "#7c3aed"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.93,
+          "bbox": {
+            "x": 119,
+            "y": 608,
+            "width": 400,
+            "height": 231
+          }
+        },
+        {
+          "id": "det_4",
+          "kind": "rect",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#10b981",
+            "#2563eb"
+          ],
+          "gradient_direction": "diagonal",
+          "confidence": 0.89,
+          "bbox": {
+            "x": 108,
+            "y": 824,
+            "width": 1327,
+            "height": 73
+          }
+        },
+        {
+          "id": "det_5",
+          "kind": "text_writing",
+          "glyph": null,
+          "text": "Our features",
+          "colors": [],
+          "gradient_direction": null,
+          "confidence": 0.56,
+          "bbox": {
+            "x": 568,
+            "y": 161,
+            "width": 193,
+            "height": 55
+          }
+        },
+        {
+          "id": "det_6",
+          "kind": "scribble",
+          "glyph": null,
+          "text": null,
+          "colors": [
+            "#1a1a2e"
+          ],
+          "gradient_direction": null,
+          "confidence": 0.65,
+          "bbox": {
+            "x": 239,
+            "y": 30,
+            "width": 1051,
+            "height": 260
+          }
+        }
+      ]
+    },
+    "output": {
+      "schema_version": "shapes-1.0",
+      "components": [
+        {
+          "op": "button",
+          "from": "det_1",
+          "params": {
+            "label": "Subscribe"
+          }
+        },
+        {
+          "op": "navbar",
+          "from": "det_2",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#2a9d8f",
+                "#2563eb"
+              ],
+              "direction": "right"
+            }
+          },
+          "snap": "full_width_top"
+        },
+        {
+          "op": "video",
+          "from": "det_3",
+          "params": {
+            "fill": "#7c3aed"
+          }
+        },
+        {
+          "op": "rect",
+          "from": "det_4",
+          "params": {
+            "gradient": {
+              "colors": [
+                "#10b981",
+                "#2563eb"
+              ],
+              "direction": "diagonal"
+            }
+          },
+          "snap": "full_width_bottom"
+        },
+        {
+          "op": "text",
+          "from": "det_5",
+          "params": {
+            "text": "Our features"
+          }
+        },
+        {
+          "op": "night_sky",
+          "from": "det_6",
+          "params": {
+            "density": 0.86,
+            "size_range": [
+              1,
+              3
+            ],
+            "cluster_bias": 0.7,
+            "seed": 352369607
+          }
+        }
+      ]
+    }
+  }
+]

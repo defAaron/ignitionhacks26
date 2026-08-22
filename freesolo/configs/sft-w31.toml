@@ -1,0 +1,15 @@
+model = "Qwen/Qwen3.5-0.8B"
+algorithm = "sft"
+seed = 42
+thinking = false
+
+[environment]
+id = "ray/baio-shapes-w31"
+
+[environment.params]
+split = "train"
+
+[train]
+epochs = 2
+max_examples = 300
+lora_rank = 32

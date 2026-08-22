@@ -1,0 +1,3 @@
+[train]
+epochs = 4
+max_examples = 640
