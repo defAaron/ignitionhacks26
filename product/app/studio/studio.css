@@ -1,0 +1,1528 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Scoped to the studio via a data attribute that app/studio/page.tsx sets on
+   mount and removes on unmount. Next keeps this stylesheet loaded after a
+   client-side navigation back to the landing page, so an unscoped
+   `html, body { overflow: hidden }` would leave the landing unscrollable. */
+html[data-studio],
+html[data-studio] body {
+  width: 100%;
+  height: 100%;
+  /* Slice 2: one pan camera replaces native scroll. The viewport is fixed and
+     the world is panned by transform, so the document itself never scrolls. */
+  overflow: hidden;
+}
+
+html[data-studio] body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The fixed viewport onto the plane. The world (below) is panned/zoomed inside
+   it; nothing here scrolls. */
+.studio {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* The liminal plane reads a touch cooler than the paper page, so the page pops
+   as an object floating on it. */
+.studio[data-view='liminal'] {
+  background: var(--wash);
+}
+
+/* ---------- camera / world ---------- */
+
+/* The single transformed container. transform-origin MUST be 0 0 to match the
+   screenToWorld math (see lib/camera). Pointer-inert so liminal background drags
+   fall through to the backdrop; the page object re-enables events. */
+.world {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transform-origin: 0 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Only a mode switch eases; pans/zooms are instant (the flag is off then). */
+.world[data-flying='true'] {
+  transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Empty-plane drag target in liminal, beneath the world. */
+.liminal-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  cursor: grab;
+}
+.liminal-backdrop:active {
+  cursor: grabbing;
+}
+
+/* The page as an object on the plane. Positioned in world coords; the camera
+   scales it. Re-enables pointer events for its children. */
+.page-object {
+  position: absolute;
+  pointer-events: auto;
+}
+
+/* Liminal: the page reads as a clickable, bordered object. */
+.studio[data-view='liminal'] .page-object {
+  cursor: pointer;
+}
+
+/* ---------- plane (liminal) surface ---------- */
+
+/* The plane's own surface, anchored at the world origin so its children read
+   world coords 1:1. Sibling of (and painted beneath) the page object inside the
+   world. Zero-size: children are absolutely positioned and overflow freely. */
+.plane-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Camera-following ink wrapper (positioned + sized inline from planeInkFrame).
+   No z-index: it stays at world z-auto so the page object (later in DOM, same
+   world stacking context) paints and hit-tests ON TOP - the page stays clickable
+   in liminal and is occluded when focused. DOM order still puts the canvas above
+   the loose elements (drawn before it), while the text / preview / confirm layers
+   (explicit z-index) sit above the canvas, mirroring the focused stack. The
+   wrapper itself inherits pointer-events:none from .world; only its canvas child
+   re-enables events, so the empty wrapper never blocks the page or panning. */
+.plane-ink {
+  position: absolute;
+}
+
+/* Drop the focused canvas's z-index:10 for the plane instance: any positive
+   z would lift it above the page object (world z-auto). At z-auto it layers by
+   DOM order - above the loose elements (drawn before it), below the page object
+   and below the text / preview / confirm layers (explicit z-index). */
+.plane-ink .sketch-canvas {
+  z-index: auto;
+}
+
+/* Inset, clipped page BODY: ink and elements live here and can never spill onto
+   the chrome. */
+.page-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--paper);
+  border-radius: 12px;
+}
+
+/* Liminal border + soft lift, so the page floats above the plane. */
+.studio[data-view='liminal'] .page-clip {
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 70px oklch(0.28 0.1 330 / 0.18);
+}
+
+/* The little titlebar riding the liminal object (focused mode uses the fixed
+   chrome band instead). */
+.page-object-titlebar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -34px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  background: oklch(1 0 0 / 0.95);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  box-shadow: 0 8px 24px oklch(0.28 0.1 330 / 0.14);
+}
+
+.page-object-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ---------- focused chrome band (fixed, unscaled) ---------- */
+
+/* Height MUST equal CHROME_H in lib/camera so the page body inset lines up. */
+.page-chrome {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  background: oklch(1 0 0 / 0.92);
+  border-bottom: 1px solid var(--line);
+}
+
+.page-chrome-titlebar {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 14px;
+}
+
+.page-chrome-titlebar .traffic-light-close {
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.page-chrome-titlebar .traffic-light-close:hover {
+  filter: brightness(0.92);
+}
+
+.page-chrome-name {
+  flex: 1;
+  text-align: center;
+  margin-right: 52px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
+.page-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  height: 38px;
+  padding: 0 10px;
+}
+
+.page-tab {
+  padding: 0 14px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.page-tab:hover {
+  color: var(--ink);
+}
+
+.page-tab-on {
+  color: var(--ink);
+  border-bottom-color: var(--accent-ink);
+}
+
+/* ---------- layers ---------- */
+
+.page-layer {
+  position: absolute;
+  inset: 0;
+  /* Committed elements must not swallow pointer events while you're drawing
+     over them. The select tool flips this back on. */
+  pointer-events: none;
+}
+
+.page-layer[data-interactive='true'] {
+  pointer-events: auto;
+}
+
+/* The glaze: white lifted over the page while editing, so the ink and tools
+   read above the site rather than tangled into it. Between the page (below)
+   and the sketch canvas (above); fades with the mode switch. */
+.edit-glaze {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: oklch(1 0 0 / 0.55);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease-out);
+  pointer-events: none;
+}
+
+.studio[data-mode='edit'] .edit-glaze {
+  opacity: 1;
+}
+
+/* The ghost sits above the sketch, which recedes beneath it - otherwise the
+   raw ink and a typed label render on top of the element they produced, so
+   you see the same word twice. */
+.preview-layer {
+  z-index: 15;
+}
+
+.studio[data-phase='preview'] .sketch-canvas,
+.studio[data-phase='preview'] .text-layer {
+  opacity: 0.16;
+}
+
+.sketch-canvas,
+.text-layer {
+  transition: opacity var(--dur) var(--ease-out);
+}
+
+.sketch-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  z-index: 10;
+  /* pointer-events is inherited and .world sets it to none; the focused canvas
+     re-enables via .page-object, but the plane canvas has no such ancestor, so
+     make it explicit here. data-tool='select' / data-hidden below turn it off. */
+  pointer-events: auto;
+}
+
+.sketch-canvas[data-tool='pen'] {
+  cursor: crosshair;
+}
+.sketch-canvas[data-tool='text'] {
+  cursor: text;
+}
+/* The eraser wears its own footprint: a 16px-radius ring, hotspot centred. */
+.sketch-canvas[data-tool='eraser'] {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='rgba(255,255,255,0.5)' stroke='rgba(66,16,64,0.7)' stroke-width='1.5'/%3E%3C/svg%3E")
+      16 16,
+    crosshair;
+}
+/* Select mode hands input to the page underneath. */
+.sketch-canvas[data-tool='select'] {
+  pointer-events: none;
+}
+
+/* Browse mode: the sketch steps aside so only the page remains. */
+.sketch-canvas[data-hidden='true'],
+.text-layer[data-hidden='true'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.text-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 11;
+}
+
+.text-item {
+  position: absolute;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  white-space: pre;
+  pointer-events: auto;
+}
+
+.text-item-editing {
+  min-width: 120px;
+  padding: 0;
+  font: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px dashed currentColor;
+  outline: none;
+}
+
+.text-item-editing::placeholder {
+  color: currentColor;
+  opacity: 0.35;
+}
+
+/* ---------- etch-a-sketch shake ---------- */
+
+.shaking {
+  animation: shake 460ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  15% {
+    transform: translate(-9px, 3px) rotate(-0.6deg);
+  }
+  30% {
+    transform: translate(8px, -4px) rotate(0.5deg);
+    opacity: 0.75;
+  }
+  45% {
+    transform: translate(-7px, 4px) rotate(-0.4deg);
+  }
+  60% {
+    transform: translate(6px, -3px) rotate(0.3deg);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(-4px, 2px) rotate(-0.2deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+/* ---------- editing committed elements ---------- */
+
+.editable {
+  position: absolute;
+  /* The peel wash swaps saturation levels; ease between them. */
+  transition: filter var(--dur) var(--ease-out);
+}
+
+.editable-on {
+  cursor: grab;
+}
+
+.editable-on:active {
+  cursor: grabbing;
+}
+
+/* The wrapper owns the drag, so inner controls must not swallow the pointer -
+   otherwise dragging a button would press it instead of moving it. */
+.editable-on > .el * {
+  pointer-events: none;
+}
+
+.editable-on:hover {
+  outline: 1.5px solid oklch(0.28 0.1 330 / 0.18);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.editable-selected,
+.editable-selected:hover {
+  outline: 1.5px solid var(--accent-ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* A file drag hovering a valid picture frame: accent glow in the paper
+   language. After .editable-selected so it wins while the drag is over. */
+.editable-drop,
+.editable-drop:hover {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 4px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 7px var(--accent-wash);
+}
+
+.handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--paper);
+  border: 1.5px solid var(--accent-ink);
+  border-radius: 3px;
+  pointer-events: auto;
+}
+
+.handle-se {
+  right: -8px;
+  bottom: -8px;
+  cursor: nwse-resize;
+}
+
+.el-tools {
+  position: absolute;
+  top: -34px;
+  left: 0;
+  display: flex;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+.el-tool {
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  background: oklch(1 0 0 / 0.96);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.el-tool:hover {
+  border-color: oklch(0.28 0.1 330 / 0.3);
+}
+
+.el-tool-danger:hover {
+  color: var(--danger);
+  border-color: oklch(0.5 0.11 160 / 0.4);
+}
+
+.file-input {
+  display: none;
+}
+
+/* ---------- rendered elements ---------- */
+
+/* Entry/exit motion lives in Framer (see settleIn) - a CSS keyframe here too
+   would run both at once and fight over transform. */
+.el {
+  position: absolute;
+  display: flex;
+  align-items: center;
+}
+
+/* The un-confirmed ghost: clearly provisional, still legible. */
+.el-preview {
+  opacity: 0.92;
+  outline: 1.5px dashed var(--accent-ink);
+  outline-offset: 6px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 6px var(--accent-wash);
+}
+
+.ui-button {
+  width: 100%;
+  height: 100%;
+  padding: 0 18px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--paper);
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px oklch(0.28 0.1 330 / 0.14);
+  transition: filter var(--dur-fast) var(--ease-out);
+}
+
+.ui-button:hover {
+  filter: brightness(1.07);
+}
+
+.ui-input {
+  width: 100%;
+  height: 100%;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 9px;
+  outline: none;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.ui-input:focus {
+  border-color: var(--accent-ink);
+}
+
+.ui-heading {
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.ui-paragraph {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.ui-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px oklch(0.28 0.1 330 / 0.05), 0 10px 26px oklch(0.28 0.1 330 / 0.07);
+  overflow: hidden;
+}
+
+.ui-card-bar {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+}
+
+.ui-card-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ui-checkbox {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: var(--paper);
+  border: 1.5px solid var(--accent);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ui-checkbox svg {
+  width: 78%;
+  height: 78%;
+}
+
+.ui-toggle {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 3px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.ui-toggle-knob {
+  height: 100%;
+  aspect-ratio: 1;
+  background: var(--paper);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px oklch(0.28 0.1 330 / 0.22);
+}
+
+.ui-divider {
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  opacity: 0.45;
+}
+
+.ui-image {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: oklch(0.28 0.1 330 / 0.03);
+  border: 1.5px dashed var(--line);
+  border-radius: 10px;
+}
+
+.ui-image-uploaded {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.ui-avatar {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-weight: 700;
+  color: var(--paper);
+  border-radius: 50%;
+}
+
+/* ---------- thinking + confirm ---------- */
+
+.thinking,
+.confirm-bar {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: oklch(1 0 0 / 0.95);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.thinking .dot {
+  width: 5px;
+  height: 5px;
+  background: var(--accent-ink);
+  border-radius: 50%;
+  animation: pulse 1.1s ease-in-out infinite;
+}
+.thinking .dot:nth-child(2) {
+  animation-delay: 0.16s;
+}
+.thinking .dot:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.thinking-label {
+  margin-left: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.confirm-guess {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.confirm-confidence {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.confirm-alts {
+  display: flex;
+  gap: 4px;
+  padding-left: 8px;
+  border-left: 1px solid var(--line);
+}
+
+.alt {
+  padding: 3px 9px;
+  font: inherit;
+  font-size: 11px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.alt:hover {
+  color: var(--ink);
+  border-color: oklch(0.28 0.1 330 / 0.32);
+}
+
+.confirm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--accent);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.confirm-btn kbd {
+  padding: 0 4px;
+  border-color: oklch(0.28 0.1 330 / 0.35);
+  background: transparent;
+  color: inherit;
+  font-size: 10px;
+}
+
+.confirm-btn:hover {
+  filter: brightness(1.08);
+}
+
+/* ---------- toolbar ---------- */
+
+/* Framer Motion animates this wrapper, so the toolbar itself keeps its own
+   transform free - animating both would fight over translateX centering. */
+.toolbar-slot {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: var(--wash);
+  border: 1px solid var(--ink-faint);
+  border-radius: 999px;
+}
+
+.tool-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tool-sep {
+  width: 1px;
+  height: 20px;
+  margin: 0 5px;
+  background: var(--line);
+}
+
+.tool {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+/* The letter hint riding each tool button's corner. */
+.tool-key {
+  position: absolute;
+  right: 7px;
+  bottom: 6px;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--muted);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.tool-on .tool-key {
+  color: var(--paper);
+  opacity: 0.9;
+}
+
+.tool:hover {
+  color: var(--ink);
+  background: oklch(0.28 0.1 330 / 0.05);
+}
+
+.tool-on {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.swatch {
+  width: 22px;
+  height: 22px;
+  margin: 9px 1px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px oklch(0.28 0.1 330 / 0.1);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.swatch:hover {
+  transform: scale(1.14);
+}
+
+.swatch-on {
+  border-color: var(--wash);
+  box-shadow:
+    inset 0 0 0 1px oklch(0.28 0.1 330 / 0.1),
+    0 0 0 2px var(--ink);
+}
+
+.swatch-custom {
+  display: grid;
+  place-items: center;
+  background: transparent;
+}
+
+.swatch-wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(oklch(0.5 0.11 160), oklch(0.8 0.16 85), oklch(0.6 0.14 160), oklch(0.45 0.16 262), oklch(0.55 0.18 310), oklch(0.5 0.11 160));
+}
+
+/* Kept in the layout but invisible - the swatch above triggers it, and a
+   hidden input can't be opened by .click() in some browsers. */
+.color-input {
+  width: 0;
+  height: 0;
+  padding: 0;
+  border: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Brush size, shown at true scale. The dot IS the brush. */
+.brush-indicator {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+}
+
+.brush-dot {
+  background: var(--ink);
+  border-radius: 50%;
+  transition: width var(--dur-fast) var(--ease-out), height var(--dur-fast) var(--ease-out);
+}
+
+/* Fleeting size readout below the toolbar while w/s are tapped. */
+.brush-flash-slot {
+  position: fixed;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.brush-flash {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: oklch(1 0 0 / 0.95);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.text-btn {
+  min-height: 32px;
+  white-space: nowrap;
+  padding: 5px 12px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.text-btn:hover:not(:disabled) {
+  color: var(--ink);
+  border-color: oklch(0.28 0.1 330 / 0.3);
+}
+
+.text-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ---------- hint + status ---------- */
+
+/* Centering lives on a static wrapper, never on the animated node - Framer
+   composes its own transform and would clobber a CSS translate. */
+.hint-slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hint {
+  text-align: center;
+  pointer-events: none;
+}
+
+.hint-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: oklch(0.28 0.1 330 / 0.38);
+}
+
+.hint-sub {
+  margin-top: 8px;
+  font-size: 13px;
+  color: oklch(0.28 0.1 330 / 0.45);
+}
+
+.statusbar-slot {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+}
+
+.statusbar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--wash);
+  border: 1px solid var(--ink-faint);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.statusbar-sep {
+  width: 1px;
+  height: 12px;
+  margin: 0 7px;
+  background: var(--line);
+}
+
+/* ---------- brand ---------- */
+
+.watermark {
+  position: fixed;
+  top: 20px;
+  left: 22px;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  /* Never let the splash eat a click on its way out. */
+  pointer-events: none;
+}
+
+/* ---------- presentation mode ---------- */
+
+.quote-slot {
+  position: fixed;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  max-width: min(620px, 82vw);
+}
+
+.quote {
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: center;
+  color: oklch(0.28 0.1 330 / 0.5);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* The one control alive in both modes - in browse it is the only visible way
+   into edit. Top-right, clear of the centred toolbar. */
+.mode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 22px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  background: oklch(1 0 0 / 0.9);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.mode-toggle:hover {
+  color: var(--ink);
+}
+
+/* While editing the button reads as the way OUT - ink it in. */
+.mode-toggle[data-editing='true'] {
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.mode-toggle[data-editing='true']:hover {
+  color: var(--paper);
+  background: var(--ink-soft);
+  border-color: var(--ink-soft);
+}
+
+/* The landing-page welcome: one oversized Edit, front and center. The wrap is
+   pointer-inert so the page underneath stays browsable; only the button bites. */
+.welcome-cta-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  pointer-events: none;
+}
+
+.welcome-cta {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 42px;
+  font: inherit;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+  background: var(--accent-ink);
+  border: 1px solid var(--accent-ink);
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 10px 34px oklch(0.5 0.11 160 / 0.25);
+}
+
+.welcome-cta:hover {
+  filter: brightness(1.08);
+}
+
+.welcome-hint {
+  font-size: 13px;
+  color: var(--muted);
+  background: oklch(1 0 0 / 0.85);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+/* Frame lives beside Edit in browse - the way OUT of wireframing entirely. */
+.frame-toggle {
+  position: fixed;
+  top: 20px;
+  right: 106px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.frame-toggle:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+
+.frame-toggle:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* A sealed page wears a green border on the plane: the lock made visible. The
+   glow echoes the page's soft lift so it still floats, only now in green. */
+.page-object.page-sealed .page-clip {
+  border: 2px solid var(--seal);
+  box-shadow: 0 0 0 1px oklch(0.5 0.11 160 / 0.28), 0 24px 70px oklch(0.28 0.1 330 / 0.18);
+}
+
+/* Frame the space: the plane's primary action, green to echo the sealed pages
+   it gathers. Sits where the Seal pill lives in focused, but on the plane. */
+.space-frame-toggle {
+  position: fixed;
+  top: 20px;
+  right: 106px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--paper);
+  background: var(--accent-ink);
+  border: 1px solid var(--accent-ink);
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px oklch(0.5 0.11 160 / 0.22);
+}
+
+.space-frame-toggle:disabled {
+  color: var(--muted);
+  background: oklch(0.5 0.11 160 / 0.14);
+  border-color: oklch(0.5 0.11 160 / 0.3);
+  cursor: default;
+  box-shadow: none;
+}
+
+/* ---------- layer rail ---------- */
+
+/* Static slot owns the vertical centering; only the inner rail animates, or
+   Framer's transform would clobber the translateY. Sits above content but
+   under the mode/frame pills (60). */
+.layer-rail-slot {
+  position: fixed;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  z-index: 55;
+  pointer-events: none;
+}
+
+.layer-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+/* One thin line per layer, topmost first. Padding fattens the hit target. */
+.layer-line {
+  position: relative;
+  display: block;
+  padding: 5px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.layer-line-ink {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--line);
+  transition: background var(--dur-fast) var(--ease-out), width var(--dur-fast) var(--ease-out);
+}
+
+.layer-line:hover .layer-line-ink {
+  background: oklch(0.28 0.1 330 / 0.4);
+}
+
+.layer-line[data-active='true'] .layer-line-ink {
+  width: 28px;
+  background: var(--accent-ink);
+}
+
+/* Tiny "Layer N" tag that appears beside a hovered line. */
+.layer-label {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 8px);
+  transform: translateY(-50%);
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--muted);
+  background: oklch(1 0 0 / 0.95);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+  pointer-events: none;
+}
+
+.layer-line:hover .layer-label,
+.layer-line:focus-visible .layer-label {
+  opacity: 1;
+}
+
+/* "Show all" ring above the stack. Always in the layout so the lines never
+   jump; it only materialises while a peel is active. */
+.layer-all {
+  width: 10px;
+  height: 10px;
+  margin: 0 6px 4px 0;
+  padding: 0;
+  background: transparent;
+  border: 1.5px solid var(--muted);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.layer-all[data-on='true'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.layer-all:hover {
+  border-color: var(--ink);
+}
+
+.frame-error {
+  position: fixed;
+  top: 64px;
+  right: 22px;
+  z-index: 60;
+  max-width: 320px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  color: var(--accent-ink);
+  background: var(--wash);
+  border: 1px solid oklch(0.5 0.11 160 / 0.35);
+  border-radius: 10px;
+}
+
+/* ---------- the book (draggable drawing index) ---------- */
+
+.book-fab {
+  position: fixed;
+  left: 18px;
+  bottom: 64px;
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ink-soft);
+  background: var(--wash);
+  border: 1px solid var(--ink-faint);
+  border-radius: 999px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.book-fab:hover {
+  color: var(--ink);
+}
+
+.book-fab:active {
+  cursor: grabbing;
+}
+
+.book-panel {
+  position: fixed;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 56;
+  width: 320px;
+  max-height: min(78vh, 640px);
+  overflow-y: auto;
+  padding: 14px 16px 16px;
+  background: var(--paper);
+  border: 1px solid var(--ink-faint);
+  border-radius: 14px;
+  box-shadow: 0 10px 36px oklch(0.28 0.1 330 / 0.16);
+  font-size: 12.5px;
+}
+
+.book-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.book-head strong {
+  font-size: 14px;
+}
+
+.book-head span {
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.book-close {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  font: inherit;
+  line-height: 1;
+  color: var(--ink-soft);
+  background: none;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.book-close:hover {
+  color: var(--ink);
+}
+
+.book-panel section {
+  margin-top: 12px;
+}
+
+.book-panel h4 {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.book-row {
+  display: flex;
+  gap: 10px;
+  padding: 2.5px 0;
+}
+
+.book-key {
+  flex: 0 0 45%;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.book-val {
+  color: var(--muted);
+}
+
+.book-note {
+  margin-top: 5px;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.book-tricks {
+  margin: 0;
+  padding-left: 16px;
+  color: var(--muted);
+  display: grid;
+  gap: 5px;
+}
+
+
+/* ---------- page window (Mac-window chrome) ---------- */
+
+/* The border ring + titlebar that signal "you are inside a page". An overlay:
+   it fills the surface and never offsets its children, so element coordinates
+   are unchanged. Pointer-inert so drawing passes straight through; only the
+   titlebar re-enables events. */
+.page-window {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.6);
+}
+
+.page-window-titlebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom: 1px solid var(--line);
+  background: oklch(1 0 0 / 0.82);
+  pointer-events: auto;
+}
+
+.traffic-lights {
+  display: flex;
+  gap: 8px;
+}
+
+.traffic-light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+
+.traffic-light {
+  background: var(--paper);
+  border: 1.5px solid var(--ink-soft);
+}
+
+.traffic-light-close {
+  background: var(--accent-ink);
+  border-color: var(--accent-ink);
+}
+
+/* The live full-screen toggle (green maximise light): a real button in both the
+   focused chrome and the windowed page-object titlebar. Reset button chrome and
+   signal it is clickable. */
+.traffic-light.is-toggle {
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  transition: filter 120ms ease, transform 120ms ease;
+}
+.traffic-light.is-toggle:hover {
+  filter: brightness(1.05);
+  transform: scale(1.12);
+}
+/* macOS-style glyph hint on hover so the affordance reads as "full screen". */
+.traffic-light.is-toggle:hover::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 1px;
+  border: 1px solid var(--ink);
+}
+
+.page-window-name {
+  flex: 1;
+  text-align: center;
+  margin-right: 44px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
+/* ---------- slice-2 overlay offsets ---------- */
+
+/* The fixed chrome band owns the top 72px, so the top-anchored editing chrome
+   is nudged below it. Higher specificity + later position beats the base rules. */
+.studio .toolbar-slot {
+  top: 86px;
+}
+.studio .brush-flash-slot {
+  top: 138px;
+}
+.studio .watermark {
+  top: 86px;
+}
+
+/* Context-shifted toolbar anchor: on the plane there is no fixed chrome band to
+   dock under, so the toolbar floats at the bottom-centre instead of the top. */
+.studio[data-view='liminal'] .toolbar-slot {
+  top: auto;
+  bottom: 24px;
+}

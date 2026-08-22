@@ -1,0 +1,75 @@
+/* baio design tokens — the one source of truth. Two-ink risograph: pure white
+   paper, aubergine ink, celadon second ink. See DESIGN.md. */
+:root {
+  --paper: oklch(1 0 0);
+  --ink: oklch(0.28 0.1 330);            /* aubergine ink  #421040  15.2:1 */
+  --ink-soft: oklch(0.46 0.07 330);      /* #6e496b  7.4:1 */
+  --ink-faint: oklch(0.28 0.1 330 / 0.14);
+  --ink-ghost: oklch(0.28 0.1 330 / 0.06);
+  --wash: oklch(0.96 0.015 160);         /* #eaf5ee */
+  --wash-deep: oklch(0.92 0.02 160);
+  /* ONE accent, celadon, in two densities:
+     --accent      light fill (blobs, mark, buttons with INK text, 9.6:1)
+     --accent-ink  deep celadon for text / focus / outlines on white (5.7:1) */
+  --accent: oklch(0.84 0.08 160);        /* #9ddbb9 */
+  --accent-ink: oklch(0.5 0.11 160);     /* #0b764d */
+  --accent-wash: oklch(0.84 0.08 160 / 0.45);
+  --seal: var(--accent-ink);
+  --danger: var(--ink);
+  --focus: var(--accent-ink);
+
+  /* legacy aliases (studio.css + components still reference these) */
+  --muted: var(--ink-soft);
+  --line: var(--ink-faint);
+  --accent-deep: var(--accent-ink);
+  --coral: var(--accent);
+  --coral-ink: var(--accent-ink);
+  --coral-wash: var(--accent-wash);
+
+  --font-display: var(--font-bricolage), 'Helvetica Neue', Arial, sans-serif;
+  --font-ui: var(--font-hanken), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur: 220ms;
+
+  --z-sticky: 20;
+  --z-toolbar: 30;
+  --z-panel: 40;
+  --z-overlay: 60;
+  --z-toast: 70;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button,
+a,
+[role='button'] {
+  touch-action: manipulation;
+}
+
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 1px 5px;
+  border: 1px solid var(--ink-faint);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
