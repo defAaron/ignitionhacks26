@@ -1,0 +1,55 @@
+# Environment / secrets (keep templates)
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Credential files
+*.pem
+*.key
+credentials.json
+**/credentials.json
+secrets.json
+**/secrets.json
+
+# Dependencies
+node_modules/
+
+# Next.js / TypeScript build output
+product/.next/
+product/out/
+*.tsbuildinfo
+next-env.d.ts
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python (FreeSolo environment tooling)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local debug dumps (DEBUG_PNG_DIR / DEBUG_PNG_PATH)
+debug-png/
+
+# Internal commit sequencing artifact — not for public history
+COMMIT-PLAN.md
+
+# IDE / editor
+.cursor/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Deploy tooling
+.vercel
+
+# Root symlinks into product/ (local path aliases — not separate source)
+/lib
+/types
