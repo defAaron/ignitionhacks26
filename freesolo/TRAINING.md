@@ -20,10 +20,10 @@ Companion docs: `docs/freesolo/01-quickstart.md`, `08-baio-playbook.md`,
 
 ```bash
 cd freesolo/
-flash env push --name baio-shapes .
+flash env push --name baio-components .
 ```
 
-This prints the published id (`<org>/baio-shapes`). Paste that exact id
+This prints the published id (`<org>/baio-components`). Paste that exact id
 into `[environment] id` in `configs/sft.toml`. Local paths are not valid there.
 Re-push after ANY change to `environment.py` or `dataset/` — workers use the
 published copy, not your working tree.

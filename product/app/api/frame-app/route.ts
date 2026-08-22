@@ -22,7 +22,7 @@ function fail(reason: string, status = 500): NextResponse<FrameAppResponse> {
 
 export async function POST(req: Request): Promise<NextResponse<FrameAppResponse>> {
   const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) return fail('ANTHROPIC_API_KEY not set', 503)
+  if (!apiKey) return fail('ANTHROPIC_API_KEY not set — add it to product/.env and restart the dev server', 503)
 
   let body: FrameAppRequest
   try {

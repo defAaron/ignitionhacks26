@@ -30,8 +30,8 @@ const errMsg = (e: unknown): string => (e instanceof Error ? e.message : String(
 
 export async function POST(req: Request): Promise<NextResponse<WireResponse>> {
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
-  if (!anthropicKey) return fail("ANTHROPIC_API_KEY not set", 503);
-  if (!process.env.GEMINI_API_KEY) return fail("GEMINI_API_KEY not set", 503);
+  if (!anthropicKey) return fail("ANTHROPIC_API_KEY not set — add it to product/.env and restart", 503);
+  if (!process.env.GEMINI_API_KEY) return fail("GEMINI_API_KEY not set — add it to product/.env and restart", 503);
 
   let body: WireRequest;
   try {

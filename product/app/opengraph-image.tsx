@@ -6,8 +6,7 @@ export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 const INK = '#421040'
-const CELADON = '#9ddbb9'
-const CELADON_INK = '#0b764d'
+const CORAL = '#0b764d'
 
 export default function OpenGraphImage() {
   return new ImageResponse(
@@ -29,7 +28,7 @@ export default function OpenGraphImage() {
           <svg width="72" height="72" viewBox="0 0 24 24">
             <path
               d="M4 3 L9 6.6 Q12 5.6 15 6.6 L20 3 L19.4 10.2 Q21 13 19.6 16.2 Q17.2 21 12 21 Q6.8 21 4.4 16.2 Q3 13 4.6 10.2 Z"
-              fill={CELADON}
+              fill={CORAL}
               transform="translate(1.4 1.2)"
             />
             <path
@@ -55,7 +54,7 @@ export default function OpenGraphImage() {
           <div style={{ fontSize: 84, fontWeight: 700, lineHeight: 1, letterSpacing: -3 }}>
             Autocomplete for drawing.
           </div>
-          <div style={{ fontSize: 34, color: CELADON_INK, fontWeight: 600 }}>
+          <div style={{ fontSize: 34, color: CORAL, fontWeight: 600 }}>
             Sketch it. Press Enter. It prints.
           </div>
         </div>

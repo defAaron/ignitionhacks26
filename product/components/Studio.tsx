@@ -29,6 +29,8 @@ import type { FrameElement } from '@/lib/frame/types'
 import type { FrameFile } from '@/lib/frame/app-types'
 import type { SealedFrame, FramePage } from '@/lib/frame/space-types'
 import { stitchHtmlSite } from '@/lib/frame/stitch'
+import { isMeaningful, loadSaved, saveSnapshot } from '@/lib/persist'
+import { BaseSiteLayer, BaseSiteRow, ImportSiteControl, applyExtraction, extractionTags, frameBaseSiteField, isHtmlFile, makeBaseSite, readHtmlFile } from '@/modules/existing-site' // [existing-site]
 import { newElementId, pageToScreen, syncPageElements, randomName } from '@/lib/page'
 import {
   emptySpace,
@@ -62,6 +64,8 @@ import { EditableElement, type Wash } from './EditableElement'
 import { FrameOverlay, FramingVeil } from './FrameOverlay'
 import { GlyphBook } from './GlyphBook'
 import { LayerRail } from './LayerRail'
+import { ElementManager } from './ElementManager'
+import { SetupNotice } from './SetupNotice'
 import { Lockup } from './Logo'
 import { Preloader } from './Preloader'
 import { PageChrome } from './PageChrome'
@@ -255,6 +259,24 @@ export function Studio(): React.JSX.Element {
   const [spaceOpen, setSpaceOpen] = useState(false)
   /** Page body height, in local px. Grows on demand as the camera nears the floor. */
   const [pageHeight, setPageHeight] = useState(INITIAL_PAGE_HEIGHT)
+
+  // Autosave. Restore once after mount (storage is client-only, so this can't
+  // run during render without a hydration mismatch), then snapshot on every
+  // change, debounced so a drag doesn't write on every frame.
+  const restored = useRef(false)
+  useEffect(() => {
+    const saved = loadSaved()
+    if (saved && isMeaningful(saved.space)) {
+      setSpace(saved.space)
+      setPageHeight(saved.pageHeight)
+    }
+    restored.current = true
+  }, [])
+  useEffect(() => {
+    if (!restored.current) return
+    const t = setTimeout(() => saveSnapshot(space, pageHeight), 400)
+    return () => clearTimeout(t)
+  }, [space, pageHeight])
   /** Peel: show only layers at or below this one; null shows everything. */
   const [peelLayer, setPeelLayer] = useState<number | null>(null)
   /** Big center Edit invitation, shown once when arriving from the landing page. */
@@ -286,6 +308,17 @@ export function Studio(): React.JSX.Element {
   cameraRef.current = camera
   const viewportRef = useRef(viewport)
   viewportRef.current = viewport
+  // The stage is the studio's own box, not the window: a docked panel beside
+  // it (the element manager) takes real width, so every screen->world
+  // conversion subtracts the stage's left edge and sizes against the stage.
+  const stageRef = useRef<HTMLDivElement>(null)
+  const stageLeft = useRef(0)
+  // Open by default on wide windows; folded on narrow ones so the 1200px page
+  // still fits beside it.
+  const [dockOpen, setDockOpen] = useState(true)
+  useEffect(() => {
+    if (window.innerWidth < 1280) setDockOpen(false)
+  }, [])
   const viewRef = useRef(view)
   viewRef.current = view
   const pageLocRef = useRef(pageLoc)
@@ -589,13 +622,14 @@ export function Studio(): React.JSX.Element {
     // One body feeds both lanes: element rects are page-local; the canvas is the
     // page body itself.
     const body = JSON.stringify({ elements: payload, canvas })
+    const bodyHtml = JSON.stringify({ elements: payload, canvas, ...frameBaseSiteField(page) }) // [existing-site]
     // Open the cache entry now (html still null → not yet sealed) and record the
     // wireframe's signature, so an edit after this can tell the seal is stale.
-    setSeals((s) => ({ ...s, [id]: { input: { elements: payload, canvas }, html: null, files: null, entry: null } }))
+    setSeals((s) => ({ ...s, [id]: { input: { elements: payload, canvas, ...frameBaseSiteField(page) }, html: null, files: null, entry: null } })) // [existing-site]
     sealSigs.current[id] = JSON.stringify(page.elements)
 
     const post = (path: string): Promise<Response> =>
-      fetch(path, { method: 'POST', headers: { 'content-type': 'application/json' }, body })
+      fetch(path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: path === '/api/frame' ? bodyHtml : body }) // [existing-site]
 
     // Two lanes leave the gate together and race. The HTML lane paints the
     // preview the instant it lands; the app lane keeps building behind the open
@@ -726,7 +760,7 @@ export function Studio(): React.JSX.Element {
   // Frame errors read once, then clear themselves.
   useEffect(() => {
     if (!frameError) return
-    const t = setTimeout(() => setFrameError(null), 4000)
+    const t = setTimeout(() => setFrameError(null), /API_KEY/.test(frameError) ? 9000 : 4000)
     return () => clearTimeout(t)
   }, [frameError])
 
@@ -740,7 +774,7 @@ export function Studio(): React.JSX.Element {
    * page-local coord; every drop/paste/hit-test site routes through it, and
    * SketchLayer takes it as `toLocal`. */
   const screenToLocal = useCallback((clientX: number, clientY: number): Vec2 => {
-    return screenToLocalPt(clientX, clientY, cameraRef.current, viewportRef.current, pageLocRef.current)
+    return screenToLocalPt(clientX - stageLeft.current, clientY, cameraRef.current, viewportRef.current, pageLocRef.current)
   }, [])
 
   /**
@@ -752,7 +786,7 @@ export function Studio(): React.JSX.Element {
    * one-space-per-gesture invariant.
    */
   const toWorld = useCallback((clientX: number, clientY: number): Vec2 => {
-    return screenToWorldPt(clientX, clientY, cameraRef.current, viewportRef.current)
+    return screenToWorldPt(clientX - stageLeft.current, clientY, cameraRef.current, viewportRef.current)
   }, [])
 
   /** Move the camera to `target` with an eased flight (mode switches only). */
@@ -814,7 +848,9 @@ export function Studio(): React.JSX.Element {
   // is client-only) and on resize, re-framing the page for the current mode.
   useEffect(() => {
     const measure = (): void => {
-      const vp: Viewport = { w: window.innerWidth, h: window.innerHeight }
+      const box = stageRef.current?.getBoundingClientRect()
+      stageLeft.current = box?.left ?? 0
+      const vp: Viewport = { w: box?.width || window.innerWidth, h: box?.height || window.innerHeight }
       setViewport(vp)
       setCamera((cam) =>
         viewRef.current === 'focused'
@@ -828,7 +864,13 @@ export function Studio(): React.JSX.Element {
     }
     measure()
     window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
+    // The dock opening/closing resizes the stage without a window resize.
+    const ro = stageRef.current ? new ResizeObserver(measure) : null
+    if (stageRef.current) ro?.observe(stageRef.current)
+    return () => {
+      window.removeEventListener('resize', measure)
+      ro?.disconnect()
+    }
   }, [])
 
   // Leaving select mode drops the selection, so handles can't linger over a
@@ -949,7 +991,9 @@ export function Studio(): React.JSX.Element {
       setFrameError(
         /429|quota|rate/i.test(msg)
           ? 'recognizer is rate-limited — wait ~30s, then Enter again (ink kept)'
-          : `recognition failed — ink kept, press Enter to retry${msg ? ` (${msg.slice(0, 80)})` : ''}`
+          : /API_KEY/.test(msg)
+            ? `${msg} — ink kept`
+            : `recognition failed — ink kept, press Enter to retry${msg ? ` (${msg.slice(0, 80)})` : ''}`
       )
     }
   }, [])
@@ -1175,6 +1219,7 @@ export function Studio(): React.JSX.Element {
 
   const handleFile = useCallback(
     async (file: File, at?: { x: number; y: number }) => {
+      if (isHtmlFile(file)) { const html = await readHtmlFile(file); setPage((p) => ({ ...p, baseSite: { ...makeBaseSite(html, null), extractedIds: p.baseSite?.extractedIds } })); return } // [existing-site]
       if (!file.type.startsWith('image/')) return
       const src = await readImage(file)
 
@@ -1235,8 +1280,8 @@ export function Studio(): React.JSX.Element {
       const store = onPlane ? looseElements : elements
       const sel = store.find((el) => el.id === selectedId)
       if (sel && isPictureFrame(sel.kind, sel.shape)) uploadTarget.current = sel.id
-      const cx = window.innerWidth / 2
-      const cy = window.innerHeight / 2
+      const cx = stageLeft.current + viewportRef.current.w / 2
+      const cy = viewportRef.current.h / 2
       const at = onPlane ? toWorld(cx, cy) : screenToLocal(cx, cy)
       void handleFile(file, at)
     }
@@ -1428,7 +1473,22 @@ export function Studio(): React.JSX.Element {
   }
 
   return (
+    <div className="studio-shell">
+      <SetupNotice />
+      <ElementManager
+        open={dockOpen}
+        onToggle={() => setDockOpen((o) => !o)}
+        elements={elements}
+        names={Object.fromEntries(page.elements.map((el) => [el.id, el.name]))}
+        selectedId={selectedId}
+        onSelect={setSelectedId}
+        onRename={(id, name) => setPage((p) => ({ ...p, elements: p.elements.map((el) => (el.id === id ? { ...el, name } : el)) }))}
+        onDelete={deleteElement}
+        tags={extractionTags(page.baseSite)} // [existing-site]
+        header={<BaseSiteRow baseSite={page.baseSite} onChange={(b) => setPage((p) => ({ ...p, baseSite: b }))} />} // [existing-site]
+      />
     <div
+      ref={stageRef}
       className="studio"
       data-tool={tool}
       data-phase={phase}
@@ -1452,7 +1512,7 @@ export function Studio(): React.JSX.Element {
         e.preventDefault()
         setDropTargetId(null)
         const file = e.dataTransfer.files?.[0]
-        if (!file || !file.type.startsWith('image/')) return
+        if (!file || !(file.type.startsWith('image/') || isHtmlFile(file))) return // [existing-site]
         // Same view branch as onDragOver: the drop coord and the target frame
         // must come from the store handleFile will commit into.
         const onPlane = viewRef.current !== 'focused'
@@ -1799,6 +1859,7 @@ export function Studio(): React.JSX.Element {
                 </span>
               </div>
               <div className="page-clip">
+                {it.page.baseSite && <BaseSiteLayer base={it.page.baseSite} width={PAGE_WIDTH} height={INITIAL_PAGE_HEIGHT} />} {/* [existing-site] */}
                 <div className="page-layer">
                   {pageToScreen(it.page, PAGE_CENTER_X).map((el) => (
                     <RenderedElement
@@ -1858,6 +1919,7 @@ export function Studio(): React.JSX.Element {
           {/* The clip: ink, elements and the glaze are inset to the page BODY and
               clipped to it, so drawing never escapes onto the chrome. */}
           <div className="page-clip">
+            {page.baseSite && <BaseSiteLayer base={page.baseSite} width={PAGE_WIDTH} height={pageHeight} />} {/* [existing-site] */}
             <div
               className="page-layer"
               data-interactive={(tool === 'select' || browse) && focused}
@@ -2295,6 +2357,7 @@ export function Studio(): React.JSX.Element {
       {/* Seal: the page-level lock, only offered in browse - you seal a page
           you're done editing. It freezes the page as a real website and marks
           it with the green border. */}
+      <ImportSiteControl visible={browse && focused} baseSite={page.baseSite} pageWidth={PAGE_WIDTH} pageHeight={pageHeight} onExtract={(els) => setPage((p) => applyExtraction(p, els))} onChange={(b) => { setPage((p) => ({ ...p, baseSite: b })); delete sealSigs.current[page.id]; setSeals((s) => { const n = { ...s }; delete n[page.id]; return n }) }} /> {/* [existing-site] */}
       <AnimatePresence>
         {browse && focused && elements.length > 0 && (
           <motion.button
@@ -2392,6 +2455,7 @@ export function Studio(): React.JSX.Element {
       )}
 
       <Preloader />
+    </div>
     </div>
   )
 }

@@ -17,7 +17,6 @@
 ## 3 · Solution — baio
 
 - Autocomplete for drawing. Sketch a page; real editable components bloom in exactly where you drew them.
-- Two-ink risograph chrome: white paper, aubergine ink, celadon for the primary action and printed blobs. Cat-head mark; "baio" wordmark with celadon misregistration.
 - Sketch is the spec: one press turns the page into a working, downloadable website / React project.
 - Plain shapes stay plain; one glyph letter adds function; words and colors add style. No surprises.
 - Low confidence → model abstains; ink stays ink. Failure mode is "nothing happens," never "wrong thing happens."

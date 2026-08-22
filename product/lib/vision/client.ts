@@ -222,7 +222,7 @@ async function callGeminiOnce(
   args: AnalyzeInkShapesArgs
 ): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new VisionApiError("GEMINI_API_KEY is not set");
+  if (!apiKey) throw new VisionApiError("GEMINI_API_KEY not set — add it to product/.env and restart");
   const model = process.env.GEMINI_MODEL || DEFAULT_MODEL;
 
   const manifestText =

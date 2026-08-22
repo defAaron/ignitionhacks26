@@ -12,8 +12,15 @@ export const text: ShapeTemplate = (props) => {
   const fill = str(props.params, "fill", INK);
   const align = str(props.params, "align", "left");
   const len = Math.max(1, content.length);
-  const fontSize = Math.max(10, Math.min(h * 0.62, w / (len * 0.58)));
+  // Optional fidelity params (imports that copy real text pass the measured
+  // size/weight); otherwise size follows the ink box.
+  const explicit = typeof props.params?.fontSize === "number" ? (props.params.fontSize as number) : null;
+  const fontSize = explicit ?? Math.max(10, Math.min(h * 0.62, w / (len * 0.58)));
   const heading = fontSize >= 26;
+  const weight =
+    typeof props.params?.fontWeight === "number"
+      ? (props.params.fontWeight as number)
+      : heading ? 800 : fontSize >= 16 ? 600 : 400;
   return (
     <g>
       <text
@@ -23,8 +30,8 @@ export const text: ShapeTemplate = (props) => {
         dominantBaseline="central"
         fontFamily={FONT}
         fontSize={fontSize}
-        fontWeight={heading ? 800 : fontSize >= 16 ? 600 : 400}
-        letterSpacing={heading ? "-0.02em" : "0"}
+        fontWeight={weight}
+        letterSpacing={explicit === null && heading ? "-0.02em" : "0"}
         fill={fill}
       >
         {content}

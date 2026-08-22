@@ -163,7 +163,17 @@ export function EditableElement({
       animate={wash ? { opacity: wash.opacity, scale: 1 } : 'shown'}
       exit="hidden"
       transition={spring}
-      onPointerDown={(e) => begin(e, 'move')}
+      onPointerDown={(e) => {
+        if (editable) {
+          begin(e, 'move')
+          return
+        }
+        // Browse mode: no drag, but a press still selects - the element
+        // manager and the canvas share one selection, so clicking either side
+        // highlights the other. Stop here so the page layer doesn't clear it.
+        e.stopPropagation()
+        onSelect(element.id)
+      }}
       onPointerMove={move}
       onPointerUp={end}
       onPointerCancel={end}

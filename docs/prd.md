@@ -118,10 +118,6 @@ Shapes below the confidence threshold are left untouched as raw strokes — no f
 
 Log accept/reject/move/relabel per suggestion as future training data.
 
-### 6.7 Chrome & brand (P0)
-
-Two-ink risograph, not cream-paper AI chrome. Pure white paper, aubergine ink for structure, celadon for the one primary action and the suggestion state. Wordmark is **baio** in Bricolage Grotesque with a celadon misregistration; the mark is a cat head. Tokens: `product/app/tokens.css`. Full system: `product/DESIGN.md`.
-
 ## 7. User flow
 
 ```text

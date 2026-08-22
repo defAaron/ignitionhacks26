@@ -8,7 +8,7 @@ Everything needed to sell baio — for the stage, for Devpost, and for any form 
 | [devpost.md](devpost.md) | Devpost submission, ready to paste section-by-section |
 | [descriptions.md](descriptions.md) | Taglines and project descriptions at every length a form could ask for |
 
-Source material: `docs/vision.md`, `docs/prd.md`, `docs/features/README.md`, `docs/hackathon/`, `freesolo/eval-results.md`. Visual identity: `product/DESIGN.md` (two-ink risograph — white paper, aubergine, celadon). The live landing at `/` is the pitch in that language.
+Source material: `docs/vision.md`, `docs/prd.md`, `docs/features/README.md`, `docs/hackathon/`, `freesolo/eval-results.md`.
 
 ## The three claims (never leave the stage without them)
 
@@ -21,4 +21,4 @@ Source material: `docs/vision.md`, `docs/prd.md`, `docs/features/README.md`, `do
 - [ ] Record demo video
 - [ ] Submit via the Ignition Hacks V7 portal / whatever form organizers publish (prize tracks TBD on the public site)
 - [ ] Vercel or Render push (live demo URL for judges)
-- [ ] Rehearse the Arts & Technology beat: two-ink print + watercolor bloom, then Frame
+- [ ] Rehearse the Arts & Technology beat: watercolor bloom, then Frame

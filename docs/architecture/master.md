@@ -228,4 +228,3 @@ baio/
 2. `architecture/surfaces.md` — ink layer, stage, component tree, ink lifecycle
 3. `architecture/packs-and-rendering.md` — pack interface, templates, watercolor reveal
 4. `architecture/frame.md` — Claude frame pipeline, deterministic unframe
-5. `product/DESIGN.md` — two-ink risograph chrome (white paper, aubergine ink, celadon accent); `product/PRODUCT.md` for register and anti-references

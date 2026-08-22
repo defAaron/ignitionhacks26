@@ -95,7 +95,7 @@ The published theme is **Arts & Technology**. Lead with the bloom; use the model
 
 | Beat | Lead with |
 |---|---|
-| **Theme** | Drawing is the art; a trained 2B model + a downloadable website is the technology. Two-ink print (aubergine + celadon), watercolor bloom in, working HTML out. |
+| **Theme** | Drawing is the art; a trained 2B model + a downloadable website is the technology. Watercolor in, working HTML out. |
 | **Demo** | Blank paper → ten strokes → bloom → Frame. Non-technical judges should feel it without a slide. |
 | **Technical depth** | We trained the builder (Qwen3.5-2B on FreeSolo), eval-caught a 48–72% hallucination wave, then beat Gemini 96.7% vs 75.0% op accuracy for under $0.25. |
 | **Sponsor challenges** | Only if organizers publish them. Base44 is the Blaze sponsor — don't fake a Base44 build. See `docs/hackathon/sponsors.md`. |
