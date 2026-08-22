@@ -16,12 +16,13 @@ const LOOP: Array<[string, string]> = [
   ['2. Enter', 'baio reads the ink and shows a ghost preview'],
   ['3. Enter again', 'it becomes real — or tap "keep as drawn", or Esc to keep sketching'],
   ['4. Done', 'your page is a live website (buttons click, toggles flip)'],
-  ['5. Frame', 'the celadon pill (browse) — Claude turns it into a real site, ~1 min, downloadable']
+  ['5. Seal', 'browse, celadon pill — Claude freezes this page as a real site (~1 min)'],
+  ['6. Frame', 'zoom out to the plane — stitches every sealed page into one site']
 ]
 
 const KEYS: Array<[string, string]> = [
   ['d / e / t / m', 'pen · eraser · text · move'],
-  ['1–9', 'ink color'],
+  ['1–9', 'ink color (custom swatch for any colour)'],
   ['w / s', 'brush bigger / smaller'],
   ['Enter', 'recognize → commit'],
   ['Esc', 'deselect → shake off → browse'],
@@ -36,7 +37,8 @@ const GLYPHS: Array<[string, string]> = [
   ['i', 'image frame'],
   ['n', 'navbar'],
   ['v', 'video'],
-  ['p', 'page (spawns a new page)']
+  ['?', 'placeholder'],
+  ['p', 'page (spawns a new page on the plane)']
 ]
 
 const SHAPES: Array<[string, string]> = [
@@ -82,6 +84,13 @@ const LAYERS: string[] = [
   'Click a line to focus that layer: it saturates, layers behind wash out, layers above fade away. Only the focused layer is editable.',
   'Draw while focused and the commit is inserted between the strata — the focus follows it.',
   'Need more paper? Wheel-down at the bottom (or "+ space") and the page grows.'
+]
+
+const SPACE: string[] = [
+  'A page sits on an infinite plane. Traffic-light close zooms you out; click a page to fly in.',
+  'On the plane you can draw loose elements, drop photos, and pan (wheel or drag empty paper).',
+  'Draw an arrow between two objects (elements or pages) and it becomes a wire — logic for Frame.',
+  'The left dock lists page elements: click to select, double-click to rename, × to delete. Work autosaves.'
 ]
 
 function Row({ k, v }: { k: string; v: string }): React.JSX.Element {
@@ -213,6 +222,11 @@ export function GlyphBook(): React.JSX.Element {
             <section>
               <h4>Layers &amp; more paper</h4>
               <Bullets items={LAYERS} />
+            </section>
+
+            <section>
+              <h4>The plane, pages &amp; wires</h4>
+              <Bullets items={SPACE} />
             </section>
           </motion.aside>
         )}

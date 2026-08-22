@@ -8,7 +8,7 @@ product
 People who think faster than they can draw: engineers sketching systems, students sketching diagrams, designers wireframing pages, founders whiteboarding products. They arrive mid-thought, on a laptop or tablet, in a bright room, with an idea that is already fading. The job: get the shape of the idea onto the page before it goes, and leave with something real and editable, not a picture.
 
 ## Product Purpose
-baio is autocomplete for drawing. Sketch a rough page, press Enter, and real, editable components print in exactly where you drew them. Press Frame and the wireframe becomes a working website. Success: the user never opens a menu, never types a prompt, and never loses the idea. Built at Ignition Hacks 2026.
+baio is autocomplete for drawing. Sketch a rough page, press Enter, and real, editable components print in exactly where you drew them. Seal a page into a working website; Frame the plane of sealed pages into a multi-page site. Success: the user never opens a menu, never types a prompt, and never loses the idea. Built at Ignition Hacks 2026.
 
 ## Brand Personality
 Quiet, quick, printed. Like a two-ink risograph poster: flat confident color, a little misregistration, nothing glossy. Voice is plain and short. The product stays out of the way until it has something to print.

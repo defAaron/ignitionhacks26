@@ -1,11 +1,12 @@
 # Pitch Kit
 
-Everything needed to sell baio — for the stage, for Devpost, and for any form that asks "describe your project."
+Everything needed to sell baio — for the stage, for **HackHub** (Base44), and for any form that asks "describe your project."
 
 | File | What it's for |
 |---|---|
 | [pitch.md](pitch.md) | The 3-minute stage pitch: script, demo beats, and judge Q&A ammo |
-| [devpost.md](devpost.md) | Devpost submission, ready to paste section-by-section |
+| [demo-video.md](demo-video.md) | 5-minute demo video: timed VO, shot list, and the written description to paste with the upload |
+| [hackhub.md](hackhub.md) | HackHub submission — paste-ready copy section-by-section (not Devpost) |
 | [descriptions.md](descriptions.md) | Taglines and project descriptions at every length a form could ask for |
 
 Source material: `docs/vision.md`, `docs/prd.md`, `docs/features/README.md`, `docs/hackathon/`, `freesolo/eval-results.md`.
@@ -18,7 +19,7 @@ Source material: `docs/vision.md`, `docs/prd.md`, `docs/features/README.md`, `do
 
 ## TODO (from the war room)
 
-- [ ] Record demo video
-- [ ] Submit via the Ignition Hacks V7 portal / whatever form organizers publish (prize tracks TBD on the public site)
+- [ ] Record demo video — script in [demo-video.md](demo-video.md)
+- [ ] Submit on **HackHub** (Base44) — paste from [hackhub.md](hackhub.md); register on [portal.ignitionhacks.org](https://portal.ignitionhacks.org/) too
 - [ ] Vercel or Render push (live demo URL for judges)
-- [ ] Rehearse the Arts & Technology beat: watercolor bloom, then Frame
+- [ ] Rehearse the Arts & Technology beat: watercolor bloom, then Seal → Frame

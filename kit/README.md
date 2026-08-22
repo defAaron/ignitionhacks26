@@ -1,7 +1,10 @@
 # baio frontend kit
 
-Handoff notes for wiring a real backend to this frontend. Everything here is
-current as of the `feat/sketch-to-ui` branch.
+> **Historical snapshot.** This file describes an early frontend where `lib/recognize.ts` was a heuristic mock and there were no API routes. The live app is in `product/`: real `/api/autocomplete`, Seal/Frame, wires, pages on an infinite plane. For how to drive it, read **[docs/features/README.md](../docs/features/README.md)**. For architecture, **[docs/architecture/master.md](../docs/architecture/master.md)**.
+
+Handoff notes from wiring a real backend to this frontend. Everything here is
+current as of the original `feat/sketch-to-ui` branch, not the shipped product.
+
 
 **One sentence:** you scribble a UI element on a page, a recognizer guesses
 what it is, you confirm, and it becomes real absolutely-positioned HTML.

@@ -81,8 +81,7 @@ Wave 3 is a rout, confirmed on the untouched test split. The final table:
 
     TODO:
     Video 
-    Devpost
-    Base 44
+    HackHub (Base44)
     Vercel Push
 
 

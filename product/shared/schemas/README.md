@@ -10,9 +10,10 @@ Seven schemas, all JSON Schema draft-07, deliberately guided-decoding-friendly (
 |---|---|---|---|---|
 | `shapes-v1.json` | live (wave-1-strict subset) | Builder output, shapes wave 1 (16-op vocabulary, **no coordinates**) | FreeSolo builder or prompted baseline | Backend validators → deterministic geometry + renderer; eval harness |
 | `shapes-v2.json` | **live** | Builder output, shapes wave 1.5 (**22-op** vocabulary: the 16 + 6 diagram ops; §1.5) | FreeSolo builder or prompted baseline | Same as v1; the default validator wave |
-| `shapes-v3.json` | **frozen (wave 3)** | Builder output, shapes wave 3 — **byte-identical to v2** (22 ops, no coordinates); wave 3's change is the INPUT-side `parent` containment field (§1.6) | FreeSolo builder or prompted baseline | Wave-3 training config + serving `response_format`; backend validators |
+| `shapes-v3.json` | **frozen (wave 3)** | Builder output, shapes wave 3 — the 22 trained ops plus product-side `page` in the enum (§1.6). Wave 3's *semantic* change is the INPUT-side `parent` containment field | FreeSolo builder or prompted baseline | Wave-3 training config + serving `response_format`; backend validators |
 | `detection-shapes.json` | **live** | Vision-layer output: geometric kind + glyph + text + color signals | Vision model (`lib/vision/`); or the client in forced mode | Normalizer (`lib/interpretation/`) → builder input; labeler calibration |
-| `labeler-record.json` | live | One saved drawing from the labeling window | `tools/labeler` (the throwaway blitz app) | Calibration measurements (noise model, bake-off), golden end-to-end test set |
+| `logic-v1.json` | **live** | Wiring builder output: one logic **block** answering one drawn arrow (or `wait`) | `/api/wire` (Gemini intent → Claude body) | Wire validator; stored on the plane; Frame-space connections |
+| `labeler-record.json` | live | One saved drawing from the labeling window | `product/app/labeler` (the throwaway blitz app) | Calibration measurements (noise model, bake-off), golden end-to-end test set |
 | `components-v1.json` | legacy (pre-pivot), retained for the `flash-1784430057` run | Builder output, old wave 1 (18-op component whitelist) | — | reference only |
 | `components-v2.json` | legacy (pre-pivot), retained for the `flash-1784430057` run | Builder output, old wave 2 (all 66 component ops) | — | reference only |
 | `detection.json` | legacy (pre-pivot), retained for the `flash-1784430057` run | Old component-classifying vision output | — | reference only |
@@ -140,9 +141,11 @@ Frozen 2026-07-19 for the wave-3 training sweep (`freesolo/WAVE3-HANDOFF.md`; se
 
 `wait` is unchanged; open/unenclosed ink keeps its wave-1 readings. The command-coverage rule becomes: **exactly one command per TOP-LEVEL detection** (`parent === null`); a command whose `from` is a child detection is a violation ("child-spawned command" — the failure mode this wave kills). Like the old 1:1 rule, this is a domain-validator check, not expressible in JSON Schema.
 
-### Why the OUTPUT schema is unchanged (v3 ≡ v2, fresh `$id`)
+### Why the OUTPUT schema is mostly unchanged (v3 ≈ v2, fresh `$id`)
 
-The wave-3 change is *which detections get commands and what routes into their params* — pure policy. The command grammar (`{op, from, params?, snap?} | wait`, 22-op enum, zero coordinates) needs nothing new: details land in `params` keys that already exist (`label`, `fill`, `gradient`). `shapes-v3.json` is therefore byte-identical in shape and enum to `shapes-v2.json` with a fresh `$id`/title, minted so the wave-3 `[train] structured_outputs` string and serving `response_format` reference the wave unambiguously (never "v2 but trained on different inputs" — that ambiguity is how drift starts). `schema_version` stays `"shapes-1.0"` — contract revision, not wave.
+The wave-3 change is *which detections get commands and what routes into their params* — pure policy. The command grammar (`{op, from, params?, snap?} | wait`, 22 trained ops, zero coordinates) needs nothing new: details land in `params` keys that already exist (`label`, `fill`, `gradient`). `shapes-v3.json` therefore matches v2 in shape with a fresh `$id`/title, minted so the wave-3 `[train] structured_outputs` string and serving `response_format` reference the wave unambiguously.
+
+**Product-side addition:** the v3 `op` enum also lists `page`. That is **not** a trained builder op (no retrain). Vision reports glyph `"p"`; the adapter treats it as an unknown glyph and emits the rect/placeholder fallback; `lib/recognize.ts` remaps a clean single-letter `p` onto `page` after validation, and committing it spawns a page object on the plane. The enum listing lets the renderer/client accept the remapped op. `schema_version` stays `"shapes-1.0"` — contract revision, not wave.
 
 ### The `parent` field (builder INPUT side)
 
@@ -388,6 +391,16 @@ One drawing from the labeling window (`ai-pipeline.md` §6): pick a label, draw 
 
 ---
 
+## 6. `logic-v1.json` — the wiring contract
+
+A **new-feature** contract (not part of the FreeSolo shapes waves). One drawn arrow → one logic **block**, or a `wait` if the endpoints cannot be resolved. No coordinates: the studio already resolved the arrow's tail and tip to element/page ids; the models contribute only semantics.
+
+Two-stage pipeline (`/api/wire`): Gemini describes what the arrow connects; Claude writes the block body against this schema. A block is a stateless function: it reads named cells (`inputs`), runs on a `trigger` (`onClick` / `onSubmit` / `onLoad` / `onChange` / `onResult` / `onTimer`), and emits one `output` whose type is `data` (write a cell) or `page` (navigate). State lives in cells, never in the block.
+
+Stored on the liminal space (`space.wires`) and gathered when Frame stitches a multi-page site. TS mirror: `product/lib/wire/types.ts`.
+
+---
+
 ## Deliberate grammar-level omissions (for the checkpoint-1 reviewer)
 
 These are *choices*, not oversights — flag at review if you disagree:
@@ -395,7 +408,7 @@ These are *choices*, not oversights — flag at review if you disagree:
 - **No numeric bounds** (`confidence ∈ [0,1]`, positive bbox sizes): guided-decoding engines support numeric ranges inconsistently; the geometric validator and normalizer own them.
 - **`params` is an open object**: per-op key sets are conventions (documented above) checked by the domain validator; encoding per-op param schemas into the grammar would bloat the guided-decoding automaton for near-zero gain.
 - **`wait.reason` is a free string**, not an enum — diagnostic only, never parsed for behavior.
-- **`glyph` is a free (nullable) string** in `detection-shapes.json`, not an enum of the six letters — vision reports what it *read*; the builder decides whether it maps to a component op or falls back to `placeholder`/`wait`. Enum-locking it would force the model to hallucinate a known letter.
+- **`glyph` is a free (nullable) string** in `detection-shapes.json`, not an enum of the book letters — vision reports what it *read*; the builder decides whether it maps to a component op or falls back to `placeholder`/`wait`. Product-side `p` → `page` is applied after the model (`lib/recognize.ts`). Enum-locking it would force the model to hallucinate a known letter.
 - **`snap` is optional rather than required-with-default**: omission = `none`; making it required would spend model tokens restating the default on every command.
 - **`from` has no format pattern**: `det_1` styles are conventions; regex in guided decoding buys little and costs automaton size.
 - **1:1 command-per-detection is not expressible in JSON Schema** — it's the first domain-validator check and the eval harness's matching precondition.

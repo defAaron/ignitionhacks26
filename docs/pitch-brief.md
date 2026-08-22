@@ -86,7 +86,8 @@ end-to-end product latency: press-to-preview ~2-4s (vision is the long pole)
 ## 5. Live demo-ables (all verified working)
 
 - **Venn from real ink:** two hand-wobbled overlapping circles through the live pipeline → `venn_diagram` at 0.95 confidence, geometry at true stroke bounds. Same machinery: bar/pie/timeline/periodic table (all 118 elements)/atomic structure.
-- **The glyph book:** box+`b`→button, `i`→image, `f`→form, `n`→navbar (auto-snaps full-width-top), `v`→video, `?`→placeholder. "Login" beside the `b` becomes the label. Semantics are opt-in — a plain box stays a crisp box, never a surprise component.
+- **The glyph book:** box+`b`→button, `i`→image, `f`→form, `n`→navbar (auto-snaps full-width-top), `v`→video, `?`→placeholder, `p`→a new page on the plane. "Login" beside the `b` becomes the label. Semantics are opt-in — a plain box stays a crisp box, never a surprise component.
+- **Seal / Frame / wires:** Seal a finished page into HTML + a Vite project; Frame the plane of sealed pages into a linked site; draw an arrow between objects for logic. Optional: import a live URL (`NEXT_PUBLIC_MODULE_EXISTING_SITE=1`).
 - **Closure correction:** a closed shape misread as a "line" is corrected by arithmetic before the model sees it; every result carries ≤2 deterministic **alternates** ("or a rect? or keep-as-drawn?") — instant client-side swaps, zero model calls, every tap a logged training label.
 - **Visual showcase artifact** (real adapter calls, before/after cards): https://claude.ai/code/artifact/e032f37d-94c7-4a73-a1ed-9fd1ec73c4d7 — regenerate against any model with `scripts/showcase.mts`.
 - **Fail-closed guarantee:** any invalid model output degrades to "wait" — ink stays ink; the demo cannot render garbage.

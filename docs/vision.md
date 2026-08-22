@@ -66,7 +66,7 @@ Recognition is per-shape and local, so it fails gracefully: one misread shape ne
 Output targets grow over time:
 
 - **SVG components** (MVP) — wireframe elements rendered right on the drawing canvas.
-- **HTML/CSS export** — the sketch becomes a working structured layout.
+- **HTML/CSS export** — Seal a page into a working single-file site; Frame a space of pages into a linked site or a Vite/React project. **Shipped.**
 - **Figma connectors** — sketches auto-substitute into Figma components on a live canvas.
 
 Drawing becomes the fastest wireframing tool there is: less restrictive than Figma, faster than code, and the sketch itself is the spec.

@@ -266,11 +266,14 @@ Each wave freezes its own op whitelist before data generation (rule zero). More 
 |---|---|---|---|
 | Vision | Gemini 2.5 Flash-Lite | ~$0.0002 | Gemini 2.5 Flash |
 | Builder | FreeSolo Qwen3.5-0.8B adapter (hosted, `flash deploy`, OpenAI-compatible, structured outputs default) | ~$0.000025 | Prompted frontier model behind the same contract → `wait`-everything |
-| Frame (extension) | Claude | on demand | feature hidden |
+| Frame (Seal) | Claude | on demand | feature hidden (503 if no key) |
+| Wire | Gemini intent → Claude body | on demand | wait-block; dangling wire removed |
 
 The demo can never hard-fail: every hop degrades to something that works, and **the baseline is the demo** if no adapter wins in time.
 
 Latency budget (target <3s button-press → preview): screenshot ~50ms · vision 1–2s (the long pole; crop to active-ink bounds if needed) · normalizer ~0 · builder 100–300ms · validation ~0 · bloom animation ~300ms.
+
+**Downstream of this pipeline (not FreeSolo-trained):** **Seal** (`/api/frame` + `/api/frame-app`) sends a committed page to Claude and returns HTML plus a Vite project. **Frame** (`lib/frame/stitch.ts` + `/api/frame-space`) stitches sealed pages into a multi-page site. **Wire** (`/api/wire`, `logic-v1.json`) turns a drawn arrow into a logic block. `box + p` is remapped to a page spawn in `lib/recognize.ts` after the builder — it is not a trained op.
 
 ## 8. Risks
 

@@ -17,7 +17,7 @@
 ## 3 · Solution — baio
 
 - Autocomplete for drawing. Sketch a page; real editable components bloom in exactly where you drew them.
-- Sketch is the spec: one press turns the page into a working, downloadable website / React project.
+- Sketch is the spec: Seal a page, Frame the space — a working, downloadable website / React project.
 - Plain shapes stay plain; one glyph letter adds function; words and colors add style. No surprises.
 - Low confidence → model abstains; ink stays ink. Failure mode is "nothing happens," never "wrong thing happens."
 

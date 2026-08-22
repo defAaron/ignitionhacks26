@@ -79,6 +79,7 @@ const GLYPHS: Array<{ g: string; name: string; note: string }> = [
   { g: 'f', name: 'Form', note: 'working inputs' },
   { g: 'i', name: 'Image', note: 'drop a photo in' },
   { g: 'v', name: 'Video', note: 'a real player' },
+  { g: 'p', name: 'Page', note: 'spawns a new page' },
   { g: '?', name: 'Placeholder', note: 'decide later' }
 ]
 
@@ -105,7 +106,7 @@ const EXTRAS: Array<{ icon: React.JSX.Element; text: string }> = [
     icon: (
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h10v14H5zM10 17v-3" /><path d="M8 7h4M8 10h4" /></svg>
     ),
-    text: 'Paper that grows as you draw'
+    text: 'An infinite plane of pages you can pan and connect'
   },
   {
     icon: (
@@ -117,7 +118,7 @@ const EXTRAS: Array<{ icon: React.JSX.Element; text: string }> = [
     icon: (
       <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14" rx="2" /><path d="M3 8h14M8 8v9" /></svg>
     ),
-    text: 'Frame: the sketch becomes a working website'
+    text: 'Seal a page, Frame the space: a working multi-page site'
   }
 ]
 
@@ -157,7 +158,7 @@ export default function Home(): React.JSX.Element {
         </h1>
         <p className="hero-sub">
           Sketch a rough page. Press Enter. Real, editable components print in exactly where you
-          drew them. When the page is done, press Frame and it becomes a working website.
+          drew them. Seal a page, Frame the space, and it becomes a working website.
         </p>
         <div className="cta-row">
           <Link href="/studio?welcome=1" className="cta cta-primary">
@@ -215,7 +216,7 @@ export default function Home(): React.JSX.Element {
           inside a box and it becomes a working component. Words and colors around it become labels,
           fills, and gradients. No surprises.
         </p>
-        <ol className="specimen" aria-label="The six glyphs">
+        <ol className="specimen" aria-label="The glyphs">
           {GLYPHS.map(({ g, name, note }) => (
             <li key={g}>
               <span className="specimen-glyph" aria-hidden="true">

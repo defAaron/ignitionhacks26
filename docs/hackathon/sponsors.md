@@ -10,7 +10,7 @@ Headline tier.
 |---|---|
 | **Base44** | [base44.com](https://base44.com/) |
 
-Base44 is an AI app builder. If they announce a build-on-Base44 challenge during the weekend, decide fast: baio's canvas is custom (Next.js + SVG + a trained model), so a token landing page on their platform will look like a bolt-on. Only enter if we can put a real slice there (accounts, gallery, waitlist) or the rules don't require the prototype itself to be built on Base44.
+Base44 is an AI app builder and the **Ignition Hacks V7 submission host** — projects go on **HackHub** (not Devpost). Submit baio there with copy from `docs/pitch/hackhub.md`; link the GitHub repo and live demo. baio's canvas is custom (Next.js + SVG + a trained model), not a Base44-built app. If organizers publish a separate "built on Base44" track, only enter if we can ship a real slice there (accounts, gallery, waitlist) — not a token landing page bolted onto the real product.
 
 ## Spark
 
@@ -43,4 +43,4 @@ Base44 is an AI app builder. If they announce a build-on-Base44 challenge during
 
 ## What we are *not* doing
 
-Do not invent prize names from older Ignition Hacks Devpost pages, and do not plan around tracks from a different hackathon. FreeSolo stays in this repo as **our training stack**, not as a published Ignition Hacks prize track.
+Do not invent prize names from other hackathons or past years, and do not plan around tracks from a different event. FreeSolo stays in this repo as **our training stack**, not as a published Ignition Hacks prize track.

@@ -36,11 +36,11 @@
 4. **Details.** `b` + "rainbow" → a rainbow-gradient button. *"Plain shapes stay shapes. One letter adds function. Words and colors add style. No surprises."*
 5. **A flourish.** Dark-shaded box, scattered dots → a night sky with a procedural starfield.
 6. **A diagram.** Axes and a few bars → a crisp bar chart. *"Same engine — six diagram types, up to the full 118-element periodic table."*
-7. **The finale — Frame.** *"When the page is done, one press hands the wireframe to Claude…"* → a complete, responsive, interactive website. Click the working nav. Download the HTML. *"The sketch was the spec."*
+7. **The finale — Seal, then Frame.** *"When this page is done, Seal freezes it as a real site…"* → working HTML + a project zip. Zoom out: *"Frame the plane and every sealed page becomes one linked website."* Click the working nav. *"The sketch was the spec."*
 
 ### 5 · Features, fast (15s)
 
-> That demo skimmed the surface. Underneath: automatic layers when elements overlap, an endless scrolling page, photos dropped straight into drawn frames — even hand-drawn ones, cropped to your silhouette — six diagram types, and a one-file website export. All editable, all vector, all yours.
+> That demo skimmed the surface. Underneath: an infinite plane of pages, arrows that become wires, automatic layers when elements overlap, photos dropped straight into drawn frames — even hand-drawn ones, cropped to your silhouette — six diagram types, and a website you can download as HTML or a project. All editable, all vector, all yours.
 
 ### 6 · How it works — the architecture (30s)
 
@@ -64,7 +64,7 @@
 
 - **Forced-component mode**: pick the component before drawing — recognition is skipped, geometry still snaps. Use if the room's ink is misbehaving.
 - **Rate limit** (Gemini free tier ~15 req/min): if the pill appears, your ink is kept — narrate layers or picture frames for 20 seconds, press Enter again.
-- **Frame takes ~45–60s**: trigger it, then deliver the architecture section *while the veil rotates art quotes*. The reveal lands as your closing line.
+- **Seal / Frame takes ~45–60s per page**: trigger Seal, then deliver the architecture section *while the veil rotates art quotes*. Zoom out and Frame the space as the closer.
 - Rehearse the ten strokes. The demo is the pitch.
 
 ## Judge Q&A ammo
@@ -98,4 +98,4 @@ The published theme is **Arts & Technology**. Lead with the bloom; use the model
 | **Theme** | Drawing is the art; a trained 2B model + a downloadable website is the technology. Watercolor in, working HTML out. |
 | **Demo** | Blank paper → ten strokes → bloom → Frame. Non-technical judges should feel it without a slide. |
 | **Technical depth** | We trained the builder (Qwen3.5-2B on FreeSolo), eval-caught a 48–72% hallucination wave, then beat Gemini 96.7% vs 75.0% op accuracy for under $0.25. |
-| **Sponsor challenges** | Only if organizers publish them. Base44 is the Blaze sponsor — don't fake a Base44 build. See `docs/hackathon/sponsors.md`. |
+| **Sponsor challenges** | Only if organizers publish them beyond the main HackHub submission. Base44 hosts HackHub — baio is a custom Next.js app, not a Base44-built prototype. See `docs/hackathon/sponsors.md`. |

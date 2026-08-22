@@ -28,7 +28,9 @@ The browser holds two stacked surfaces — this is the core interaction model:
 - **Ink layer** — a transparent drawing surface. Strokes live here only until they're interpreted and applied; consumed ink is wiped. Digital tracing paper.
 - **Page layer** — a blank slate ("digital paper") that accumulates real components. Its source of truth is a **component tree** (JSON); the renderer projects the tree into the DOM.
 
-The page is a **stage, not a document**: an ordered set of layer containers (`background`, `content`, `overlay`, …), each holding absolutely-positioned components. Z-order = layer order. The MVP stage is a fixed-size artboard (no scroll), so ink coordinates map 1:1 to page coordinates. Document-flow layout is deliberately excluded from live editing — it's what the Frame pipeline (§10) is for.
+Pages themselves sit on an **infinite plane** (the liminal space): each page is a 1200px-wide object with page-native coordinates; the camera pans and zooms between a focused page and the plane. Loose elements and wires live on the plane, not inside any page. Ink coordinates map through one camera module (`lib/camera.ts`) so a gesture never mixes spaces.
+
+The page is a **stage, not a document**: overlapping commits spawn stacking layers; z-order = layer order. Document-flow layout is deliberately excluded from live editing — it's what Seal / Frame (§10) are for.
 
 ## 3. Component tree — the page as code
 
@@ -60,8 +62,8 @@ Domain pack = vocabulary        (what the vision prompt looks for)
             + training data     (FreeSolo examples: interpretation → tool calls)
 ```
 
-- **MVP ships `web-ui`**: navbar, button, card, input, image placeholder, heading, text block, avatar.
-- **Stretch ships `diagrams`**: periodic table, coordinate plane — a periodic table is just a big component on the stage; the parallel FreeSolo training track produces this pack without touching engine code.
+- **MVP ships `web-ui` + `shapes` + `diagrams`**: navbar, button, form, image, video, placeholder, plus base geometry, four decoratives, and six diagram composites (bar, pie, Venn, timeline, periodic table, atomic structure).
+- A **page** (`box + p`) is a product-side glyph: it is not a trained builder op. The client remaps a clean `p` glyph onto a page spawn in the liminal space after validation.
 
 One schema rule makes this true from day one: **a recognition candidate always claims a *set* of stroke IDs** (size 1 for a button, size n for a sketched periodic-table region).
 
@@ -70,7 +72,8 @@ One schema rule makes this true from day one: **a recognition candidate always c
 ```text
 ┌───────────────────────────── Browser ─────────────────────────────┐
 │  Ink layer (strokes)  +  Page layer (component tree → stage)      │
-│  undo/redo · watercolor preview · accept/reject · Frame button    │
+│  undo/redo · watercolor preview · accept/reject · Seal / Frame    │
+│  camera (focused page ↔ liminal plane) · layers · wires           │
 └──────────────┬────────────────────────────────────▲───────────────┘
                │ POST /api/autocomplete             │ validated tool
                │ ink screenshot + stroke data       │ calls, applied
@@ -163,34 +166,40 @@ End state of a session: an empty ink layer and a real website on the stage.
 | Validation | Zod | Shared schemas client/server |
 | Vision | Gemini 2.5 Flash-Lite (structured output; regular Flash as fallback) | Cheapest capable vision model (~$0.0002/call); accuracy bake-off on real sketches decides Lite vs Flash |
 | Builder | Prompt-only baseline → FreeSolo adapter (Qwen3.5-0.8B SFT, `structured_outputs`) | Hosted via `flash deploy`, OpenAI-compatible = config-only swap |
-| Frame pipeline | Claude | Semantic HTML/CSS generation is its strength |
+| Frame / Seal | Claude (Sonnet) HTML + Vite project; stitch for multi-page | Semantic HTML/CSS is its strength; space Frame HTML is deterministic |
 
 ## 9. Key decisions (made)
 
 1. **Two-surface model** — ephemeral ink over a persistent page; ink is instruction, not content.
 2. **Component tree as code** — the builder edits structured state via tool calls; never raw markup.
-3. **Stage, not document** — absolute positioning in layers; flow layout is Frame's job, not live editing's.
+3. **Stage, not document** — absolute positioning in layers; flow layout is Seal/Frame's job, not live editing's.
 4. **Candidates claim stroke sets (1..n)** — region-level domains are plug-and-play data.
 5. **Vision classifies, strokes place** — geometry from real stroke bounds.
 6. **Confidence tiers** — don't-edit / suggest / auto-apply, plus always-ask mode.
-7. **Domain packs** — `web-ui` is the MVP pack; `diagrams` is the parallel FreeSolo stretch track.
+7. **Domain packs** — `shapes` + `web-ui` + `diagrams` (six composites) ship; the engine stays pack-agnostic.
 8. **Fail closed** — validation failure means nothing happens, never a broken page.
+9. **Pages live on a plane** — focused page vs liminal space; `box + p` spawns pages; arrows become wires.
 
 ## 10. Extension points
 
-### 10.1 Frame / Unframe (the headline one)
+### 10.1 Seal / Frame / Unframe (**shipped**)
 
-- **Frame**: user presses **Frame** → the component tree (absolute stage) runs through a Claude pipeline → proper semantic, responsive HTML/CSS (flex/grid, real spacing, real hierarchy). The wireframe becomes a real website.
-- **Unframe (edit)**: deterministic, no model call — render the framed page, measure every component's actual box (`getBoundingClientRect`), freeze those measurements back into an absolute component tree, return to stage mode. Any structural improvements Claude made while framing are captured back into the tree.
-- The component tree stays canonical throughout; framed output is a projection. Frame region-by-region later (frame the hero, keep editing the footer).
+Two user actions, two scopes:
+
+- **Seal** (focused page, browse mode): the committed page goes through Claude on two lanes — HTML (`/api/frame`, a single-file site) and a Vite/React project (`/api/frame-app`). The page locks with a green border. Editing the wireframe **unseals** it (the tree stays canonical; framed output is a projection).
+- **Frame** (liminal plane): every sealed page is **stitched** into a linked static site (`lib/frame/stitch.ts`, no model) and a slower lane (`/api/frame-space`) builds a routed multi-page project. Drawn **wires** (`/api/wire`, `logic-v1.json`) are the connections.
+- **Unframe**: close the overlay — the editable wireframe underneath is untouched. The original "measure the framed DOM back into the tree" idea is not the live path; unsealing is "edit the wireframe again."
+
+Optional module `modules/existing-site/`: import a live URL, sketch on top, Seal *edits* that document instead of generating from scratch (`NEXT_PUBLIC_MODULE_EXISTING_SITE=1`).
 
 ### 10.2 Others
 
-- **HTML/CSS export** — download the framed output as a working site.
-- **Figma connector** — project the component tree into Figma components.
-- **`diagrams` pack** — periodic table, coordinate plane via parallel FreeSolo training.
-- **Auto-trigger** — pause-detection replaces the Autocomplete button.
-- **Scrollable/multi-artboard pages** — relax the fixed-artboard constraint.
+- **HTML/CSS export** — **shipped** (Seal download HTML; Frame download site.zip / project.zip).
+- **Figma connector** — project the component tree into Figma components. Still future.
+- **`diagrams` pack** — **shipped** (six composites).
+- **Auto-trigger** — pause-detection replaces Enter. Still future.
+- **Scrollable / multi-page space** — **shipped** (camera, growing page, liminal plane, `box + p` spawns pages).
+- **Wires / logic** — **shipped** (arrow → logic block). The reactive runtime that *executes* blocks on the live page is still thin.
 
 ## 11. Open decisions
 
@@ -203,28 +212,28 @@ End state of a session: an empty ink layer and a real website on the stage.
 
 ```text
 baio/
-├── app/                    # Next.js: page, api/autocomplete, api/feedback, api/frame
-│   └── components/         # InkLayer, Stage, Toolbar, GhostPreview, ConfidenceControls
-├── lib/
-│   ├── vision/             # analyzeInk + candidate schema
-│   ├── interpretation/     # normalizer
-│   ├── builder/            # tool-call schema, prompt, validators
-│   ├── tree/               # component tree model, apply(toolCall, tree)
-│   ├── packs/              # web-ui/ (MVP), diagrams/ (stretch)
-│   ├── frame/              # Claude frame pipeline + deterministic unframe
-│   └── models/             # generic + freesolo clients (same interface)
-├── tools/
-│   └── labeler/            # labeling window: guide boxes, D/E/Enter/Tab spam-drawing UI
-├── freesolo/               # FreeSolo training project (environment.py, dataset/, configs/)
-├── shared/
-│   └── schemas/            # components-v1.json — ONE schema: validator + train + serve
-├── types/                  # shared contracts: strokes, tree, tool calls
-└── docs/                   # vision.md, prd.md, architecture/…, freesolo/ kit
+├── product/                 # Next.js app (the deployable artifact)
+│   ├── app/                 # studio, gallery, labeler, landing; api/*
+│   ├── components/          # Studio, SketchLayer, Toolbar, GlyphBook, FrameOverlay…
+│   ├── lib/
+│   │   ├── vision/          # Gemini: describe, never decide
+│   │   ├── interpretation/  # normalizer, snap, diagrams, pipeline
+│   │   ├── models/          # baseline + FreeSolo clients
+│   │   ├── packs/           # shapes/, web-ui/, diagrams/
+│   │   ├── frame/           # Seal HTML, Frame-app, Frame-space, stitch
+│   │   ├── wire/            # arrows → logic-v1 blocks
+│   │   ├── space.ts         # liminal plane: pages, loose, wires
+│   │   └── datagen/         # synthetic scenes + corruption
+│   ├── modules/existing-site/  # optional: sketch onto a live URL
+│   └── shared/schemas/      # shapes-v*, detection-shapes, logic-v1
+├── freesolo/                # training project (environment.py, dataset/, configs/)
+├── scripts/                 # eval harness, dataset gen, showcase
+└── docs/                    # vision, PRD, architecture, features, pitch
 ```
 
 ## 13. Component deep-dive docs
 
 1. `architecture/ai-pipeline.md` — the full AI component pipeline: vision (Gemini), normalizer, FreeSolo builder (contract, training, serving), validation gates, fallback chain
-2. `architecture/surfaces.md` — ink layer, stage, component tree, ink lifecycle
-3. `architecture/packs-and-rendering.md` — pack interface, templates, watercolor reveal
-4. `architecture/frame.md` — Claude frame pipeline, deterministic unframe
+2. `architecture/vocabulary.md` — ops, glyphs (including product-side `p` → page), disambiguation
+3. `architecture/wave3-semantics.md` — containment: details route into the parent, never spawn siblings
+4. How to drive the product: `docs/features/README.md`

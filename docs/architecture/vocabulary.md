@@ -89,6 +89,7 @@ The printable prop. Six glyphs, deliberately tiny — grow the set only when dem
 box + i  → image        box + n  → navbar
 box + f  → form         box + v  → video
 box + b  → button       box + ?  → placeholder
+box + p  → page         (product-side: spawns a page on the plane, not an element)
 ```
 
 Rules of the book:
@@ -98,6 +99,7 @@ Rules of the book:
 - Glyph boxes may also contain a word elsewhere: the letter picks the op, the word becomes its `label` param ("b" + "Login" → a Login button).
 - No glyph, no semantics: a plain box stays a crisp `rect`. Semantics are **opt-in** — the default experience is shape beautification, never surprise components.
 - The old X-in-a-box = image convention is retired; `image` is `box + i` only. (An X-box now crisps to a rect + two lines — exactly what was drawn.)
+- **`p` is not a trained builder op.** The frozen 22-op grammar never learned `page`. Vision still reports glyph `"p"`; the builder treats it as an unknown glyph (rect/placeholder fallback); `lib/recognize.ts` remaps a *clean single-letter* `p` onto op `page` after validation. Committing that result **spawns a new page object** in the liminal space (`lib/space.ts`), it does not land an element on the current page. Ambiguous ink cannot spawn a page.
 
 ## 3. Labeler menu ordering
 

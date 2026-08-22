@@ -4,7 +4,7 @@
 >
 > Our essays have autocomplete. Our code has autocomplete. **Shouldn't our imagination?**
 
-baio is autocomplete for drawing: digital paper with magic in it. Sketch a rough webpage — a box for a navbar, a letter `b` for a button, a purple-shaded circle — press **Enter**, and real, editable components **bloom in like wet ink**, exactly where you drew them. When the page is done, press **Frame** and the wireframe becomes a complete, responsive, working website you can download as a single HTML file.
+baio is autocomplete for drawing: digital paper with magic in it. Sketch a rough webpage — a box for a navbar, a letter `b` for a button, a purple-shaded circle — press **Enter**, and real, editable components **bloom in like wet ink**, exactly where you drew them. **Seal** freezes a page into a working site; **Frame** stitches every sealed page on the plane into a multi-page website you can download as HTML or a project zip.
 
 The sketch is the spec. Built at **Ignition Hacks 2026**.
 
@@ -51,24 +51,27 @@ Everything you accept lands as individual, editable vector elements — move one
 ## Quickstart
 
 ```bash
+cd product
 npm install
-cp .env.example .env    # fill in GEMINI_API_KEY (required); ANTHROPIC_API_KEY for Frame;
+cp .env.example .env    # fill in GEMINI_API_KEY (required for Enter);
+                        # ANTHROPIC_API_KEY for Seal/Frame;
                         # FREESOLO_* to use the trained builder (else Gemini baseline)
 npm run dev
 # open http://localhost:3000/studio
 ```
 
-**Try:** hold `d` and draw a box, write `n` inside it, press `Enter` twice. Then a box with `b` and the word "Login". Then shade a rectangle dark and scatter dots in it — night sky. Full controls and vocabulary: **[docs/features](docs/features/README.md)** (also the in-app 📖 book).
+**Try:** hold `d` and draw a box, write `n` inside it, press `Enter` twice. Then a box with `b` and the word "Login". Then shade a rectangle dark and scatter dots in it — night sky. Seal the page, zoom out to the plane, Frame the space. Full controls and vocabulary: **[docs/features](docs/features/README.md)** (also the in-app 📖 book).
 
 ## Features
 
 - **Shapes — draw anything, it gets crisp.** Every enclosed shape is a shape: a wobbly box becomes a clean rect, a roundish loop becomes an ellipse, any freeform doodle becomes *your* silhouette, smoothed — never replaced. Shade inside an outline and it fills with that color; shade two colors and you get a gradient.
-- **Glyphs — the only thing that adds function.** A single letter alone inside a box turns it into a working component: `b` button · `n` navbar · `f` form · `i` image · `v` video · `?` placeholder. A plain shape stays a plain shape — no surprise components, ever.
+- **Glyphs — the only thing that adds function.** A single letter alone inside a box turns it into a working component: `b` button · `n` navbar · `f` form · `i` image · `v` video · `?` placeholder · `p` page (spawns a new page on the plane). A plain shape stays a plain shape — no surprise components, ever.
 - **Details — words and colors that style, not clutter.** "Login" inside a `b` box labels the button; "purple" fills it; theme words like "rainbow" or "sunset" become gradients.
 - **Decoratives.** A dark rect with scattered dots becomes a night sky with a procedural starfield; long squiggles become layered wave dividers; scribbled ovals become aurora glows. All seeded and reproducible.
 - **Diagrams (6 types).** Sketch the skeleton and the cluster becomes one crisp composite: bar chart, pie chart, Venn diagram, timeline, atomic structure, and the full 118-element periodic table.
-- **A real canvas.** Overlapping elements spawn layers automatically, with a focus rail that peels the page into strata. The paper scrolls and grows without limit. Drag photos into any drawn enclosure — non-rectangular frames crop the photo to your drawn silhouette.
-- **Frame — the finale.** One press sends the wireframe to Claude and returns a complete, semantic, responsive, interactive single-file website — real nav, working forms, your palette. Download the HTML and go.
+- **A real canvas.** Pages sit on an infinite plane you can pan. Overlapping elements spawn layers automatically, with a focus rail that peels the page into strata. The paper grows without limit. Drag photos into any drawn enclosure — non-rectangular frames crop the photo to your drawn silhouette. An element dock lists, renames, and deletes what's on the page. Work autosaves.
+- **Wires.** Draw an arrow between two objects (elements or pages) and it becomes a logic connection — click to navigate, submit to write data — used when Frame builds the site.
+- **Seal, then Frame.** Seal freezes one page into a working HTML site (and a downloadable Vite/React project). Frame, from the plane, stitches every sealed page into a linked multi-page site. Optional: import a live URL and sketch edits onto it (`NEXT_PUBLIC_MODULE_EXISTING_SITE=1`).
 
 ## The architecture
 
@@ -183,7 +186,7 @@ Gemini (`gemini-2.5-flash-lite`) is used the way a vision model should be: **it 
 
 ## Sketch is the spec
 
-baio collapses the idea → interface pipeline: sketch a page, get a structured wireframe, press Frame, download a working, responsive, single-file website — no design-tool detour, no prompt engineering. The repo is a developer artifact in its own right: a reproducible eval harness, an independent test bank, a synthetic-data generator, and a complete training ledger, all runnable from the command line.
+baio collapses the idea → interface pipeline: sketch a page (or a whole space of pages), get a structured wireframe, Seal, Frame, download a working site — no design-tool detour, no prompt engineering. The repo is a developer artifact in its own right: a reproducible eval harness, an independent test bank, a synthetic-data generator, and a complete training ledger, all runnable from the command line.
 
 ## Where this goes
 
@@ -195,18 +198,22 @@ baio collapses the idea → interface pipeline: sketch a page, get a structured 
 ## Repo map
 
 ```text
-app/studio/        the app (also /gallery, /labeler; / is the landing page)
-components/        Studio, canvas, ghosts, layers, Frame overlay, glyph book
-lib/interpretation the pipeline: normalizer, containment, orchestration
-lib/models/        Gemini + FreeSolo clients (guided-JSON repair layer)
-lib/packs/         shape/component/diagram renderers (templates own the beauty)
-lib/datagen/       synthetic sketch-scene generator + corruption
-lib/frame/         Frame: wireframe → Claude → single-file website
-shared/schemas/    the frozen contracts (detection, shapes v1–v3)
+product/           the Next.js app (deployable artifact)
+  app/studio/      the studio (also /gallery, /labeler; / is the landing page)
+  app/api/         autocomplete, Seal/Frame, wire, import-site, health, labels
+  components/      Studio, canvas, ghosts, layers, Seal/Frame overlay, glyph book
+  lib/interpretation  pipeline: normalizer, containment, orchestration
+  lib/models/      Gemini + FreeSolo clients (guided-JSON repair layer)
+  lib/packs/       shape/component/diagram renderers (templates own the beauty)
+  lib/datagen/     synthetic sketch-scene generator + corruption
+  lib/frame/       Seal (one page → HTML + Vite app) and Frame (space → site)
+  lib/wire/        drawn arrows → logic blocks
+  lib/space.ts     infinite plane: pages, loose elements, wires
+  modules/existing-site/  optional: sketch edits onto a live URL
+  shared/schemas/  frozen contracts (detection, shapes v1–v3, logic-v1)
 freesolo/          training kit: configs, datasets, eval ledger, test bank
 scripts/           dataset generation, eval harness, showcase
-docs/              vision, PRD, architecture, features guide, hackathon notes
-pitch/             pitch script, Devpost copy, descriptions
+docs/              vision, PRD, architecture, features guide, pitch, hackathon
 ```
 
 ## Docs

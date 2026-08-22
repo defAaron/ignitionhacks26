@@ -29,13 +29,23 @@ The published theme is **Arts & Technology**. baio is both: you draw with a brus
 
 ## Prizes & tracks
 
-Prize amounts and named tracks are **not published** on the public website. Do not assume last year's Devpost list still applies. Watch the [portal](https://portal.ignitionhacks.org/), Instagram, and organizer Discord/email during the event, then tick tracks once they exist.
+Prize amounts and named sponsor tracks may appear on HackHub or in organizer channels during the event — do not assume tracks from other hackathons or older Ignition Hacks years. Watch the [portal](https://portal.ignitionhacks.org/), HackHub, Instagram, and organizer Discord/email, then tick only what we actually qualify for.
 
 Until then, build for the theme and for a live demo: completeness, uniqueness, design, and a story a non-technical crowd can feel in under three minutes.
 
-## Submission (what we know)
+## Submission
 
-- Register on the official portal before hacking
+**HackHub by [Base44](https://base44.com/)** — not Devpost. Base44 is the **Blaze** sponsor and hosts the project submission platform for Ignition Hacks V7.
+
+| Step | Where |
+|---|---|
+| Register | [portal.ignitionhacks.org](https://portal.ignitionhacks.org/) |
+| Submit project | **HackHub** (link from organizers / Base44 during the event) |
+| Paste copy | [docs/pitch/hackhub.md](../pitch/hackhub.md) |
+
+Also have ready:
+
+- Public GitHub repo (README explains the product + how the model was trained)
+- Short demo video (blank canvas → sketch → bloom → Seal → Frame)
+- Live demo URL (Vercel or [Render](https://render.com/))
 - Team of 1–4
-- Typically 24 hours, virtual
-- Keep a public GitHub repo and a short demo video ready — past Ignition Hacks iterations used those, and they are useful regardless of the exact 2026 form

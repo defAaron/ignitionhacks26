@@ -30,14 +30,23 @@ baio keeps the speed and freedom of sketching and produces the structured result
 - All output schema-validated and template-derived
 - Demo-able in under 3 minutes: blank canvas → sketched landing page → structured wireframe
 
-### Non-goals (MVP)
+### Non-goals (original MVP freeze)
 
-- Live HTML rendering or HTML overlay on the canvas
-- HTML/CSS export (stretch goal only), Figma connectors (future)
 - Native tablet app (browser canvas only)
-- Automatic triggering (explicit Autocomplete button; pause-trigger is stretch)
-- Responsive layout inference — components render at sketched positions, absolutely placed
-- Diagram families (periodic table, coordinate plane, flowcharts) — see §12; a parallel FreeSolo training track may pursue these if time allows, but they are not on the MVP critical path
+- Automatic triggering (explicit Enter; pause-trigger is stretch)
+- Responsive layout inference — live editing stays absolutely placed; flow layout is Seal/Frame's job
+- Figma connectors (future)
+
+### Shipped beyond the MVP freeze
+
+These were stretch / non-goals in the original weekend PRD and now live in the product. Details: `docs/features/README.md`.
+
+- **Diagrams pack** — six composites (bar, pie, Venn, timeline, periodic table, atomic structure)
+- **Seal / Frame export** — one page → HTML + Vite project; a plane of sealed pages → linked site / routed app
+- **Infinite plane** — camera, growing page, liminal view, `box + p` spawns pages, loose elements
+- **Wires** — drawn arrows → `logic-v1` blocks (`/api/wire`)
+- **Import a live site** — optional module (`NEXT_PUBLIC_MODULE_EXISTING_SITE=1`)
+- **Autosave, element dock, setup notice**
 
 ## 4. Target user
 
@@ -170,10 +179,12 @@ Plus qualitative: on-stage acceptance rate; "sketched a landing page in under 60
 
 ## 12. Stretch track: diagrams via parallel FreeSolo training
 
-The engine is domain-agnostic — a button and a periodic table are both `(bbox, params) → rendered component`. Since FreeSolo usage is unlimited (founder-confirmed) and training is agent-run, the **diagrams pack runs as a fully parallel track**, not an "if time allows":
+**Status: shipped.** Six diagram ops are live in shapes-v2/v3 and the studio. The text below is the original weekend plan that produced them.
+
+The engine is domain-agnostic — a button and a periodic table are both `(bbox, params) → rendered component`. Since FreeSolo usage is unlimited (founder-confirmed) and training is agent-run, the **diagrams pack ran as a fully parallel track**, not an "if time allows":
 
 - Candidates already claim stroke *sets* (1..n), so region-level components (two sketched cells → one periodic table) need zero schema changes — just a second vocabulary, templates, and dataset
 - Training data generation and the SFT sweep run in parallel without touching the MVP critical path
 - Demo spice only: if diagram recognition is flaky by Sunday, the website-builder demo stands alone
 
-Human effort for the MVP totals ~2–3 hours across four checkpoints (schema sign-off, ~40–60 labeled drawings in the labeling window, canonical-example review, promote decision) — see `architecture/ai-pipeline.md` §4.6 and §6.
+Human effort for the original MVP totals ~2–3 hours across four checkpoints (schema sign-off, ~40–60 labeled drawings in the labeling window, canonical-example review, promote decision) — see `architecture/ai-pipeline.md` §4.6 and §6. The diagrams pack, Seal/Frame, multi-page space, and wires shipped after that freeze; they are product features, not a second training wave.

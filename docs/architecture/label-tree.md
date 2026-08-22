@@ -29,6 +29,9 @@ baio-labels
 │   ├── ● video                   box + v
 │   └── ● placeholder             box + ?
 │
+│   Product-side (not a labeled / trained op): box + p → `page` spawn on the
+│   liminal plane. Applied after the builder in lib/recognize.ts.
+│
 ├── decorative (4)
 │   ├── ● wave_divider            long free curved-crest squiggle at section edge
 │   ├── ● night_sky               dark rect + scattered dots/asterisks (gradient + starfield)
