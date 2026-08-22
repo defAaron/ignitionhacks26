@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>baio — Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* Two-ink risograph — same tokens as product/app/tokens.css */
+  :root {
+    --paper: #ffffff;
+    --ink: #421040;
+    --muted: #6e496b;
+    --line: color-mix(in oklch, #421040 14%, transparent);
+    --accent: #9ddbb9;
+    --accent-deep: #0b764d;
+    --wash: #eaf5ee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page { size: 1280px 720px; margin: 0; }
+
+  html, body {
+    background: var(--wash);
+    font-family: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: var(--ink);
+  }
+
+  .slide {
+    position: relative;
+    width: 1280px;
+    height: 720px;
+    background: var(--paper);
+    overflow: hidden;
+    padding: 76px 96px;
+    page-break-after: always;
+    break-after: page;
+  }
+  @media screen {
+    .slide { margin: 24px auto; box-shadow: 0 4px 24px rgba(38,36,32,0.15); }
+  }
+
+  /* watercolor splotches — multiply melts their white paper into --paper */
+  .splotch {
+    position: absolute;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+  .slide > *:not(.splotch):not(.page-num) { position: relative; z-index: 1; }
+
+  /* ---------- slide chrome ---------- */
+  .kicker {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-deep);
+    margin-bottom: 8px;
+  }
+  .pen-squiggle { display: block; color: var(--accent-deep); margin: 0 0 30px; opacity: 0.85; }
+
+  h2 {
+    font-size: 46px;
+    letter-spacing: -0.015em;
+    font-weight: 650;
+    line-height: 1.15;
+    margin-bottom: 34px;
+    max-width: 1000px;
+  }
+  h2 em {
+    font-style: normal;
+    background: linear-gradient(transparent 72%, color-mix(in oklch, var(--accent) 70%, transparent) 72%, color-mix(in oklch, var(--accent) 70%, transparent) 94%, transparent 94%);
+  }
+
+  ul.points { list-style: none; max-width: 1020px; }
+  ul.points > li {
+    position: relative;
+    font-size: 24px;
+    line-height: 1.5;
+    padding-left: 36px;
+    margin-bottom: 22px;
+  }
+  ul.points > li::before { content: '›'; position: absolute; left: 6px; color: var(--accent-deep); font-weight: 700; }
+  ul.points strong { font-weight: 650; }
+  ul.points ul { list-style: none; margin-top: 10px; }
+  ul.points ul li {
+    position: relative;
+    font-size: 21px;
+    color: var(--ink);
+    line-height: 1.45;
+    margin-bottom: 8px;
+    padding-left: 30px;
+  }
+  ul.points ul li::before { content: '–'; position: absolute; left: 4px; color: var(--muted); }
+
+  code {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 0.88em;
+    background: color-mix(in oklch, var(--accent) 35%, transparent);
+    border-radius: 6px;
+    padding: 1px 7px;
+  }
+
+  .page-num {
+    position: absolute;
+    bottom: 30px;
+    right: 44px;
+    font-size: 13px;
+    color: var(--muted);
+    z-index: 2;
+  }
+  /* ---------- title ---------- */
+  .title-slide { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .title-logotype { font-size: 120px; margin-bottom: 30px; }
+  .wordmark {
+    position: relative;
+    display: inline-block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--ink);
+    isolation: isolate;
+  }
+  .wordmark::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0.07em;
+    top: 0.06em;
+    color: var(--accent);
+    z-index: -1;
+    mix-blend-mode: multiply;
+  }
+  .title-slide .subtitle {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 24px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ TITLE — baio · Pitch Deck ═══════════ -->
+<section class="slide title-slide">
+  <img class="splotch" src="../../../product/public/splotches/celadon.svg" alt="" style="top:-60px; right:-150px; width:460px; transform:rotate(14deg); opacity:0.55;" />
+  <img class="splotch" src="../../../product/public/splotches/aubergine.svg" alt="" style="bottom:-90px; left:-170px; width:420px; transform:rotate(-9deg) scaleX(-1); opacity:0.45;" />
+  <span class="wordmark title-logotype" data-text="baio">baio</span>
+  <p class="subtitle">Pitch Deck</p>
+</section>
+
+<!-- ═══════════ 1 · THESIS ═══════════ -->
+<section class="slide">
+  <img class="splotch" src="../../../product/public/splotches/aubergine.svg" alt="" style="top:-50px; right:-170px; width:360px; transform:rotate(-16deg); opacity:0.2;" />
+  <p class="kicker">1 · Thesis</p>
+  <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <h2>Creation is not the bottleneck. <em>Delivery of thought to creation is.</em></h2>
+  <ul class="points">
+    <li>AI made creation cheap. The human&rarr;AI input channel did not change: type text, describe, wait.</li>
+    <li>We change the input channel itself &rarr; <strong>baio</strong> and the related suite.</li>
+  </ul>
+  <p class="page-num">1</p>
+</section>
+
+<!-- ═══════════ 2 · PROBLEM ═══════════ -->
+<section class="slide">
+  <img class="splotch" src="../../../product/public/splotches/celadon.svg" alt="" style="bottom:-80px; left:-180px; width:400px; transform:rotate(11deg); opacity:0.22;" />
+  <p class="kicker">2 · Problem</p>
+  <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <h2>Ideas fade faster than hands move</h2>
+  <ul class="points">
+    <li>Today&rsquo;s trade: <strong>fast but fading</strong> (paper, dead ink) vs <strong>faithful but slow</strong> (design tools, menus, precision dragging).</li>
+    <li>Text got autocomplete years ago. Imagination did not.</li>
+  </ul>
+  <p class="page-num">2</p>
+</section>
+
+<!-- ═══════════ 3 · SOLUTION ═══════════ -->
+<section class="slide">
+  <img class="splotch" src="../../../product/public/splotches/celadon.svg" alt="" style="top:-60px; right:-160px; width:380px; transform:rotate(9deg); opacity:0.3;" />
+  <p class="kicker">3 · Solution</p>
+  <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <h2>baio</h2>
+  <ul class="points">
+    <li><strong>Autocomplete for drawing.</strong> Sketch a page; real editable components bloom in exactly where you drew them.</li>
+    <li><strong>Sketch is the spec:</strong> one press turns the page into a working, downloadable website / React project.</li>
+    <li>Plain shapes stay plain; one glyph letter adds function; words and colors add style. No surprises.</li>
+    <li>Low confidence &rarr; model abstains; ink stays ink. Failure mode is &ldquo;nothing happens,&rdquo; never &ldquo;wrong thing happens.&rdquo;</li>
+  </ul>
+  <p class="page-num">3</p>
+</section>
+
+<!-- ═══════════ 4 · HOW IT WORKS ═══════════ -->
+<section class="slide">
+  <p class="kicker">4 · How it works</p>
+  <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <h2>Two models, strict separation of powers</h2>
+  <ul class="points">
+    <li>Gemini describes; <strong>our fine-tuned 2B model</strong> decides; code places.</li>
+    <li>Geometry only from user strokes; validators fail closed — a hallucination becomes nothing.</li>
+    <li>Held-out test: <strong>96.7%</strong> vs 75.0 op accuracy over Gemini baseline, abstention F1 <strong>0.97</strong> vs 0.67, <strong>&lt;$0.25</strong> training.</li>
+  </ul>
+  <p class="page-num">4</p>
+</section>
+
+<!-- ═══════════ 5 · MOAT ═══════════ -->
+<section class="slide">
+  <img class="splotch" src="../../../product/public/splotches/aubergine.svg" alt="" style="top:-60px; left:-160px; width:360px; transform:rotate(-12deg); opacity:0.2;" />
+  <p class="kicker">5 · Moat</p>
+  <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <h2>Moat</h2>
+  <ul class="points">
+    <li>Building with AI since <strong>summer 2025</strong> — the first wave of AI coding.</li>
+    <li>Team has lived the builder workflow: researchers, hackathon organizers, hackers (<strong>5&times; hackathons won</strong>), AI-native internship workflows.</li>
+    <li><strong>UI/UX focus — frictionlessness is the true moat:</strong> even a little friction points people away.</li>
+    <li><strong>Data flywheel:</strong> every accept / reject / relabel is a gold training label.</li>
+    <li><strong>Own model, not API glue:</strong> our 2B beats the frontier baseline, trained for cents.</li>
+  </ul>
+  <p class="page-num">5</p>
+</section>
+
+<!-- ═══════════ 6 · BEACHHEAD ═══════════ -->
+<section class="slide">
+  <img class="splotch" src="../../../product/public/splotches/aubergine.svg" alt="" style="bottom:-80px; right:-160px; width:420px; transform:rotate(8deg); opacity:0.3;" />
+  <p class="kicker">6 · Beachhead</p>
+  <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <h2>Beachhead</h2>
+  <ul class="points">
+    <li><strong>Waterloo:</strong> hackathons + a dense population of student builders.</li>
+    <li><strong>Hackathon distribution:</strong> demo-first product, zero learning curve, spreads at build events.</li>
+  </ul>
+  <p class="page-num">6</p>
+</section>
+
+<!-- ═══════════ 7 · WHERE IT GOES ═══════════ -->
+<section class="slide">
+  <img class="splotch" src="../../../product/public/splotches/celadon.svg" alt="" style="top:-70px; right:-170px; width:400px; transform:rotate(-10deg); opacity:0.28;" />
+  <p class="kicker">7 · Where it goes</p>
+  <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <h2>The input channel deepens</h2>
+  <ul class="points">
+    <li><strong>Engine is domain-agnostic:</strong> flowcharts, circuits, chemistry, org charts = new template pack + vocabulary.</li>
+    <li><strong>Hybrid input:</strong> drawing + text on one canvas.
+      <ul>
+        <li>Magic wand: circle a region, say &ldquo;make it three.js&rdquo; &rarr; it is.</li>
+        <li>Text boxes with <code>/runAi</code>: type what you don&rsquo;t want to draw; it becomes elements.</li>
+        <li>Text descriptions customize drawn elements.</li>
+      </ul>
+    </li>
+    <li><strong>Canvas as prompt-based environment:</strong> environmental prompt variables live on the canvas.</li>
+    <li><strong>Wires and pages as code abstraction</strong> — code abstraction in general.</li>
+    <li>Edge AI. Tablet/whiteboard SDK. Design-tool export.</li>
+  </ul>
+  <p class="page-num">7</p>
+</section>
+
+</body>
+</html>

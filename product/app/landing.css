@@ -1,0 +1,584 @@
+/* Landing page — two-ink riso poster. Scoped under .landing so nothing leaks
+   into /studio (which owns the body globally). Tokens: app/tokens.css. */
+
+.landing {
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.landing section,
+.landing footer,
+.landing .top-bar-inner {
+  position: relative;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding-inline: clamp(20px, 4vw, 40px);
+}
+
+.landing h1,
+.landing h2,
+.landing h3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+.landing h2 {
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 18ch;
+}
+
+.landing .lede {
+  max-width: 62ch;
+  margin-top: 20px;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* The riso signature: a celadon under-print, slightly off register. One h1,
+   one footer line — not section grammar. */
+.landing .riso {
+  position: relative;
+  isolation: isolate;
+}
+.landing .riso::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  transform: translate(0.045em, 0.04em);
+  color: var(--accent);
+  z-index: -1;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  text-wrap: inherit;
+}
+
+/* ---------- header ---------- */
+
+.landing .top-bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--paper);
+  border-bottom: 1px solid var(--ink-faint);
+}
+
+.landing .top-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.landing .top-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+/* ---------- buttons ---------- */
+
+.landing .cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.landing .cta:active {
+  transform: translateY(1px);
+}
+
+.landing .cta-primary {
+  color: var(--ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.landing .cta-primary:hover {
+  border-color: var(--ink);
+}
+
+.landing .cta-secondary {
+  color: var(--ink);
+  background: var(--paper);
+  border-color: var(--ink);
+}
+.landing .cta-secondary:hover {
+  background: var(--wash);
+}
+
+.landing .cta-small {
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+/* ---------- grain + blobs ---------- */
+
+.landing .grain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  height: 100%;
+  transform: translateX(-50%);
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.landing .blob {
+  position: absolute;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+.landing .blob-hero-right {
+  top: 40px;
+  right: -120px;
+  width: 380px;
+  transform: rotate(12deg);
+}
+.landing .blob-hero-left {
+  bottom: -60px;
+  left: -160px;
+  width: 300px;
+  transform: rotate(-28deg);
+}
+.landing .blob-glyphs {
+  top: -40px;
+  right: -140px;
+  width: 260px;
+  transform: rotate(40deg);
+  opacity: 0.7;
+}
+.landing .blob-receipts {
+  top: -20px;
+  right: -140px;
+  width: 260px;
+  transform: rotate(-10deg);
+  opacity: 0.7;
+}
+
+/* ---------- hero ---------- */
+
+.landing .hero {
+  padding-top: clamp(56px, 10vw, 120px);
+  padding-bottom: clamp(48px, 8vw, 96px);
+  overflow: visible;
+}
+.landing .hero > * {
+  position: relative;
+  z-index: 1;
+}
+.landing .hero > .grain,
+.landing .hero > .blob,
+.landing .section > .blob {
+  position: absolute;
+  z-index: 0;
+}
+
+.landing h1 {
+  max-width: 11ch;
+  font-size: clamp(2.8rem, 8.5vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+
+.landing .hero-sub {
+  max-width: 58ch;
+  margin-top: 28px;
+  font-size: clamp(1.1rem, 1.7vw, 1.3rem);
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.landing .cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* the demo print */
+.landing .demo-wrap {
+  margin-top: clamp(40px, 6vw, 72px);
+  padding: clamp(16px, 3vw, 32px);
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 18px;
+}
+.landing .demo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 260px;
+  color: var(--ink);
+}
+.landing .demo-sketch {
+  opacity: 0.85;
+}
+.landing .demo-enter rect {
+  fill: var(--wash);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.landing .demo-print-under {
+  fill: var(--ink);
+}
+.landing .demo-print-btn {
+  fill: var(--accent);
+}
+.landing .demo-print-label {
+  font-family: var(--font-ui);
+  font-size: 22px;
+  font-weight: 600;
+  fill: var(--ink);
+}
+.landing .demo-caption {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.landing .demo-caption kbd {
+  font-size: 12px;
+}
+
+/* ---------- sections ---------- */
+
+.landing .section {
+  padding-top: clamp(64px, 9vw, 120px);
+}
+.landing .section > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* the trade: a definition list, ruled */
+.landing .trade {
+  margin-top: 40px;
+  border-top: 1.5px solid var(--ink);
+}
+.landing .trade > div {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) 1fr;
+  gap: 8px 32px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--ink-faint);
+}
+.landing .trade dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.landing .trade dd {
+  max-width: 60ch;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.landing .trade .trade-us {
+  border-bottom: 1.5px solid var(--ink);
+}
+.landing .trade .trade-us dt {
+  color: var(--accent-ink);
+}
+.landing .trade .trade-us dd {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* the glyph specimen */
+.landing .specimen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0;
+  margin-top: 44px;
+  padding: 0;
+  list-style: none;
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.landing .specimen li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 22px 20px 20px;
+  border-right: 1px solid var(--ink-faint);
+  border-bottom: 1px solid var(--ink-faint);
+}
+.landing .specimen-glyph {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 6vw, 4.6rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+}
+.landing .specimen-name {
+  margin-top: 10px;
+  font-weight: 600;
+}
+.landing .specimen-note {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.landing .extras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px 32px;
+  margin-top: 32px;
+  padding: 0;
+  list-style: none;
+}
+.landing .extras li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+.landing .extras-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: var(--accent-ink);
+  border: 1px solid var(--ink-faint);
+  border-radius: 8px;
+}
+.landing .extras-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* the pipeline — a real sequence, so it earns its numbers */
+.landing .pipeline {
+  counter-reset: stage;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0 40px;
+  margin-top: 40px;
+  padding: 0;
+  list-style: none;
+  border-top: 1.5px solid var(--ink);
+}
+.landing .pipeline li {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  grid-template-areas:
+    'n role'
+    'n name'
+    'n what';
+  column-gap: 14px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--ink-faint);
+}
+.landing .stage-n {
+  grid-area: n;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ink-faint);
+  color: oklch(0.28 0.1 330 / 0.35);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.landing .pipeline li:hover .stage-n {
+  color: var(--accent);
+}
+.landing .stage-role {
+  grid-area: role;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.landing .pipeline h3 {
+  grid-area: name;
+  margin-top: 2px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.landing .pipeline p {
+  grid-area: what;
+  margin-top: 4px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.landing .pipeline-note {
+  max-width: 64ch;
+  margin-top: 28px;
+  padding: 18px 22px;
+  line-height: 1.55;
+  background: var(--wash);
+  border-radius: 12px;
+}
+
+/* the receipts: prose numbers, tabular */
+.landing .receipts {
+  margin-top: 40px;
+  border-top: 1.5px solid var(--ink);
+}
+.landing .receipts > div {
+  display: grid;
+  grid-template-columns: minmax(0, 240px) 1fr;
+  gap: 4px 32px;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--ink-faint);
+}
+.landing .receipts dt {
+  font-weight: 600;
+}
+.landing .receipts dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+}
+.landing .receipts b {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+}
+.landing .receipts span {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.landing .footnote {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.landing .footnote code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 1px 5px;
+  background: var(--wash);
+  border-radius: 4px;
+}
+
+/* ---------- footer ---------- */
+
+.landing .footer {
+  margin-top: clamp(80px, 12vw, 160px);
+  padding-top: clamp(56px, 8vw, 96px);
+  padding-bottom: 48px;
+  border-top: 1.5px solid var(--ink);
+}
+.landing .footer-line {
+  max-width: 16ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  margin-bottom: 28px;
+}
+.landing .footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+  margin-top: 56px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ink-faint);
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.landing .footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.landing .footer-links {
+  display: flex;
+  gap: 18px;
+  margin-left: auto;
+}
+.landing .footer-links a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ink-faint);
+  padding: 4px 0;
+}
+.landing .footer-links a:hover {
+  border-bottom-color: var(--accent);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 720px) {
+  .landing .trade > div,
+  .landing .receipts > div {
+    grid-template-columns: 1fr;
+  }
+  .landing .blob-hero-right {
+    width: 220px;
+    right: -140px;
+    top: -10px;
+  }
+  .landing .blob-glyphs,
+  .landing .blob-receipts {
+    opacity: 0.45;
+  }
+  .landing .blob-hero-left {
+    width: 200px;
+  }
+  .landing .footer-links {
+    margin-left: 0;
+  }
+  .landing .demo-wrap {
+    border-radius: 12px;
+  }
+}
+
+/* Decoration stays absolute regardless of the section > * rule above. */
+.landing .hero > .grain,
+.landing .hero > .blob,
+.landing .section > .blob {
+  position: absolute;
+  z-index: 0;
+}
