@@ -1,34 +1,15 @@
 /* baio showcase generator — real adapter calls, real template renders. */
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { readFileSync, writeFileSync } from "node:fs";
 import React, { createElement } from "react";
 (globalThis as any).React = React;
 import { renderToStaticMarkup } from "react-dom/server";
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-
-function loadDotEnv(): void {
-  for (const envPath of [
-    path.join(ROOT, ".env"),
-    path.join(ROOT, "product", ".env"),
-  ]) {
-    if (!existsSync(envPath)) continue;
-    for (const line of readFileSync(envPath, "utf8").split("\n")) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith("#")) continue;
-      const m = /^([A-Z_][A-Z0-9_]*)=(.*)$/.exec(trimmed);
-      if (m && process.env[m[1]] === undefined) process.env[m[1]] = m[2];
-    }
-  }
+const ROOT = "/Users/aarondutta/Desktop/Coding/ignitionhacks26";
+for (const line of readFileSync(`${ROOT}/.env`, "utf8").split("\n")) {
+  const m = /^([A-Z_]+)=(.*)$/.exec(line.trim());
+  if (m && !process.env[m[1]]) process.env[m[1]] = m[2];
 }
-
-loadDotEnv();
-
-if (!process.env.FREESOLO_MODEL) {
-  console.error("FREESOLO_MODEL not set — add it to .env or product/.env");
-  process.exit(1);
-}
+process.env.FREESOLO_MODEL = "flash-1784434505-eba0f8ba";
 
 const { FreesoloBuilder } = await import("../lib/models/freesolo");
 const { shapesPack } = await import("../lib/packs/shapes/registry");
@@ -195,8 +176,11 @@ for (const c of CASES) {
 
 const html = `<title>baio — ink to component</title>
 <style>
-:root{--bg:#ffffff;--card:#ffffff;--inkline:color-mix(in oklch,#421040 14%,transparent);--txt:#421040;--sub:#6e496b;--acc:#0b764d;--good:#0b764d;--warn:#421040;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;--font:'Hanken Grotesk',system-ui,sans-serif}
-body{background:var(--bg);color:var(--txt);font:15px/1.5 var(--font);margin:0;padding:32px 20px 64px}
+:root{--bg:#FAFAF7;--card:#FFFFFF;--inkline:#E4E2DB;--txt:#1C1C1E;--sub:#6B6A66;--acc:#4F6EF7;--good:#1E8F5A;--warn:#B7791F;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#17181C;--card:#1F2127;--inkline:#31343C;--txt:#ECECEA;--sub:#9A9A94;--acc:#7C93FF;--good:#4CC38A;--warn:#D9A050}}
+:root[data-theme="dark"]{--bg:#17181C;--card:#1F2127;--inkline:#31343C;--txt:#ECECEA;--sub:#9A9A94;--acc:#7C93FF;--good:#4CC38A;--warn:#D9A050}
+:root[data-theme="light"]{--bg:#FAFAF7;--card:#FFFFFF;--inkline:#E4E2DB;--txt:#1C1C1E;--sub:#6B6A66;--acc:#4F6EF7;--good:#1E8F5A;--warn:#B7791F}
+body{background:var(--bg);color:var(--txt);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;padding:32px 20px 64px}
 .wrap{max-width:1060px;margin:0 auto;display:grid;gap:20px}
 h1{font-size:26px;margin:0}
 .lede{color:var(--sub);max-width:64ch;margin:4px 0 0}

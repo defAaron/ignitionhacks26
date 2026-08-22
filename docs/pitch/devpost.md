@@ -22,7 +22,7 @@ We stopped accepting that trade for text years ago. Our essays have autocomplete
 
 That's the tool we wanted: a magic paintbrush — you begin the picture, and the whole of it appears. The idea lands on the canvas whole and full, not as a fragment. Digital paper with magic in it.
 
-We named it **baio** (毛笔) — "brush pen," the calligraphy brush — and made the interaction true to the name. Suggestions don't pop in; they **bloom in like wet ink** — soft, translucent, unmistakably a suggestion — and dry into crisp, editable structure when you accept. The product's chrome is a two-ink risograph: pure white paper, aubergine ink, celadon as the second ink, slightly off-register — printed, not glossy.
+We named it **baio** (毛笔) — "brush pen," the calligraphy brush — and made the interaction true to the name. Suggestions don't pop in; they **bloom in like wet ink** — soft, translucent, unmistakably a suggestion — and dry into crisp, editable structure when you accept.
 
 ## What it does
 
@@ -103,7 +103,7 @@ The builder — the decision-maker at the core — is **Qwen3.5-2B, LoRA-fine-tu
 
 ## Theme blurb — Arts & Technology
 
-baio is a drawing tool that becomes a website. The art is the interaction: you sketch on digital paper printed in two inks (aubergine and celadon), suggestions bloom in like wet ink, and you stay in control of every stroke. The technology is a two-model pipeline we actually trained — Gemini describes the ink, a 2B FreeSolo fine-tune decides the command, geometry always comes from your strokes — plus fail-closed validators so a bad guess becomes *nothing*, never a broken page. When you're done, Frame turns the wireframe into a downloadable, working site. Arts and technology, in one motion.
+baio is a drawing tool that becomes a website. The art is the interaction: you sketch on digital paper, suggestions bloom in like wet ink, and you stay in control of every stroke. The technology is a two-model pipeline we actually trained — Gemini describes the ink, a 2B FreeSolo fine-tune decides the command, geometry always comes from your strokes — plus fail-closed validators so a bad guess becomes *nothing*, never a broken page. When you're done, Frame turns the wireframe into a downloadable, working site. Arts and technology, in one motion.
 
 ## If a sponsor challenge is published
 

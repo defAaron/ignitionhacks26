@@ -29,10 +29,10 @@ Strategy: landing = Committed (celadon carries hero blobs + CTAs). Studio = Rest
 - `text-wrap: balance` on h1–h3.
 
 ## Components
-- Buttons: pill, Hanken 600, 44px min hit area. Primary = celadon fill / aubergine text (poster convention). Secondary = white fill / aubergine hairline. Focus = 2px `--accent-ink` ring, 2px offset.
-- Toolbar: `--wash` pill, hairline border, tools 44×44, active tool = aubergine fill / paper icon.
+- Buttons: pill, Hanken 600, 44px min hit area. Primary = coral fill / white text. Secondary = white fill / cobalt hairline. Focus = 2px coral ring, 2px offset.
+- Toolbar: `--wash` pill, hairline border, tools 44×44, active tool = cobalt fill / white icon.
 - Panels (book, frame bar): white, `--wash` header, hairline.
-- Suggestion preview: `--accent-wash`, `mix-blend-mode: multiply`.
+- Suggestion preview: `--coral-wash`, `mix-blend-mode: multiply`.
 - Icons: inline SVG, 20px, `stroke="currentColor"`, strokeWidth 1.6. No emoji.
 
 ## Motion — `lib/motion.ts`

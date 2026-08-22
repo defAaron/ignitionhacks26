@@ -1,17 +1,13 @@
 # baio frontend kit
 
-Handoff notes for wiring a real backend to this frontend. The live app has moved
-on: `/` is the two-ink landing, `/studio` is the canvas, and
-`/api/autocomplete` is a real Gemini → FreeSolo → validator pipeline. This
-file still documents the original frontend kit (ink, tools, the recognition
-seam). Visual source of truth: [`product/DESIGN.md`](../product/DESIGN.md)
-and [`product/app/tokens.css`](../product/app/tokens.css).
+Handoff notes for wiring a real backend to this frontend. Everything here is
+current as of the `feat/sketch-to-ui` branch.
 
 **One sentence:** you scribble a UI element on a page, a recognizer guesses
 what it is, you confirm, and it becomes real absolutely-positioned HTML.
 
-**The important fact (original kit):** exactly one thing was mocked, and it
-lived in one file. The shipped product replaced that mock. See [The one seam](#the-one-seam).
+**The important fact:** exactly one thing is mocked, and it lives in one file.
+Everything else is real and working. See [The one seam](#the-one-seam).
 
 ---
 
@@ -24,8 +20,8 @@ npm run build      # production build, also typechecks
 npx tsc --noEmit   # typecheck alone
 ```
 
-Next.js 15 (app router), React 19, TypeScript. Landing + studio + API routes
-live under `product/`. Copy `product/.env.example` for Gemini / FreeSolo / Frame.
+Next.js 14 (app router), React 18, TypeScript. No database, no API routes, no
+env vars. State is in-memory and resets on reload.
 
 ---
 
@@ -62,25 +58,27 @@ mode (`H`) they become genuinely interactive: checkboxes check, toggles flip.
 
 ```
 app/
-  page.tsx            two-ink landing (the pitch)
-  landing.css         landing layout
-  tokens.css          aubergine + celadon design tokens
-  layout.tsx          Bricolage Grotesque + Hanken Grotesk, metadata
-  globals.css         wordmark misregistration + resets
-  icon.svg            cat-head mark on a celadon tile
-  studio/             the drawing canvas
-  gallery/            shapes gallery
-  labeler/            labeling tool
-  api/                autocomplete, frame, vision
+  page.tsx            renders <Studio/>, nothing else
+  layout.tsx          metadata
+  globals.css         ALL styling. no tailwind, no css modules
+  icon.svg            logomark
+  favicon.ico         same mark, generated
 
 components/
   Studio.tsx          orchestrator. all state lives here
   SketchLayer.tsx     canvas: pointer input, perfect-freehand rendering
-  Logo.tsx            cat mark + "baio" wordmark, single source
-  GlyphBook.tsx       in-app how-to (keep in sync with docs/features)
-  ...
+  RenderedElement.tsx guess kind -> real markup. add new kinds here
+  EditableElement.tsx drag / resize / delete / image upload wrapper
+  Toolbar.tsx         tools, colours, + space, shake, reset
+  ChromeToggle.tsx    the eye. survives hiding
+  Logo.tsx            logomark + wordmark, single source
+  Preloader.tsx       brief splash
 
-See product/DESIGN.md for the two-ink risograph system.
+lib/
+  types.ts            every shared type
+  ink.ts              stroke geometry, bounding box, text extraction
+  recognize.ts        ** THE MOCK **
+  motion.ts           shared framer-motion springs and quote list
 ```
 
 ---

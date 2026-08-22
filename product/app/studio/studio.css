@@ -27,10 +27,25 @@ html[data-studio] body {
 
 /* The fixed viewport onto the plane. The world (below) is panned/zoomed inside
    it; nothing here scrolls. */
-.studio {
+/* The shell splits the window into the docked element manager and the stage.
+   The stage is the studio's own box: `contain: layout` makes it the containing
+   block for every fixed-positioned piece of chrome inside (toolbar, pills,
+   rails, overlays), so they centre and pin against the stage, not the window. */
+.studio-shell {
   position: fixed;
   inset: 0;
+  display: flex;
+  flex-direction: row;
   overflow: hidden;
+}
+
+.studio {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  contain: layout;
 }
 
 /* The liminal plane reads a touch cooler than the paper page, so the page pops
@@ -1525,4 +1540,324 @@ html[data-studio] body {
 .studio[data-view='liminal'] .toolbar-slot {
   top: auto;
   bottom: 24px;
+}
+
+/* ---------- Element manager: a docked column, explorer-style ---------- */
+
+.dock {
+  flex: none;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  background: var(--paper);
+  border-right: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 12.5px;
+  z-index: 70;
+}
+
+/* The thin activity rail: always present, holds the open/close button. */
+.dock-rail {
+  flex: none;
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 14px;
+  gap: 8px;
+  border-right: 1px solid var(--line);
+}
+.dock[data-open='true'] .dock-rail {
+  border-right-color: transparent;
+}
+.dock-rail-button {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.dock-rail-button:hover,
+.dock-rail-button[data-active='true'] {
+  color: var(--ink);
+  background: color-mix(in oklch, var(--line) 45%, transparent);
+}
+.dock-rail-icon {
+  width: 14px;
+  height: 11px;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  position: relative;
+}
+.dock-rail-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 2.5px;
+  border-top: 2px solid currentColor;
+}
+.dock-rail-count {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 16px;
+  padding: 0 4px;
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.element-manager {
+  width: 264px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-left: 1px solid var(--line);
+}
+.element-manager-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 14px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.element-manager-title {
+  flex: 1;
+}
+.elements-count {
+  min-width: 18px;
+  padding: 0 5px;
+  font-size: 11px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-align: center;
+  border-radius: 999px;
+  background: var(--line);
+  color: var(--ink);
+}
+.element-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.element-empty {
+  padding: 14px 10px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.element-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 9px;
+  cursor: pointer;
+  user-select: none;
+}
+.element-row:hover {
+  background: color-mix(in oklch, var(--line) 45%, transparent);
+}
+.element-row[data-selected='true'] {
+  background: color-mix(in oklch, var(--accent) 35%, transparent);
+}
+.element-swatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1px solid oklch(0 0 0 / 0.15);
+}
+.element-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.element-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.element-rename {
+  font: inherit;
+  font-weight: 600;
+  padding: 1px 4px;
+  border: 1px solid var(--ink);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink);
+  width: 100%;
+}
+.element-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.element-kind {
+  flex: none;
+}
+.element-tag {
+  flex: none;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--line);
+  color: var(--ink);
+  line-height: 15px;
+}
+.element-snippet {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+}
+.element-delete {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 15px;
+  line-height: 20px;
+  cursor: pointer;
+  opacity: 0;
+}
+.element-row:hover .element-delete,
+.element-row[data-selected='true'] .element-delete {
+  opacity: 1;
+}
+.element-delete:hover {
+  background: var(--line);
+  color: var(--ink);
+}
+
+/* A pinned row above the list, for things that are on the page without being
+   elements (e.g. an imported site). */
+.element-pinned {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 6px 4px;
+  padding: 9px 8px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-size: 12.5px;
+}
+.element-pinned-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.element-pinned-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.element-pinned-meta {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.element-pinned-action {
+  flex: none;
+  padding: 3px 9px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+.element-pinned-action:hover {
+  border-color: var(--ink);
+}
+
+/* ---------- Setup notice: only when a required key is missing ---------- */
+
+.setup-notice {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 80;
+  width: min(560px, calc(100% - 48px));
+  padding: 14px 40px 14px 16px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px oklch(0.28 0.1 330 / 0.16);
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.45;
+}
+.setup-notice-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.setup-notice-list {
+  margin: 0 0 8px;
+  padding-left: 18px;
+}
+.setup-notice-sub {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.setup-notice code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: var(--line);
+}
+.setup-notice-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 18px;
+  cursor: pointer;
+}
+.setup-notice-close:hover {
+  background: var(--line);
+  color: var(--ink);
 }

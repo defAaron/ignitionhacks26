@@ -23,7 +23,7 @@ Quiet, quick, printed. Like a two-ink risograph poster: flat confident color, a 
 1. The canvas is the interface. Chrome exists to get out of the way; one toolbar, one book, one primary action.
 2. Suggestions are ignorable. A suggestion is wet ink: tinted, translucent, unmistakably not yet real. Accepting it dries it.
 3. Ink before chrome. The user's marks are the most important pixels on screen; UI sits on a cool wash, never competes with the page.
-4. One primary action per screen. Celadon is reserved for it (and for the suggestion state). Everything else is aubergine.
+4. One primary action per screen. Coral is reserved for it (and for the suggestion state). Everything else is cobalt.
 5. Printed, not rendered. Flat color, hairlines, no shadows-as-decoration, no gradients.
 
 ## Accessibility & Inclusion

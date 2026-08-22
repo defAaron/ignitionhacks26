@@ -46,4 +46,4 @@ Under the hood: Gemini describes each shape (kind, glyph, text, colors) but neve
 
 ## Name lore (judges always ask)
 
-**baio** (毛笔) means "brush pen" — the Chinese calligraphy brush. It's why suggestions bloom in like wet ink and "dry" into structure when you accept: the reveal is the signature of the product, true to the name. The chrome is a two-ink risograph (aubergine + celadon, slightly off-register); the mark is a cat head. (Keep the lore to one line on stage — the story stays in plain English so every judge follows it.)
+**baio** (毛笔) means "brush pen" — the Chinese calligraphy brush. It's why suggestions bloom in like wet ink and "dry" into structure when you accept: the reveal is the signature of the product, true to the name. (Keep the lore to this one line on stage — the story stays in plain English so every judge follows it.)

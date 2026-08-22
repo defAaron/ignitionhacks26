@@ -47,10 +47,6 @@ The interaction should feel like autocomplete in a code editor: instant, ignorab
 - **Not a template picker.** The user never browses or searches; recognition comes from the drawing itself.
 - **Not a chatbot.** No prompting, no describing. The canvas is the interface.
 
-## The look
-
-The chrome is a **two-ink risograph**: pure white paper, aubergine for everything that is content or structure, celadon for the primary action and the printed blobs. Suggestions still bloom in like wet ink — tinted, translucent, unmistakably not yet real — then dry into crisp structure on accept. Marketing surfaces (landing, pitch deck) commit to celadon; the studio keeps celadon restrained so the user's marks stay the most important pixels. Source of truth: `product/DESIGN.md`.
-
 ## Why it wins
 
 - **Speed** — repetitive structure (grids, axes, connectors, labels) is generated, not hand-drawn.

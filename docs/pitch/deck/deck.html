@@ -3,19 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <title>baio — Pitch Deck</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
-  /* Two-ink risograph — same tokens as product/app/tokens.css */
+  /* Paper language borrowed from product/app/landing.css */
   :root {
-    --paper: #ffffff;
-    --ink: #421040;
-    --muted: #6e496b;
-    --line: color-mix(in oklch, #421040 14%, transparent);
-    --accent: #9ddbb9;
-    --accent-deep: #0b764d;
-    --wash: #eaf5ee;
+    --paper: #fffdf9;
+    --ink: #262420;
+    --muted: #8a7c6a;
+    --line: rgba(38, 36, 32, 0.12);
+    --accent: #ffb24d;
+    --accent-deep: #b97724;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,8 +19,8 @@
   @page { size: 1280px 720px; margin: 0; }
 
   html, body {
-    background: var(--wash);
-    font-family: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+    background: #e9e4db;
+    font-family: 'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     color: var(--ink);
   }
@@ -74,7 +70,7 @@
   }
   h2 em {
     font-style: normal;
-    background: linear-gradient(transparent 72%, color-mix(in oklch, var(--accent) 70%, transparent) 72%, color-mix(in oklch, var(--accent) 70%, transparent) 94%, transparent 94%);
+    background: linear-gradient(transparent 72%, rgba(255,178,77,0.55) 72%, rgba(255,178,77,0.55) 94%, transparent 94%);
   }
 
   ul.points { list-style: none; max-width: 1020px; }
@@ -91,7 +87,7 @@
   ul.points ul li {
     position: relative;
     font-size: 21px;
-    color: var(--ink);
+    color: #4d463c;
     line-height: 1.45;
     margin-bottom: 8px;
     padding-left: 30px;
@@ -101,7 +97,7 @@
   code {
     font-family: ui-monospace, 'SF Mono', Menlo, monospace;
     font-size: 0.88em;
-    background: color-mix(in oklch, var(--accent) 35%, transparent);
+    background: rgba(255, 178, 77, 0.14);
     border-radius: 6px;
     padding: 1px 7px;
   }
@@ -116,28 +112,9 @@
   }
   /* ---------- title ---------- */
   .title-slide { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-  .title-logotype { font-size: 120px; margin-bottom: 30px; }
-  .wordmark {
-    position: relative;
-    display: inline-block;
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    color: var(--ink);
-    isolation: isolate;
-  }
-  .wordmark::before {
-    content: attr(data-text);
-    position: absolute;
-    left: 0.07em;
-    top: 0.06em;
-    color: var(--accent);
-    z-index: -1;
-    mix-blend-mode: multiply;
-  }
+  .title-logotype { height: 150px; margin-bottom: 30px; }
   .title-slide .subtitle {
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: Georgia, 'Times New Roman', serif;
     font-style: italic;
     color: var(--muted);
     font-size: 24px;
@@ -148,15 +125,15 @@
 
 <!-- ═══════════ TITLE — baio · Pitch Deck ═══════════ -->
 <section class="slide title-slide">
-  <img class="splotch" src="../../../product/public/splotches/celadon.svg" alt="" style="top:-60px; right:-150px; width:460px; transform:rotate(14deg); opacity:0.55;" />
-  <img class="splotch" src="../../../product/public/splotches/aubergine.svg" alt="" style="bottom:-90px; left:-170px; width:420px; transform:rotate(-9deg) scaleX(-1); opacity:0.45;" />
-  <span class="wordmark title-logotype" data-text="baio">baio</span>
+  <img class="splotch" src="../../../product/public/splotches/blue.png" alt="" style="top:-60px; right:-150px; width:460px; transform:rotate(14deg); opacity:0.42;" />
+  <img class="splotch" src="../../../product/public/splotches/yellow.png" alt="" style="bottom:-90px; left:-170px; width:420px; transform:rotate(-9deg) scaleX(-1); opacity:0.38;" />
+  <img class="title-logotype" src="../../../product/public/brand/logotype.png" alt="baio" />
   <p class="subtitle">Pitch Deck</p>
 </section>
 
 <!-- ═══════════ 1 · THESIS ═══════════ -->
 <section class="slide">
-  <img class="splotch" src="../../../product/public/splotches/aubergine.svg" alt="" style="top:-50px; right:-170px; width:360px; transform:rotate(-16deg); opacity:0.2;" />
+  <img class="splotch" src="../../../product/public/splotches/red.png" alt="" style="top:-50px; right:-170px; width:360px; transform:rotate(-16deg); opacity:0.2;" />
   <p class="kicker">1 · Thesis</p>
   <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   <h2>Creation is not the bottleneck. <em>Delivery of thought to creation is.</em></h2>
@@ -169,7 +146,7 @@
 
 <!-- ═══════════ 2 · PROBLEM ═══════════ -->
 <section class="slide">
-  <img class="splotch" src="../../../product/public/splotches/celadon.svg" alt="" style="bottom:-80px; left:-180px; width:400px; transform:rotate(11deg); opacity:0.22;" />
+  <img class="splotch" src="../../../product/public/splotches/green.png" alt="" style="bottom:-80px; left:-180px; width:400px; transform:rotate(11deg); opacity:0.22;" />
   <p class="kicker">2 · Problem</p>
   <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   <h2>Ideas fade faster than hands move</h2>
@@ -182,7 +159,7 @@
 
 <!-- ═══════════ 3 · SOLUTION ═══════════ -->
 <section class="slide">
-  <img class="splotch" src="../../../product/public/splotches/celadon.svg" alt="" style="top:-60px; right:-160px; width:380px; transform:rotate(9deg); opacity:0.3;" />
+  <img class="splotch" src="../../../product/public/splotches/yellow.png" alt="" style="top:-60px; right:-160px; width:380px; transform:rotate(9deg); opacity:0.3;" />
   <p class="kicker">3 · Solution</p>
   <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   <h2>baio</h2>
@@ -210,7 +187,7 @@
 
 <!-- ═══════════ 5 · MOAT ═══════════ -->
 <section class="slide">
-  <img class="splotch" src="../../../product/public/splotches/aubergine.svg" alt="" style="top:-60px; left:-160px; width:360px; transform:rotate(-12deg); opacity:0.2;" />
+  <img class="splotch" src="../../../product/public/splotches/red.png" alt="" style="top:-60px; left:-160px; width:360px; transform:rotate(-12deg); opacity:0.2;" />
   <p class="kicker">5 · Moat</p>
   <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   <h2>Moat</h2>
@@ -226,7 +203,7 @@
 
 <!-- ═══════════ 6 · BEACHHEAD ═══════════ -->
 <section class="slide">
-  <img class="splotch" src="../../../product/public/splotches/aubergine.svg" alt="" style="bottom:-80px; right:-160px; width:420px; transform:rotate(8deg); opacity:0.3;" />
+  <img class="splotch" src="../../../product/public/splotches/blue.png" alt="" style="bottom:-80px; right:-160px; width:420px; transform:rotate(8deg); opacity:0.3;" />
   <p class="kicker">6 · Beachhead</p>
   <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   <h2>Beachhead</h2>
@@ -239,7 +216,7 @@
 
 <!-- ═══════════ 7 · WHERE IT GOES ═══════════ -->
 <section class="slide">
-  <img class="splotch" src="../../../product/public/splotches/celadon.svg" alt="" style="top:-70px; right:-170px; width:400px; transform:rotate(-10deg); opacity:0.28;" />
+  <img class="splotch" src="../../../product/public/splotches/yellow.png" alt="" style="top:-70px; right:-170px; width:400px; transform:rotate(-10deg); opacity:0.28;" />
   <p class="kicker">7 · Where it goes</p>
   <svg class="pen-squiggle" width="72" height="8" viewBox="0 0 72 8" fill="none"><path d="M2 5.5 C 12 2.5, 20 7, 30 4.5 S 50 2, 58 5 S 68 4, 70 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   <h2>The input channel deepens</h2>

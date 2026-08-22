@@ -50,6 +50,7 @@ export interface Page {
   origin: 'top-center'
   grow: ('down' | 'left' | 'right')[]
   elements: PageElement[]
+  baseSite?: import('@/modules/existing-site/types').BaseSite // [existing-site]
 }
 
 /* ---------- id + name ---------- */

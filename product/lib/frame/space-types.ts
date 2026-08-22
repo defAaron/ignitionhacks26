@@ -56,7 +56,7 @@ export type FrameSpaceResponse =
 export interface SealedFrame {
   /** The exact wireframe this page was sealed from — reused verbatim by the
    * global app lane so global output can never drift from what was sealed. */
-  input: { elements: FrameElement[]; canvas: { width: number; height: number } }
+  input: { elements: FrameElement[]; canvas: { width: number; height: number }; baseSite?: import('@/modules/existing-site/types').FrameBaseSite } // [existing-site]
   /** HTML lane: one self-contained page document (feeds the global stitch). */
   html: string | null
   /** App lane: the page's standalone project files. */

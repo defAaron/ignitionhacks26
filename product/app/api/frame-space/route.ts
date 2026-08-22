@@ -22,7 +22,7 @@ function fail(reason: string, status = 500): NextResponse<FrameSpaceResponse> {
 
 export async function POST(req: Request): Promise<NextResponse<FrameSpaceResponse>> {
   const apiKey = process.env.ANTHROPIC_API_KEY
-  if (!apiKey) return fail('ANTHROPIC_API_KEY not set', 503)
+  if (!apiKey) return fail('ANTHROPIC_API_KEY not set — add it to product/.env and restart the dev server', 503)
 
   let body: FrameSpaceRequest
   try {

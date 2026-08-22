@@ -3,7 +3,7 @@
  * the corner watermark can never drift apart.
  *
  * The mark is a cat head printed in two risograph inks: a celadon silhouette
- * pulled a hair off-register behind the aubergine line. The wordmark is "baio"
+ * pulled a hair off-register behind the cobalt line. The wordmark is "baio"
  * set in the display face with the same celadon misregistration (see .wordmark
  * in app/globals.css). app/icon.svg repeats the mark on a celadon tile.
  */
@@ -11,11 +11,11 @@
 interface MarkProps {
   size?: number
   className?: string
-  /** Hide the celadon under-print (for tiny sizes or monochrome contexts). */
+  /** Hide the coral under-print (for tiny sizes or monochrome contexts). */
   mono?: boolean
 }
 
-/** The cat head. Fills `currentColor`; celadon comes from the token. */
+/** The cat head. Fills `currentColor`; coral comes from the token. */
 export function LogoMark({ size = 20, className, mono = false }: MarkProps): React.JSX.Element {
   const head =
     'M4 3 L9 6.6 Q12 5.6 15 6.6 L20 3 L19.4 10.2 Q21 13 19.6 16.2 Q17.2 21 12 21 Q6.8 21 4.4 16.2 Q3 13 4.6 10.2 Z'
@@ -63,7 +63,7 @@ interface TypeProps {
   className?: string
 }
 
-/** The "baio" wordmark, display face, celadon under-print. */
+/** The "baio" wordmark, display face, coral under-print. */
 export function Logotype({ size = 18, className }: TypeProps): React.JSX.Element {
   return (
     <span

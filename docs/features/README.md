@@ -1,8 +1,6 @@
 # baio — Features Guide
 
-Everything the app can do and how to drive it. This file is the source for the in-app **book** (the draggable book on the canvas — click it for this index). App lives at `/studio`.
-
-**Look.** Two-ink risograph: white paper, aubergine ink, celadon for the one primary action (Enter / Frame / selection). Tokens: `product/app/tokens.css`. Full system: `product/DESIGN.md`.
+Everything the app can do and how to drive it. This file is the source for the in-app **book** (the draggable 📖 on the canvas — click it for this index). App lives at `/studio`.
 
 ## 1. The two modes
 
@@ -85,7 +83,7 @@ Sketch the *skeleton* of a diagram and the whole cluster becomes one crisp compo
 
 Drag an image file from your desktop onto the canvas — **works in every mode and tool**:
 
-- Dropped **on any committed enclosure** (`box + i` frames, rects, ellipses, **or any closed doodle**) → the photo fills it. Non-rectangular frames **crop the photo to your drawn silhouette**, ink outline kept on top. The frame under your drag glows celadon.
+- Dropped **on any committed enclosure** (`box + i` frames, rects, ellipses, **or any closed doodle**) → the photo fills it. Non-rectangular frames **crop the photo to your drawn silhouette**, ink outline kept on top. The frame under your drag glows amber.
 - Dropped **on empty paper** → an image frame is **auto-created** right there, sized to the photo's own aspect ratio.
 - **⌘V pastes** a copied image/screenshot — into the selected frame if one is selected, otherwise a new frame mid-viewport.
 - Double-click a frame (move mode) to replace its photo. Resize and the crop follows.
@@ -104,7 +102,7 @@ Mouse-wheel down at the bottom of the page and the paper **grows** (400px per as
 
 ## 11. Frame — the anti-edit
 
-When the page is *done*, press the celadon **Frame** pill (browse mode). The whole wireframe goes to Claude, which returns a **complete, semantic, responsive, interactive single-file website** — real nav, working forms, your colors as the palette, decoratives recreated in CSS/SVG. Takes ~45–60s (the veil rotates art quotes while you wait). Then **Download HTML** for the standalone file, or **Unframe** — your editable wireframe underneath is untouched.
+When the page is *done*, press the amber **⬜ Frame** pill (browse mode). The whole wireframe goes to Claude, which returns a **complete, semantic, responsive, interactive single-file website** — real nav, working forms, your colors as the palette, decoratives recreated in CSS/SVG. Takes ~45–60s (the veil rotates art quotes while you wait). Then **Download HTML** for the standalone file, or **✕ Unframe** — your editable wireframe underneath is untouched.
 
 ## 12. The pipeline (what happens on Enter)
 

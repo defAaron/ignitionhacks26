@@ -38,6 +38,7 @@ export interface FrameElement {
 export interface FrameRequest {
   elements: FrameElement[]
   canvas: { width: number; height: number }
+  baseSite?: import('@/modules/existing-site/types').FrameBaseSite // [existing-site]
 }
 
 export type FrameResponse = { ok: true; html: string } | { ok: false; reason: string }

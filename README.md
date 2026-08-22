@@ -70,12 +70,6 @@ npm run dev
 - **A real canvas.** Overlapping elements spawn layers automatically, with a focus rail that peels the page into strata. The paper scrolls and grows without limit. Drag photos into any drawn enclosure — non-rectangular frames crop the photo to your drawn silhouette.
 - **Frame — the finale.** One press sends the wireframe to Claude and returns a complete, semantic, responsive, interactive single-file website — real nav, working forms, your palette. Download the HTML and go.
 
-## The look
-
-Two-ink risograph. Pure white paper, aubergine ink for structure, celadon as the second ink — slightly off-register, never glossy. The mark is a cat head; the wordmark is **baio** in Bricolage Grotesque with a celadon misregistration. Landing commits to celadon (blobs + CTAs); the studio keeps celadon for one primary action, selection, and the suggestion state.
-
-Tokens live in [`product/app/tokens.css`](product/app/tokens.css). The full system is [`product/DESIGN.md`](product/DESIGN.md) and [`product/PRODUCT.md`](product/PRODUCT.md).
-
 ## The architecture
 
 ### The principle
@@ -219,7 +213,6 @@ pitch/             pitch script, Devpost copy, descriptions
 
 - [Vision](docs/vision.md) · [PRD](docs/prd.md) · [Features guide](docs/features/README.md) (how to drive everything)
 - [Architecture](docs/architecture/master.md) · [AI pipeline](docs/architecture/ai-pipeline.md) · [Vocabulary & glyphs](docs/architecture/vocabulary.md)
-- [Design system](product/DESIGN.md) · [Product register](product/PRODUCT.md)
 - [FreeSolo training kit](docs/freesolo/README.md) · [baio playbook](docs/freesolo/08-baio-playbook.md)
 - [Pitch kit](docs/pitch/README.md) · [Ignition Hacks 2026](docs/hackathon/README.md)
 
