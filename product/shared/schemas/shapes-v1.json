@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://baio.app/schemas/shapes-v1.json",
+  "title": "baio builder output — shapes wave 1 (16-op vocabulary)",
+  "description": "The frozen contract for FreeSolo builder output after the shapes-first pivot. The model emits NO coordinates: geometry always derives deterministically from the source strokes (centroid + extents; smoothed path for freeform). The model outputs only op + params + a snap policy. Enforced at three points: backend validator, [train] structured_outputs, per-request response_format. See shared/schemas/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "components"],
+  "properties": {
+    "schema_version": {
+      "const": "shapes-1.0"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "$ref": "#/definitions/shape_command" },
+          { "$ref": "#/definitions/wait_command" }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "shape_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "from"],
+      "properties": {
+        "op": {
+          "enum": [
+            "rect",
+            "ellipse",
+            "line",
+            "arrow",
+            "text",
+            "smooth_path",
+            "image",
+            "form",
+            "button",
+            "navbar",
+            "video",
+            "placeholder",
+            "wave_divider",
+            "night_sky",
+            "sparkles",
+            "aurora_gradient"
+          ]
+        },
+        "from": { "type": "string" },
+        "params": { "type": "object" },
+        "snap": {
+          "enum": [
+            "none",
+            "full_width_top",
+            "full_width_bottom",
+            "full_width",
+            "straighten_h",
+            "straighten_v",
+            "square",
+            "center_in_region"
+          ]
+        }
+      }
+    },
+    "wait_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "from", "reason"],
+      "properties": {
+        "op": { "const": "wait" },
+        "from": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

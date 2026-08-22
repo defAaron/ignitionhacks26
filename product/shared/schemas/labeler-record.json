@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://baio.app/schemas/labeler-record.json",
+  "title": "baio labeler record",
+  "description": "One saved drawing from the labeling window (ai-pipeline.md \u00a76). Produced by tools/labeler, consumed by the calibration pipeline and the golden end-to-end test set. See shared/schemas/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "label",
+    "phase",
+    "split",
+    "guide_bbox",
+    "canvas",
+    "strokes",
+    "colors_used",
+    "style_prompt",
+    "png_path",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string",
+      "description": "The op being drawn. Source of truth: lib/labeler/labels.ts (wave-evolving; menu-selected in the UI, so enum-level typo-proofing is unnecessary)."
+    },
+    "phase": {
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "split": {
+      "enum": [
+        "calibration",
+        "golden"
+      ]
+    },
+    "guide_bbox": {
+      "$ref": "#/definitions/bbox"
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      }
+    },
+    "strokes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/stroke"
+      }
+    },
+    "colors_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "style_prompt": {
+      "enum": [
+        "sloppy",
+        "neat",
+        "free"
+      ]
+    },
+    "png_path": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "definitions": {
+    "bbox": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      }
+    },
+    "stroke": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "points",
+        "color",
+        "width"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/point"
+          },
+          "minItems": 1
+        },
+        "color": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        }
+      }
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "t": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

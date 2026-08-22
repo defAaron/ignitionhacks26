@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://baio.app/schemas/shapes-v3.json",
+  "title": "baio builder output — shapes wave 3 (containment; 22-op vocabulary)",
+  "description": "The wave-3 (containment) builder OUTPUT contract. Byte-identical in shape and op enum (22) to shapes-v2.json — wave 3 changes the INPUT side only: builder-input detections gain a normalizer-assigned `parent: <detection_id> | null` field (shared/schemas/README.md §1.6), and the 1:1 rule becomes one command per TOP-LEVEL (parent=null) detection — child detections route into their parent's command params (label, fill, gradient, glyph-op selection) and emit no commands of their own. That top-level-only rule is a domain-validator check, not expressible in this grammar. This file exists so wave-3 training/serving configs ([train] structured_outputs, per-request response_format) can reference the wave unambiguously. schema_version stays the literal \"shapes-1.0\": contract revision, not wave. The model still emits NO coordinates: geometry always derives deterministically from the source strokes. See shared/schemas/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "components"],
+  "properties": {
+    "schema_version": {
+      "const": "shapes-1.0"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "$ref": "#/definitions/shape_command" },
+          { "$ref": "#/definitions/wait_command" }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "shape_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "from"],
+      "properties": {
+        "op": {
+          "enum": [
+            "rect",
+            "ellipse",
+            "line",
+            "arrow",
+            "text",
+            "smooth_path",
+            "image",
+            "form",
+            "button",
+            "navbar",
+            "video",
+            "placeholder",
+            "page",
+            "wave_divider",
+            "night_sky",
+            "sparkles",
+            "aurora_gradient",
+            "bar_chart",
+            "pie_chart",
+            "venn_diagram",
+            "timeline",
+            "periodic_table",
+            "atomic_structure"
+          ]
+        },
+        "from": { "type": "string" },
+        "params": { "type": "object" },
+        "snap": {
+          "enum": [
+            "none",
+            "full_width_top",
+            "full_width_bottom",
+            "full_width",
+            "straighten_h",
+            "straighten_v",
+            "square",
+            "center_in_region"
+          ]
+        }
+      }
+    },
+    "wait_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "from", "reason"],
+      "properties": {
+        "op": { "const": "wait" },
+        "from": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

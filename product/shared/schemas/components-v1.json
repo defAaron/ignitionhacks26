@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://baio.app/schemas/components-v1.json",
+  "title": "baio builder output — wave 1 (18-op whitelist)",
+  "description": "The frozen contract for FreeSolo builder output. Enforced at three points: backend validator, [train] structured_outputs, per-request response_format. See shared/schemas/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "components"],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "$ref": "#/definitions/op_command" },
+          { "$ref": "#/definitions/wait_command" }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "op_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "id", "from", "layer", "x", "y", "width", "height"],
+      "properties": {
+        "op": {
+          "enum": [
+            "navbar",
+            "footer",
+            "button",
+            "heading",
+            "paragraph",
+            "image",
+            "hero",
+            "form",
+            "text_input",
+            "card",
+            "card_grid",
+            "search_bar",
+            "dropdown",
+            "wave_divider",
+            "night_sky",
+            "sparkles",
+            "blob",
+            "aurora_gradient"
+          ]
+        },
+        "id": { "type": "string" },
+        "from": { "type": "string" },
+        "layer": { "enum": ["background", "content", "overlay"] },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "label": { "type": "string" },
+        "params": { "type": "object" },
+        "replaces": { "type": "string" }
+      }
+    },
+    "wait_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "from", "reason"],
+      "properties": {
+        "op": { "const": "wait" },
+        "from": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

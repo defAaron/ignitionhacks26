@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://baio.app/schemas/components-v2.json",
+  "title": "baio builder output — wave 2 (full 66-op whitelist)",
+  "description": "Identical shape to components-v1.json; the only difference is the op enum (25 structural + 21 decorative + 20 diagrams). Enforced at the same three points. See shared/schemas/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "components"],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "$ref": "#/definitions/op_command" },
+          { "$ref": "#/definitions/wait_command" }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "op_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "id", "from", "layer", "x", "y", "width", "height"],
+      "properties": {
+        "op": {
+          "enum": [
+            "navbar",
+            "footer",
+            "button",
+            "heading",
+            "paragraph",
+            "image",
+            "hero",
+            "form",
+            "text_input",
+            "card",
+            "card_grid",
+            "search_bar",
+            "dropdown",
+            "cta_banner",
+            "tabs",
+            "modal",
+            "accordion",
+            "carousel",
+            "table",
+            "sidebar",
+            "testimonial",
+            "logo_cloud",
+            "newsletter_signup",
+            "pricing_table",
+            "image_gallery",
+            "wave_divider",
+            "night_sky",
+            "sparkles",
+            "blob",
+            "aurora_gradient",
+            "dot_grid",
+            "grid_lines",
+            "hero_glow",
+            "layered_waves",
+            "hand_drawn_underline",
+            "hand_drawn_arrow",
+            "hand_drawn_highlight",
+            "shape_scatter",
+            "confetti",
+            "concentric_rings",
+            "squiggle_accents",
+            "landscape_silhouette",
+            "tiled_pattern",
+            "noise_grain",
+            "topo_contours",
+            "low_poly_mesh",
+            "bar_chart",
+            "venn_diagram",
+            "flowchart",
+            "timeline",
+            "line_chart",
+            "pie_chart",
+            "table_grid",
+            "org_chart",
+            "quadrant_chart",
+            "scatter_plot",
+            "funnel_chart",
+            "cycle_diagram",
+            "pyramid_chart",
+            "coordinate_plane",
+            "mind_map",
+            "gantt_chart",
+            "sequence_diagram",
+            "block_diagram",
+            "state_diagram",
+            "er_diagram"
+          ]
+        },
+        "id": { "type": "string" },
+        "from": { "type": "string" },
+        "layer": { "enum": ["background", "content", "overlay"] },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "label": { "type": "string" },
+        "params": { "type": "object" },
+        "replaces": { "type": "string" }
+      }
+    },
+    "wait_command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["op", "from", "reason"],
+      "properties": {
+        "op": { "const": "wait" },
+        "from": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

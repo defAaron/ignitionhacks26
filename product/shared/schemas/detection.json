@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://baio.app/schemas/detection.json",
+  "title": "baio vision output — detection set",
+  "description": "Output of the Gemini vision layer (ai-pipeline.md §1), consumed by the normalizer and then the builder. Also the shape the client synthesizes in forced-component mode. See shared/schemas/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["detections"],
+  "properties": {
+    "detections": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/detection" }
+    }
+  },
+  "definitions": {
+    "detection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stroke_ids", "candidates", "label_text", "bbox"],
+      "properties": {
+        "stroke_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "candidates": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/candidate" },
+          "minItems": 1,
+          "maxItems": 3
+        },
+        "label_text": {
+          "type": ["string", "null"]
+        },
+        "bbox": { "$ref": "#/definitions/bbox" },
+        "style_hints": { "$ref": "#/definitions/style_hints" }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "confidence"],
+      "properties": {
+        "type": { "type": "string" },
+        "confidence": { "type": "number" }
+      }
+    },
+    "bbox": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number" },
+        "height": { "type": "number" }
+      }
+    },
+    "style_hints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "colors": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "fill": { "type": "string" }
+      }
+    }
+  }
+}
