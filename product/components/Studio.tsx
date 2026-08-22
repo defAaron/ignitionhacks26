@@ -27,11 +27,12 @@ import type {
 } from '@/lib/types'
 import type { FrameElement } from '@/lib/frame/types'
 import type { FrameFile } from '@/lib/frame/app-types'
-import type { SealedFrame, FramePage } from '@/lib/frame/space-types'
+import type { SealedFrame, FramePage, FrameConnection } from '@/lib/frame/space-types'
 import { stitchHtmlSite } from '@/lib/frame/stitch'
 import { isMeaningful, loadSaved, saveSnapshot } from '@/lib/persist'
 import { BaseSiteLayer, BaseSiteRow, ImportSiteControl, applyExtraction, extractionTags, frameBaseSiteField, isHtmlFile, makeBaseSite, readHtmlFile } from '@/modules/existing-site' // [existing-site]
-import { newElementId, pageToScreen, syncPageElements, randomName } from '@/lib/page'
+import { mintNames, newElementId, pageToScreen, syncPageElements } from '@/lib/page'
+import { applyStyleHints } from '@/lib/interpretation/styleHints'
 import {
   emptySpace,
   addPage,
@@ -39,10 +40,11 @@ import {
   looseToScreen,
   screenElementToLoose,
   type LiminalSpace,
+  type PlacedPage,
   type Wire
 } from '@/lib/space'
 import { isWaitBlock } from '@/lib/wire/types'
-import type { WireEndpoint, WireResponse } from '@/lib/wire/types'
+import type { WireBlock, WireEndpoint, WireResponse } from '@/lib/wire/types'
 import {
   clampFocusedY,
   focusedCamera,
@@ -53,6 +55,8 @@ import {
   screenToWorld as screenToWorldPt,
   worldTransform,
   focusedZoom,
+  zoomAt,
+  LIMINAL_ZOOM,
   PAGE_CENTER_X,
   PAGE_WIDTH,
   type Camera,
@@ -95,10 +99,27 @@ const BRUSH_FLASH_MS = 1000
 const HISTORY_CAP = 50
 /** The page grows another step once the camera nears its floor (local px). */
 const GROW_NEAR = 240
+/** Wheel zoom sensitivity on the plane: zoom *= e^(-deltaY * rate). ~100px of
+ * wheel is one notch of about 14%. */
+const WHEEL_ZOOM_RATE = 0.0015
+
+/** Fold typed text items that sit inside a shape's box into its params as
+ * style hints (label words for glyph components, paint for everything). */
+function styleFromTypedText(shape: ShapeResult, texts: TextItem[]): ShapeResult {
+  const b = shape.bbox
+  const inside = texts.filter(
+    (t) => t.text.trim() && t.x >= b.x && t.x <= b.x + b.width && t.y >= b.y && t.y <= b.y + b.height
+  )
+  if (inside.length === 0) return shape
+  const params = applyStyleHints(shape.op, shape.params, inside.map((t) => t.text.trim()).join(' '))
+  return params === shape.params ? shape : { ...shape, params: params ?? {} }
+}
 /** How much height each auto-extend adds, in px. */
 const GROW_STEP = 400
 /** Starting page body height, in local px. Grows on demand from here. */
 const INITIAL_PAGE_HEIGHT = 1400
+/** Horizontal breathing room between pages placed side by side on the plane. */
+const PAGE_GAP = 320
 /**
  * Hard ceiling for the page body height. The sketch canvas backing store is
  * height x devicePixelRatio and browsers silently refuse to allocate a canvas
@@ -369,10 +390,10 @@ export function Studio(): React.JSX.Element {
   }, [])
   /** Commit a batch of world-space elements as loose elements on the plane. */
   const commitLoose = useCallback((batch: CommittedElement[]) => {
-    setSpace((prev) => ({
-      ...prev,
-      loose: [...prev.loose, ...batch.map((el) => screenElementToLoose(el, randomName()))]
-    }))
+    setSpace((prev) => {
+      const names = mintNames(batch.map((el) => el.kind), prev.loose.map((l) => l.name))
+      return { ...prev, loose: [...prev.loose, ...batch.map((el, i) => screenElementToLoose(el, names[i]))] }
+    })
   }, [])
 
   /**
@@ -395,7 +416,16 @@ export function Studio(): React.JSX.Element {
       for (let i = sp.items.length - 1; i >= 0; i--) {
         const it = sp.items[i]
         const r: Rect = { x: it.location.x - PAGE_WIDTH / 2, y: it.location.y, w: PAGE_WIDTH, h: INITIAL_PAGE_HEIGHT }
-        if (inRect(r)) return { id: it.page.id, kind: 'page', text: it.page.name }
+        if (!inRect(r)) continue
+        // Inside a page object: its own elements first (a button drawn on the
+        // page is a real arrow endpoint from the plane), then the page itself.
+        const els = pageToScreen(it.page, PAGE_CENTER_X)
+        for (let j = els.length - 1; j >= 0; j--) {
+          const el = els[j]
+          const o = localToWorld(el.rect.x, el.rect.y, it.location)
+          if (inRect({ x: o.x, y: o.y, w: el.rect.w, h: el.rect.h })) return { id: el.id, kind: el.kind, text: el.text || undefined }
+        }
+        return { id: it.page.id, kind: 'page', text: it.page.name }
       }
       return null
     }
@@ -415,10 +445,12 @@ export function Studio(): React.JSX.Element {
    * frame-error toast and removes the dangling wire. Auto-accepted for this slice:
    * a visible "accept with Enter" gate is deferred (see build-plan.md).
    */
-  const createWire = useCallback((source: WireEndpoint, target: WireEndpoint) => {
+  const createWire = useCallback((source: WireEndpoint, target: WireEndpoint, block?: WireBlock) => {
     const wireId = `w_${crypto.randomUUID()}`
-    const wire: Wire = { id: wireId, sourceId: source.id, targetId: target.id, block: null }
+    const wire: Wire = { id: wireId, sourceId: source.id, targetId: target.id, block: block ? { ...block, from: wireId } : null }
     setSpace((prev) => addWire(prev, wire))
+    // A known block (an arrow into a page = navigate) needs no interpretation.
+    if (block) return
     void (async () => {
       try {
         const res = await fetch('/api/wire', {
@@ -443,19 +475,94 @@ export function Studio(): React.JSX.Element {
     })()
   }, [])
 
+  /** The page an element lives on (by element id), or null for loose/page ids. */
+  const pageOfElement = useCallback((id: string): PlacedPage | null => {
+    return spaceRef.current.items.find((it) => it.page.elements.some((el) => el.id === id)) ?? null
+  }, [])
+
+  /**
+   * Wire an element to a page: a deterministic onClick -> navigate block, so a
+   * drawn arrow from a button into a page is a link immediately (no model
+   * round-trip, nothing to abstain on).
+   */
+  const linkToPage = useCallback((source: WireEndpoint, target: PlacedPage) => {
+    const block: WireBlock = {
+      from: '',
+      inputs: [],
+      trigger: 'onClick',
+      body: `navigate to ${target.page.name}`,
+      output: { type: 'page', to: target.page.id }
+    }
+    createWire(source, { id: target.page.id, kind: 'page', text: target.page.name }, block)
+  }, [createWire])
+
+  /**
+   * Spawn a page at a world location and hand it back synchronously. spaceRef
+   * is bumped by hand so a follow-up in the same tick (a wire, entering the
+   * page) sees the new page before React re-renders.
+   */
+  const spawnPage = useCallback((location: Vec2): PlacedPage => {
+    const next = addPage(spaceRef.current, location)
+    spaceRef.current = next
+    setSpace(next)
+    return next.items[next.items.length - 1]
+  }, [])
+
+  /** A free slot on the plane: to the right of the rightmost page, same row. */
+  const nextPageSlot = useCallback((): Vec2 => {
+    const items = spaceRef.current.items
+    const rightmost = items.reduce((a, b) => (b.location.x > a.location.x ? b : a), items[0])
+    return { x: rightmost.location.x + PAGE_WIDTH + PAGE_GAP, y: rightmost.location.y }
+  }, [])
+
   /** Wire lines to draw on the plane: each connection as a world-space segment
    * between its endpoints' centres (a loose element's rect, or a page object's
    * world rect). Endpoints that no longer resolve are dropped. */
   const wireLines = useMemo(() => {
+    /** World rect of a page object, for clipping a link to its border. */
+    const pageRect = (id: string): Rect | null => {
+      const it = space.items.find((p) => p.page.id === id)
+      return it ? { x: it.location.x - PAGE_WIDTH / 2, y: it.location.y, w: PAGE_WIDTH, h: INITIAL_PAGE_HEIGHT } : null
+    }
+    /** Where the segment a->b first crosses the border of r (b inside r). */
+    const clipToRect = (a: Vec2, b: Vec2, r: Rect): Vec2 => {
+      const dx = b.x - a.x
+      const dy = b.y - a.y
+      let t = 1
+      const edge = (num: number, den: number): void => {
+        if (den === 0) return
+        const tt = num / den
+        if (tt > 0 && tt < t) t = tt
+      }
+      edge(r.x - a.x, dx)
+      edge(r.x + r.w - a.x, dx)
+      edge(r.y - a.y, dy)
+      edge(r.y + r.h - a.y, dy)
+      return { x: a.x + dx * t, y: a.y + dy * t }
+    }
     const centerOf = (id: string): Vec2 | null => {
       const le = looseElements.find((e) => e.id === id)
       if (le) return { x: le.rect.x + le.rect.w / 2, y: le.rect.y + le.rect.h / 2 }
       const it = space.items.find((p) => p.page.id === id)
       if (it) return { x: it.location.x, y: it.location.y + INITIAL_PAGE_HEIGHT / 2 }
+      for (const host of space.items) {
+        const el = host.page.elements.find((e) => e.id === id)
+        if (!el) continue
+        const o = localToWorld(el.location.x + PAGE_CENTER_X, el.location.y, host.location)
+        return { x: o.x + el.size.w / 2, y: o.y + el.size.h / 2 }
+      }
       return null
     }
     return space.wires
-      .map((w) => ({ id: w.id, a: centerOf(w.sourceId), b: centerOf(w.targetId) }))
+      .map((w) => {
+        const a = centerOf(w.sourceId)
+        let b = centerOf(w.targetId)
+        // A link INTO a page stops at the page border, so the arrowhead sits on
+        // the page instead of vanishing under it.
+        const r = a && b ? pageRect(w.targetId) : null
+        if (a && b && r) b = clipToRect(a, b, r)
+        return { id: w.id, a, b }
+      })
       .filter((l): l is { id: string; a: Vec2; b: Vec2 } => !!l.a && !!l.b)
   }, [space.wires, space.items, looseElements])
 
@@ -727,10 +834,26 @@ export function Studio(): React.JSX.Element {
     setSpaceError(null)
     setSpaceApp(null)
 
+    // Connections: every navigating wire whose ends both sit on sealed pages.
+    const sealedIds = new Set(pages.map((p) => p.id))
+    const connections: FrameConnection[] = []
+    for (const w of spaceRef.current.wires) {
+      if (!w.block || isWaitBlock(w.block) || w.block.output.type !== 'page') continue
+      const host = pageOfElement(w.sourceId)
+      const fromPage = host ? host.page.id : w.sourceId
+      if (!sealedIds.has(fromPage) || !sealedIds.has(w.block.output.to)) continue
+      const el = host?.page.elements.find((e) => e.id === w.sourceId)
+      connections.push({
+        from: { page: fromPage, ...(host ? { element: w.sourceId } : {}) },
+        to: { page: w.block.output.to },
+        ...(el?.text ? { label: el.text } : {})
+      })
+    }
+
     // HTML lane — instant: stitch the cached page documents into a linked site.
     const site = stitchHtmlSite(
       pages.map((p) => ({ id: p.id, name: p.name, html: seals[p.id].html! })),
-      []
+      connections
     )
     setSpaceSite(site)
     setSpaceOpen(true)
@@ -741,7 +864,7 @@ export function Studio(): React.JSX.Element {
     fetch('/api/frame-space', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ pages, connections: [] })
+      body: JSON.stringify({ pages, connections })
     })
       .then((res) => res.json())
       .then((json) => {
@@ -825,6 +948,26 @@ export function Studio(): React.JSX.Element {
     flyTo(liminalCamera(viewportRef.current, pageLocRef.current, pageHeightRef.current))
   }, [flyTo])
 
+  /** Leave the page and frame two plane locations together (a source page and
+   * the page an arrow just spawned), zooming out as far as needed to fit both. */
+  const revealPages = useCallback((a: Vec2, b: Vec2) => {
+    setSelectedId(null)
+    setView('liminal')
+    const vp = viewportRef.current
+    const left = Math.min(a.x, b.x) - PAGE_WIDTH / 2
+    const right = Math.max(a.x, b.x) + PAGE_WIDTH / 2
+    const zoom = Math.min(LIMINAL_ZOOM, (vp.w * 0.86) / (right - left))
+    const y = Math.min(a.y, b.y) + Math.min(INITIAL_PAGE_HEIGHT / 2, (vp.h / 2) / zoom - 40)
+    flyTo({ x: (left + right) / 2, y, zoom })
+  }, [flyTo])
+
+  /** Add a page beside the others and enter it. */
+  const newCanvas = useCallback(() => {
+    const spawned = spawnPage(nextPageSlot())
+    enterFocused(spaceRef.current.items.indexOf(spawned))
+  }, [spawnPage, nextPageSlot, enterFocused])
+
+
   /**
    * P4 — a click in browse mode activates any wire whose SOURCE is this object.
    * A wire whose block navigates (output.type 'page') flies into the target page
@@ -898,6 +1041,8 @@ export function Studio(): React.JSX.Element {
     let raf = 0
     let ax = 0
     let ay = 0
+    let sx = 0
+    let sy = 0
     const flush = (): void => {
       raf = 0
       const cam = cameraRef.current
@@ -914,21 +1059,87 @@ export function Studio(): React.JSX.Element {
           setPageHeight((p) => Math.min(p + GROW_STEP, pageHeightCap()))
         }
       } else {
-        setCamera({ ...cam, x: cam.x + ax / cam.zoom, y: cam.y + ay / cam.zoom })
+        // Plane: the wheel zooms about the cursor (so the point under it stays
+        // put); horizontal wheel / shift-wheel still slides sideways.
+        const zoomed = ay ? zoomAt(cam, vp, sx, sy, Math.exp(-ay * WHEEL_ZOOM_RATE)) : cam
+        setCamera(ax ? { ...zoomed, x: zoomed.x + ax / zoomed.zoom } : zoomed)
       }
       ax = 0
       ay = 0
     }
     const onWheel = (e: WheelEvent): void => {
       if (flyingRef.current || framedRef.current) return
-      ax += e.deltaX
-      ay += e.deltaY
+      // Ctrl+wheel is the browser's own page zoom (and trackpad pinch); keep it
+      // for the studio. Other wheel events were already passive-safe.
+      if (e.ctrlKey) e.preventDefault()
+      sx = e.clientX - stageLeft.current
+      sy = e.clientY
+      if (viewRef.current === 'focused' || !e.shiftKey) {
+        ax += e.deltaX
+        ay += e.deltaY
+      } else {
+        ax += e.deltaY
+      }
       if (!raf) raf = requestAnimationFrame(flush)
     }
-    window.addEventListener('wheel', onWheel, { passive: true })
+    window.addEventListener('wheel', onWheel, { passive: false })
     return () => {
       window.removeEventListener('wheel', onWheel)
       if (raf) cancelAnimationFrame(raf)
+    }
+  }, [])
+
+  // Middle-mouse drag pans in both views. Captured on the window before any
+  // React handler so neither the sketch layer nor an element sees the press;
+  // preventDefault also stops the browser's autoscroll cursor. Focused stays
+  // vertical-only and clamped to the page, exactly like the wheel.
+  useEffect(() => {
+    let last: { x: number; y: number } | null = null
+    const down = (e: PointerEvent): void => {
+      if (e.button !== 1 || flyingRef.current || framedRef.current) return
+      e.preventDefault()
+      e.stopPropagation()
+      last = { x: e.clientX, y: e.clientY }
+      document.body.style.cursor = 'grabbing'
+    }
+    const move = (e: PointerEvent): void => {
+      if (!last) return
+      const dx = e.clientX - last.x
+      const dy = e.clientY - last.y
+      last = { x: e.clientX, y: e.clientY }
+      const cam = cameraRef.current
+      if (viewRef.current === 'focused') {
+        const vp = viewportRef.current
+        const loc = pageLocRef.current
+        const y = clampFocusedY(cam.y - dy / cam.zoom, vp, loc, pageHeightRef.current)
+        setCamera({ ...cam, y })
+      } else {
+        setCamera({ ...cam, x: cam.x - dx / cam.zoom, y: cam.y - dy / cam.zoom })
+      }
+    }
+    const up = (e: PointerEvent): void => {
+      if (!last || e.button !== 1) return
+      last = null
+      document.body.style.cursor = ''
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    // Middle-click also fires auxclick (and would paste on Linux); swallow it.
+    const aux = (e: MouseEvent): void => {
+      if (e.button === 1) e.preventDefault()
+    }
+    window.addEventListener('pointerdown', down, true)
+    window.addEventListener('pointermove', move, true)
+    window.addEventListener('pointerup', up, true)
+    window.addEventListener('pointercancel', up, true)
+    window.addEventListener('auxclick', aux, true)
+    return () => {
+      window.removeEventListener('pointerdown', down, true)
+      window.removeEventListener('pointermove', move, true)
+      window.removeEventListener('pointerup', up, true)
+      window.removeEventListener('pointercancel', up, true)
+      window.removeEventListener('auxclick', aux, true)
+      document.body.style.cursor = ''
     }
   }, [])
 
@@ -1029,6 +1240,26 @@ export function Studio(): React.JSX.Element {
         const tip = stroke.points[stroke.points.length - 1]
         const source = resolveEndpoint({ x: tail.x, y: tail.y }, onPlane)
         const target = resolveEndpoint({ x: tip.x, y: tip.y }, onPlane)
+        if (source && source.kind !== 'page') {
+          // Arrow from an element INTO a page: a navigation link.
+          const targetPage = target?.kind === 'page' ? spaceRef.current.items.find((it) => it.page.id === target.id) : undefined
+          if (targetPage && !targetPage.page.elements.some((el) => el.id === source.id)) {
+            linkToPage(source, targetPage)
+            clearSketch(true)
+            return
+          }
+          // Arrow from an element into EMPTY space: spawn a new canvas where
+          // the arrow points (beside the current page when focused, since the
+          // plane is not visible) and link to it.
+          if (!target) {
+            const loc = onPlane ? { x: tip.x, y: Math.min(tip.y, pageLocRef.current.y) } : nextPageSlot()
+            const spawned = spawnPage(loc)
+            linkToPage(source, spawned)
+            clearSketch(true)
+            if (!onPlane) revealPages(pageLocRef.current, spawned.location)
+            return
+          }
+        }
         if (source && target && source.id !== target.id) {
           createWire(source, target)
           clearSketch(true)
@@ -1084,7 +1315,10 @@ export function Studio(): React.JSX.Element {
           rect: { x: shape.bbox.x, y: shape.bbox.y, w: shape.bbox.width, h: shape.bbox.height },
           text,
           color,
-          shape
+          // Typed text (the text tool) never reaches the vision model, so
+          // style words typed onto a shape ("rainbow" on a button) are
+          // folded in here, the same way handwritten ones are in the pipeline.
+          shape: styleFromTypedText(shape, cur.sketch.texts)
         }))
         const splotchesOf = (prev: Splotch[]): Splotch[] => [
           ...prev,
@@ -1122,7 +1356,7 @@ export function Studio(): React.JSX.Element {
     if (onPlane) commitLoose(one)
     else commitElements(one)
     clearSketch(true)
-  }, [color, clearSketch, commitElements, commitLoose, resolveEndpoint, createWire])
+  }, [color, clearSketch, commitElements, commitLoose, resolveEndpoint, createWire, linkToPage, spawnPage, nextPageSlot, revealPages])
 
   /**
    * "Keep as drawn": swap every pipeline result for the raw ink - one
@@ -1596,10 +1830,19 @@ export function Studio(): React.JSX.Element {
           {!focused && wireLines.length > 0 && (
             <svg
               className="wire-layer"
-              width="0"
-              height="0"
-              style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none' }}
+              // 1x1, not 0x0: a zero-sized <svg> disables rendering entirely
+              // (SVG spec), so the overflow:visible lines never painted.
+              width="1"
+              height="1"
+              style={{ position: 'absolute', left: 0, top: 0, overflow: 'visible', pointerEvents: 'none', zIndex: 3 }}
             >
+              {/* Stroke and dash are divided by zoom so a link reads the same
+                  at any plane scale; the arrowhead marker scales with stroke. */}
+              <defs>
+                <marker id="wire-arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-ink)" />
+                </marker>
+              </defs>
               {wireLines.map((l) => (
                 <line
                   key={l.id}
@@ -1608,8 +1851,9 @@ export function Studio(): React.JSX.Element {
                   x2={l.b.x}
                   y2={l.b.y}
                   stroke="var(--accent-ink)"
-                  strokeWidth={2}
-                  strokeDasharray="6 6"
+                  strokeWidth={2 / camera.zoom}
+                  strokeDasharray={`${8 / camera.zoom} ${6 / camera.zoom}`}
+                  markerEnd="url(#wire-arrowhead)"
                 />
               ))}
             </svg>
@@ -1944,6 +2188,7 @@ export function Studio(): React.JSX.Element {
                       onChange={moveElement}
                       onDelete={deleteElement}
                       onUpload={requestUpload}
+                      onActivate={browse && focused ? activateElement : undefined}
                     />
                   )
                 })}
@@ -2379,6 +2624,21 @@ export function Studio(): React.JSX.Element {
           </motion.button>
         )}
       </AnimatePresence>
+
+      {/* New canvas: a fresh page beside the others, entered right away. */}
+      <motion.button
+        key="new-canvas"
+        className="new-canvas-toggle"
+        onClick={newCanvas}
+        title="New canvas (a fresh page beside the others)"
+        aria-label="New canvas"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.94 }}
+        transition={spring}
+      >
+        <span aria-hidden="true">+</span>
+        <span>Canvas</span>
+      </motion.button>
 
       {/* Frame: the plane-level primary action, offered only in liminal — takes
           every SEALED page and connects them into one multi-page site. Green to

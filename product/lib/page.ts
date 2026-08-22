@@ -1,4 +1,5 @@
 import type { CommittedElement, ElementKind, ShapeResult } from './types'
+import { KIND_LABEL } from './recognize'
 
 /**
  * page-v1: the page-native document model. A page is a webpage; its elements
@@ -65,21 +66,51 @@ export function newPageId(): string {
   return `p_${crypto.randomUUID()}`
 }
 
-const ADJECTIVES = [
-  'wispy', 'brave', 'lucky', 'sunny', 'quiet', 'clever', 'gentle', 'mellow',
-  'nimble', 'cosmic', 'amber', 'velvet', 'jolly', 'plucky', 'swift', 'dusky'
-]
-const ANIMALS = [
-  'fox', 'otter', 'heron', 'lynx', 'moth', 'wren', 'koi', 'yak',
-  'ibis', 'newt', 'crane', 'stoat', 'finch', 'seal', 'hare', 'owl'
-]
+/** Label used for default element names, e.g. `button`, `text field`. */
+export function kindLabel(kind: ElementKind): string {
+  return KIND_LABEL[kind] ?? kind
+}
 
-/** Friendly random readable default, e.g. `wispy-fox-42`. Renamable anytime. */
-export function randomName(): string {
-  const a = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)]
-  const n = ANIMALS[Math.floor(Math.random() * ANIMALS.length)]
-  const nn = Math.floor(Math.random() * 100)
-  return `${a}-${n}-${nn}`
+/**
+ * Next free `<label> <n>` given the names already in use: `button 1`,
+ * `button 2`, ... Numbers are per label and fill the lowest gap, so deleting
+ * `button 2` and adding another button hands that number back out.
+ */
+export function nextName(label: string, taken: Iterable<string>): string {
+  const used = new Set<number>()
+  const prefix = `${label.toLowerCase()} `
+  for (const t of taken) {
+    const t0 = t.trim().toLowerCase()
+    if (!t0.startsWith(prefix)) continue
+    const rest = t0.slice(prefix.length)
+    if (/^\d+$/.test(rest)) used.add(Number(rest))
+  }
+  let n = 1
+  while (used.has(n)) n++
+  return `${label} ${n}`
+}
+
+/** Sequential default for an element of `kind`, e.g. `button 3`. Renamable anytime. */
+export function nextElementName(kind: ElementKind, taken: Iterable<string>): string {
+  return nextName(kindLabel(kind), taken)
+}
+
+/** Sequential default for a page: `canvas 1`, `canvas 2`, ... */
+export function nextPageName(taken: Iterable<string>): string {
+  return nextName('canvas', taken)
+}
+
+/**
+ * Mint names for a batch of elements against an existing pool. Each minted
+ * name joins the pool so two new buttons in one batch get distinct numbers.
+ */
+export function mintNames(kinds: ElementKind[], taken: Iterable<string>): string[] {
+  const pool = new Set(taken)
+  return kinds.map((k) => {
+    const name = nextElementName(k, pool)
+    pool.add(name)
+    return name
+  })
 }
 
 /** name -> id index. Names are not guaranteed unique; last wins. */
@@ -194,19 +225,25 @@ export function syncPageElements(
   centerX: number
 ): PageElement[] {
   const nameById = new Map(prev.elements.map((el) => [el.id, el.name]))
-  return nextScreen.map((el) =>
-    screenElementToPage(el, centerX, nameById.get(el.id) ?? randomName())
-  )
+  const pool = new Set(prev.elements.map((el) => el.name))
+  return nextScreen.map((el) => {
+    let name = nameById.get(el.id)
+    if (!name) {
+      name = nextElementName(el.kind, pool)
+      pool.add(name)
+    }
+    return screenElementToPage(el, centerX, name)
+  })
 }
 
 /* ---------- construction / migration ---------- */
 
-export function emptyPage(): Page {
+export function emptyPage(name = 'canvas 1'): Page {
   return {
     schema: 'page-v1',
     id: newPageId(),
     kind: 'page',
-    name: randomName(),
+    name,
     root: true,
     origin: 'top-center',
     grow: ['down', 'left', 'right'],
@@ -217,6 +254,7 @@ export function emptyPage(): Page {
 /** Build a page from the current flat CommittedElement list (migration helper). */
 export function pageFromElements(elements: CommittedElement[], centerX: number): Page {
   const page = emptyPage()
-  page.elements = elements.map((el) => screenElementToPage(el, centerX, randomName()))
+  const names = mintNames(elements.map((el) => el.kind), [])
+  page.elements = elements.map((el, i) => screenElementToPage(el, centerX, names[i]))
   return page
 }

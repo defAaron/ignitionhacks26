@@ -10,7 +10,7 @@
  */
 import type { ElementKind } from '@/lib/types'
 import type { PageElement } from '@/lib/page'
-import { newElementId, randomName } from '@/lib/page'
+import { newElementId } from '@/lib/page'
 import { stripScriptsForPreview } from './html'
 
 export interface DetectedElement {
@@ -327,7 +327,7 @@ export function detectedToPageElements(items: DetectedElement[], centerX: number
     .map((d) => ({
       id: newElementId(),
       kind: d.kind,
-      name: randomName(),
+      name: '', // assigned by applyExtraction against the page's existing names
       location: { x: d.rect.x - centerX, y: d.rect.y },
       size: { w: d.rect.w, h: d.rect.h },
       text: d.text,

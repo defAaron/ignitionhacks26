@@ -424,6 +424,8 @@ interface Working {
   mergedGlyph?: string;
   mergedConfidence?: number;
   mergedColors?: string[];
+  /** Set when a written word merged into this glyph box (label / style words). */
+  mergedText?: string;
 }
 
 /** Effective kind: the correction-pass promotion when set, else vision's. */
@@ -518,6 +520,31 @@ export function normalizeDetections(
   }
   working = working.filter((w) => !consumed.has(w));
 
+  // 3b. THE WORD MERGE — a written word inside a GLYPH box belongs to that
+  //     component: "Login" under the `b` is the button's label, "rainbow" is
+  //     its style (styleHints.ts). Only glyph hosts take words, so a
+  //     paragraph scribbled inside a plain card stays its own element. Hosts
+  //     are resolved the same way as letters: deepest containing rect.
+  const wordConsumed = new Set<Working>();
+  for (const word of working) {
+    if (word.det.kind !== "text_writing" || word.det.glyph !== null || !word.det.text?.trim()) continue;
+    const center = bboxCenter(realBBox(word));
+    let host: Working | undefined;
+    for (const h of working) {
+      if (h === word || wordConsumed.has(h) || kindOf(h) !== "rect") continue;
+      if ((h.mergedGlyph ?? h.det.glyph) === null || (h.mergedGlyph ?? h.det.glyph) === undefined) continue;
+      if (!bboxContains(realBBox(h), center)) continue;
+      if (host === undefined || effectiveArea(realBBox(h)) < effectiveArea(realBBox(host))) host = h;
+    }
+    if (!host) continue;
+    wordConsumed.add(word);
+    host.strokeIds = [...host.strokeIds, ...word.strokeIds];
+    host.mergedText = [host.mergedText ?? host.det.text ?? "", word.det.text!.trim()].filter(Boolean).join(" ");
+    host.mergedConfidence = Math.min(host.mergedConfidence ?? host.det.confidence, word.det.confidence);
+    host.mergedColors = [...new Set([...(host.mergedColors ?? host.det.colors), ...word.det.colors])];
+  }
+  working = working.filter((w) => !wordConsumed.has(w));
+
   // 4. THE CONTAINMENT PASS (wave 3) — assign each detection its immediate
   //    (deepest) enclosing parent, per the rules in the module comment.
   //    Ids are minted det_{index+1} in step 5, so a parent INDEX here maps
@@ -545,7 +572,7 @@ export function normalizeDetections(
       id: `det_${i + 1}`,
       kind: kindOf(w),
       glyph: w.mergedGlyph ?? w.det.glyph,
-      text: w.det.text,
+      text: w.mergedText ?? w.det.text,
       colors: w.mergedColors ?? w.det.colors,
       gradient_direction: w.det.gradient_direction,
       composite: w.det.composite ?? null,

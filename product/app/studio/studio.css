@@ -1133,6 +1133,32 @@ html[data-studio] body {
   border-radius: 999px;
 }
 
+/* New canvas: an outlined ink pill in the top-right row, left of Seal/Frame
+   (Edit 22 / Seal 106 / Canvas 196 / Start from a site 300). Both views. */
+.new-canvas-toggle {
+  position: fixed;
+  top: 20px;
+  right: 196px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.new-canvas-toggle span[aria-hidden] {
+  font-size: 15px;
+  line-height: 1;
+}
+
 /* Frame lives beside Edit in browse - the way OUT of wireframing entirely. */
 .frame-toggle {
   position: fixed;
