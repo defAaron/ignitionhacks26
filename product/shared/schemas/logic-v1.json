@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://baio.app/schemas/logic-v1.json",
+  "title": "baio wiring output — logic block v1",
+  "description": "The wiring builder OUTPUT contract: one logic BLOCK answering one drawn arrow (or a re-run over an arrow bundle). Two-stage pipeline, mirroring the shapes pipeline: Gemini ANALYZES the arrow neighborhood (what the endpoints are, spatial context) and reports intent; Claude Haiku WRITES the block body against this schema. A block is a stateless function: it reads named cells (inputs), runs on a trigger, and produces one output whose TYPE carries the meaning — `data` writes a cell, `page` navigates (the href). State never lives in the block; it lives in cells. Like the shapes contract the block carries NO coordinates and NO element geometry — the arrow's endpoints are resolved deterministically by the existing proximity/geometry pass; the model contributes only semantics (inputs, trigger, body, output). This is a NEW-feature contract (not part of the FreeSolo shapes training waves), consumed by the /api/wire validator and the reactive runtime; there is no training-parity obligation yet. schema_version is the literal \"logic-1.0\": contract revision. See shared/schemas/README.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "block"],
+  "properties": {
+    "schema_version": {
+      "const": "logic-1.0"
+    },
+    "block": {
+      "anyOf": [
+        { "$ref": "#/definitions/logic_block" },
+        { "$ref": "#/definitions/wait_block" }
+      ]
+    }
+  },
+  "definitions": {
+    "logic_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "inputs", "trigger", "body", "output"],
+      "properties": {
+        "from": { "type": "string" },
+        "inputs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "trigger": {
+          "enum": [
+            "onClick",
+            "onSubmit",
+            "onLoad",
+            "onChange",
+            "onResult",
+            "onTimer"
+          ]
+        },
+        "body": { "type": "string" },
+        "output": { "$ref": "#/definitions/output" },
+        "note": { "type": "string" }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "to"],
+      "properties": {
+        "type": { "enum": ["data", "page"] },
+        "to": { "type": "string" }
+      }
+    },
+    "wait_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "status", "reason"],
+      "properties": {
+        "from": { "type": "string" },
+        "status": { "const": "unresolved" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}
